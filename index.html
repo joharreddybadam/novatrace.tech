@@ -703,9 +703,11 @@ try {
     points.material.color.set(dark ? 0x8B95A9 : 0x9AA5B8);
     nodes.forEach(n => n.material.color.set(dark ? 0xF4F1EA : 0x55606F));
     labels.forEach(l => drawLabel(l, dark));
-    pulses.forEach(p => { p.material.opacity = dark ? 1 : 0.5; });
+    pulses.forEach(p => { p.material.opacity = dark ? 1 : 0.32; });
+    window.__pulseScale = dark ? 1 : 0.62;
   }
   window.__setSceneTheme = setSceneTheme;
+  window.__pulseScale = 1;
   setSceneTheme(document.documentElement.dataset.theme || 'light');
 
   // Camera drive: scroll moves along the trace, mouse adds parallax
@@ -742,7 +744,7 @@ try {
     pulses.forEach((p, i) => {
       const pt = (el * 0.022 + i * 0.27) % 1;
       p.position.copy(curve.getPointAt(pt));
-      const s = 2.1 + Math.sin(el * 3 + i * 2) * 0.35;
+      const s = (2.1 + Math.sin(el * 3 + i * 2) * 0.35) * (window.__pulseScale || 1);
       p.scale.set(s, s, 1);
     });
     nodes.forEach((n, i) => { n.rotation.y += 0.004; n.rotation.x += 0.0025; });
@@ -874,20 +876,32 @@ function buildRivalList() {
     host.appendChild(b);
   });
 }
+let metaRAF = [];
+function animNum(el, to) {
+  if (!el) return;
+  to = Number(to);
+  if (!isFinite(to)) { el.textContent = '—'; return; }
+  const t0 = performance.now(), dur = 900;
+  function tick(t) {
+    const tt = (typeof t === 'number' && isFinite(t)) ? t : t0;
+    const p = Math.min(1, Math.max(0, (tt - t0) / dur));
+    const v = Math.round(to * (1 - Math.pow(1 - p, 3)));
+    el.textContent = isFinite(v) ? String(v) : String(to);
+    if (p < 1) metaRAF.push(requestAnimationFrame(tick));
+    else el.textContent = String(to);
+  }
+  metaRAF.push(requestAnimationFrame(tick));
+}
 function runTrace() {
+  metaRAF.forEach(id => { try { cancelAnimationFrame(id); } catch (e) {} });
+  metaRAF = [];
   const scan = $('#scanline');
   scan.classList.remove('run'); void scan.offsetWidth; scan.classList.add('run');
   const d = DEMO[demoRival];
   // animate meta numbers
-  const metas = [['#dmReviews', d.reviews], ['#dmQuotes', d.quotes], ['#dmSources', d.sources]];
-  metas.forEach(([sel, to]) => {
-    const el = $(sel), o = { v: 0 }, t0 = performance.now();
-    (function tick(t) {
-      const p = Math.min(1, (t - t0) / 900);
-      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
-      if (p < 1) requestAnimationFrame(tick);
-    })(t0);
-  });
+  animNum($('#dmReviews'), d.reviews);
+  animNum($('#dmQuotes'), d.quotes);
+  animNum($('#dmSources'), d.sources);
   $('#dmScore').textContent = d.score;
   setTimeout(renderDemoTab, 500);
 }
