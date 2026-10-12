@@ -1,1379 +1,952 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NovaTrace — Find Out What Customers Love & Hate About Your SaaS Rivals</title>
-  <meta name="description" content="We manually review customer complaints, feature requests, and forum discussions to reveal why SaaS rivals lose users—and how you can win them." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Cpath d='M6 58 L20 42 L28 48 L43 27' fill='none' stroke='%23F7F5F0' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z' fill='%23FF5B2E'/%3E%3C/svg%3E" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NovaTrace — See Why Your Rivals Lose Customers</title>
+<meta name="description" content="We manually trace customer reviews across G2, Capterra, Reddit and beyond to reveal why SaaS rivals lose users — and hand you the battlecards to win them." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230F1B2D'/%3E%3Cpath d='M6 58 L20 42 L28 48 L43 27' fill='none' stroke='%23F7F5F0' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z' fill='%23FF5B2E'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+</script>
+<style>
+:root{
+  --bg:#05080E; --bg2:#080D16; --surface:rgba(13,20,34,.62); --surface2:rgba(19,28,46,.72);
+  --ink:#F4F1EA; --muted:#8B95A9; --faint:#5A6478;
+  --accent:#FF5B2E; --accent-soft:rgba(255,91,46,.14); --accent-line:rgba(255,91,46,.35);
+  --card-border:rgba(255,255,255,.08); --radius:20px;
+  --font-d:'Space Grotesk',sans-serif; --font-b:'Inter',sans-serif; --font-m:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-b);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body.no-webgl{background:radial-gradient(1200px 800px at 70% -10%,rgba(255,91,46,.08),transparent 60%),radial-gradient(900px 700px at 10% 40%,rgba(80,120,255,.06),transparent 60%),var(--bg)}
+::selection{background:var(--accent);color:#0A0E14}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
 
-  <!-- Google Fonts: Inter & JetBrains Mono -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+/* ---------- 3D canvas ---------- */
+#bg3d{position:fixed;inset:0;z-index:0;pointer-events:none}
+#vignette{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 90% 70% at 50% 40%,transparent 55%,rgba(3,5,9,.55) 100%)}
+main{position:relative;z-index:2}
 
-  <!-- Tailwind CSS CDN with Class-based Dark Mode -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace']
-          },
-          colors: {
-            alabaster: '#FBFBFD',
-            night: '#080C14',
-            nightSurface: '#0E1422',
-            nightCard: '#131B2E',
-            slate: {
-              950: '#070C18',
-              900: '#0F172A',
-              800: '#1E293B',
-              700: '#334155',
-              600: '#475569',
-              500: '#64748B',
-              400: '#94A3B8',
-              300: '#CBD5E1',
-              200: '#E2E8F0',
-              100: '#F1F5F9',
-              50: '#F8FAFC'
-            },
-            terracotta: {
-              DEFAULT: '#C2410C',
-              hover: '#9A3412',
-              light: '#FFEDD5',
-              subtle: '#FFF7ED',
-              tint: '#EA580C',
-              darkGlow: 'rgba(234, 88, 12, 0.25)'
-            }
-          },
-          boxShadow: {
-            'glass-light': '0 8px 30px -4px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03)',
-            'glass-dark': '0 12px 35px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)',
-            'paper': '0 25px 50px -12px rgba(15, 23, 42, 0.08)'
-          },
-          animation: {
-            'marquee': 'marquee 25s linear infinite'
-          },
-          keyframes: {
-            marquee: {
-              '0%': { transform: 'translateX(0%)' },
-              '100%': { transform: 'translateX(-50%)' }
-            }
-          }
-        }
-      }
-    }
-  </script>
+/* ---------- preloader ---------- */
+#loader{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;transition:opacity .7s ease,visibility .7s}
+#loader.done{opacity:0;visibility:hidden}
+#loader svg path{stroke-dasharray:400;stroke-dashoffset:400;animation:draw 1.6s ease forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+#loader .l-word{font-family:var(--font-d);font-weight:700;letter-spacing:.42em;font-size:13px;color:var(--muted);text-transform:uppercase;padding-left:.42em}
+#loader .l-bar{width:180px;height:2px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+#loader .l-bar i{display:block;height:100%;width:0;background:var(--accent);animation:load 1.8s ease forwards}
+@keyframes load{to{width:100%}}
 
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+/* ---------- nav ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);background:rgba(5,8,14,.55);border-bottom:1px solid rgba(255,255,255,.06)}
+.nav-in{max-width:1200px;margin:0 auto;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-d);font-weight:700;font-size:19px;letter-spacing:.02em}
+.brand svg{width:30px;height:30px}
+.nav-links{display:flex;gap:30px;font-size:13.5px;color:var(--muted);font-weight:500}
+.nav-links a{position:relative;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:-5px;width:0;height:1.5px;background:var(--accent);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--font-m);font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:13px 26px;border-radius:100px;border:1px solid transparent;cursor:pointer;transition:transform .18s,box-shadow .25s,background .25s;white-space:nowrap}
+.btn-accent{background:linear-gradient(135deg,#FF5B2E,#E04A1F);color:#fff;box-shadow:0 8px 28px -6px rgba(255,91,46,.55),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn-accent:hover{box-shadow:0 12px 36px -6px rgba(255,91,46,.75),inset 0 1px 0 rgba(255,255,255,.3);transform:translateY(-2px)}
+.btn-ghost{border-color:rgba(255,255,255,.16);color:var(--ink);background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--accent-line);background:var(--accent-soft)}
+.btn-sm{padding:10px 20px;font-size:11.5px}
+@media(max-width:860px){.nav-links{display:none}}
 
-  <style>
-    body {
-      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-      overflow-x: hidden;
-      transition: background-color 0.25s ease, color 0.25s ease;
-    }
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;align-items:center;justify-content:center;text-align:center;padding:130px 22px 80px;position:relative}
+.hero-in{max-width:920px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-m);font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent-line);background:var(--accent-soft);padding:9px 18px 9px 14px;border-radius:100px;margin-bottom:30px}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+h1{font-family:var(--font-d);font-weight:700;font-size:clamp(42px,7.2vw,88px);line-height:1.02;letter-spacing:-.03em;margin-bottom:26px}
+h1 .grad{background:linear-gradient(100deg,#FF5B2E 10%,#FFB03A 55%,#FF5B2E 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .line{display:block;overflow:hidden}
+h1 .line>span{display:inline-block}
+.sub{font-size:clamp(15.5px,2vw,19px);line-height:1.65;color:var(--muted);max-width:640px;margin:0 auto 40px;font-weight:400}
+.sub b{color:var(--ink);font-weight:600}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px}
+.hero-stats{display:flex;gap:0;justify-content:center;flex-wrap:wrap;border:1px solid var(--card-border);border-radius:var(--radius);background:var(--surface);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden;max-width:720px;margin:0 auto}
+.hstat{flex:1 1 160px;padding:22px 18px;text-align:center}
+.hstat+.hstat{border-left:1px solid var(--card-border)}
+.hstat .n{font-family:var(--font-d);font-size:30px;font-weight:700;color:var(--ink)}
+.hstat .n em{font-style:normal;color:var(--accent)}
+.hstat .l{font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-top:6px}
+.scroll-cue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--faint);font-family:var(--font-m);font-size:10px;letter-spacing:.3em;text-transform:uppercase}
+.scroll-cue .wheel{width:22px;height:36px;border:1.5px solid var(--faint);border-radius:12px;position:relative}
+.scroll-cue .wheel::after{content:"";position:absolute;top:7px;left:50%;width:3px;height:8px;margin-left:-1.5px;border-radius:3px;background:var(--accent);animation:wheel 1.8s infinite}
+@keyframes wheel{0%{opacity:1;transform:translateY(0)}70%{opacity:0;transform:translateY(10px)}100%{opacity:0}}
 
-    /* Glass Panels for Light & Dark */
-    .glass-nav {
-      background: rgba(251, 251, 253, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(226, 232, 240, 0.85);
-    }
-    .dark .glass-nav {
-      background: rgba(10, 14, 23, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
+/* ---------- marquee ---------- */
+.marquee{border-top:1px solid var(--card-border);border-bottom:1px solid var(--card-border);background:rgba(5,8,14,.6);backdrop-filter:blur(10px);overflow:hidden;padding:20px 0;position:relative;z-index:2}
+.marquee .track{display:flex;gap:64px;width:max-content;animation:mq 28s linear infinite;font-family:var(--font-m);font-size:13px;letter-spacing:.24em;color:var(--faint);text-transform:uppercase}
+.marquee .track span{display:flex;align-items:center;gap:64px;white-space:nowrap}
+.marquee .track i{color:var(--accent);font-style:normal}
+@keyframes mq{to{transform:translateX(-50%)}}
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.82);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(226, 232, 240, 0.9);
-      transition: all 0.2s ease;
-    }
-    .dark .glass-card {
-      background: rgba(19, 27, 46, 0.72);
-      border: 1px solid rgba(255, 255, 255, 0.07);
-    }
-    .glass-card:hover {
-      border-color: rgba(194, 65, 12, 0.4);
-    }
+/* ---------- sections ---------- */
+section{padding:120px 22px;position:relative}
+.wrap{max-width:1120px;margin:0 auto}
+.sec-head{max-width:720px;margin-bottom:64px}
+.sec-head.center{margin-left:auto;margin-right:auto;text-align:center}
+.kicker{font-family:var(--font-m);font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.sec-head.center .kicker{justify-content:center}
+.kicker::before{content:"";width:26px;height:1.5px;background:var(--accent)}
+.sec-head.center .kicker::after{content:"";width:26px;height:1.5px;background:var(--accent)}
+h2{font-family:var(--font-d);font-size:clamp(30px,4.6vw,52px);font-weight:700;letter-spacing:-.025em;line-height:1.08;margin-bottom:18px}
+.sec-sub{color:var(--muted);font-size:16.5px;line-height:1.7}
 
-    .btn-terracotta {
-      background: linear-gradient(135deg, #C2410C 0%, #9A3412 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 14px rgba(194, 65, 12, 0.25);
-    }
-    .btn-terracotta:hover {
-      background: linear-gradient(135deg, #EA580C 0%, #C2410C 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 6px 20px rgba(194, 65, 12, 0.35);
-    }
+/* ---------- demo ---------- */
+.demo-shell{border:1px solid var(--card-border);border-radius:24px;background:var(--surface);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);overflow:hidden;box-shadow:0 40px 90px -30px rgba(0,0,0,.7)}
+.demo-bar{display:flex;align-items:center;gap:8px;padding:15px 20px;border-bottom:1px solid var(--card-border);background:rgba(0,0,0,.25)}
+.demo-bar .d{width:11px;height:11px;border-radius:50%}
+.demo-bar .t{margin-left:10px;font-family:var(--font-m);font-size:11.5px;color:var(--faint);letter-spacing:.1em}
+.demo-body{display:grid;grid-template-columns:250px 1fr;min-height:480px}
+@media(max-width:760px){.demo-body{grid-template-columns:1fr}}
+.rival-list{border-right:1px solid var(--card-border);padding:22px 16px;display:flex;flex-direction:column;gap:10px;background:rgba(0,0,0,.18)}
+@media(max-width:760px){.rival-list{border-right:none;border-bottom:1px solid var(--card-border);flex-direction:row;overflow-x:auto}}
+.rival-btn{text-align:left;padding:16px;border-radius:14px;border:1px solid transparent;background:transparent;color:var(--muted);cursor:pointer;transition:all .25s;font-family:var(--font-b);min-width:150px}
+.rival-btn .rn{font-family:var(--font-d);font-weight:700;font-size:16px;color:var(--ink);display:block;margin-bottom:4px}
+.rival-btn .rc{font-size:12px;color:var(--faint)}
+.rival-btn:hover{border-color:var(--card-border);background:rgba(255,255,255,.03)}
+.rival-btn.active{border-color:var(--accent-line);background:var(--accent-soft)}
+.rival-btn.active .rc{color:var(--accent)}
+.trace-view{padding:30px;position:relative;overflow:hidden}
+.scanline{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 24px var(--accent);opacity:0;pointer-events:none}
+.scanline.run{animation:scan 1.4s ease forwards}
+@keyframes scan{0%{top:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+.tabs{display:flex;gap:8px;margin-bottom:26px;flex-wrap:wrap}
+.tab{font-family:var(--font-m);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;padding:10px 18px;border-radius:100px;border:1px solid var(--card-border);background:transparent;color:var(--muted);cursor:pointer;transition:all .2s}
+.tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.bars{display:flex;flex-direction:column;gap:18px}
+.bar-row .bl{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:8px}
+.bar-row .bl b{font-weight:600}
+.bar-row .bl .pct{font-family:var(--font-m);color:var(--accent);font-size:12.5px}
+.bar-track{height:9px;border-radius:6px;background:rgba(255,255,255,.07);overflow:hidden}
+.bar-fill{height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,#FF5B2E,#FFB03A);box-shadow:0 0 16px rgba(255,91,46,.5);transition:width 1.1s cubic-bezier(.2,.8,.2,1)}
+.bar-fill.good{background:linear-gradient(90deg,#34D399,#A7F3D0);box-shadow:0 0 16px rgba(52,211,153,.4)}
+.quotes{display:flex;flex-direction:column;gap:14px}
+.quote{border-left:2px solid var(--accent);padding:4px 0 4px 18px;font-size:15px;line-height:1.65;color:#D6DCE8;font-style:italic}
+.quote .qs{display:block;margin-top:8px;font-style:normal;font-family:var(--font-m);font-size:11px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+.trace-meta{display:flex;gap:26px;margin-top:28px;padding-top:22px;border-top:1px solid var(--card-border);flex-wrap:wrap}
+.trace-meta div .mv{font-family:var(--font-d);font-size:22px;font-weight:700}
+.trace-meta div .ml{font-family:var(--font-m);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:4px}
 
-    ::selection {
-      background-color: #FFEDD5;
-      color: #9A3412;
-    }
-    .dark ::selection {
-      background-color: #9A3412;
-      color: #FFFFFF;
-    }
+/* ---------- process cards ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;perspective:1200px}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{border:1px solid var(--card-border);border-radius:var(--radius);background:var(--surface);backdrop-filter:blur(16px);padding:38px 32px;position:relative;overflow:hidden;transform-style:preserve-3d;transition:box-shadow .3s,border-color .3s;will-change:transform}
+.step:hover{border-color:var(--accent-line);box-shadow:0 30px 70px -20px rgba(255,91,46,.25)}
+.step .num{font-family:var(--font-d);font-size:76px;font-weight:700;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(255,91,46,.5);margin-bottom:22px}
+.step h3{font-family:var(--font-d);font-size:22px;margin-bottom:14px;transform:translateZ(30px)}
+.step p{color:var(--muted);font-size:14.5px;line-height:1.7;transform:translateZ(20px)}
+.step .tag{position:absolute;top:24px;right:24px;font-family:var(--font-m);font-size:10px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase}
 
-    /* NovaTrace brand logo: transparent background, trace stroke adapts to theme */
-    .logo-trace { stroke: #0F1B2D; }
-    .dark .logo-trace { stroke: #F7F5F0; }
-    .font-brand { font-family: 'Space Grotesk', 'Inter', -apple-system, sans-serif; }
-  </style>
+/* ---------- teardown cards ---------- */
+.tstrip{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:860px){.tstrip{grid-template-columns:1fr}}
+.tcard{border:1px solid var(--card-border);border-radius:var(--radius);background:var(--surface);backdrop-filter:blur(16px);padding:30px;transform-style:preserve-3d;transition:border-color .3s,box-shadow .3s;will-change:transform;position:relative;overflow:hidden}
+.tcard:hover{border-color:var(--accent-line);box-shadow:0 30px 70px -20px rgba(255,91,46,.22)}
+.tcard .tk{font-family:var(--font-m);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.tcard h3{font-family:var(--font-d);font-size:20px;line-height:1.35;margin-bottom:16px;transform:translateZ(28px)}
+.tcard .tstat{font-family:var(--font-d);font-size:38px;font-weight:700;color:var(--accent);transform:translateZ(20px)}
+.tcard .tstat small{font-size:14px;color:var(--muted);font-weight:500;display:block;margin-top:6px;font-family:var(--font-b)}
+.tcard svg.spark{margin:18px 0 6px;transform:translateZ(14px)}
+.tcard .tq{border-top:1px solid var(--card-border);margin-top:18px;padding-top:18px;font-size:13.5px;color:var(--muted);font-style:italic;line-height:1.6}
 
-  <!-- Prevent FOUC on Theme Load -->
-  <script>
-    // Default to light mode for first-time visitors; dark only if the visitor explicitly chose it before
-    if (localStorage.theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  </script>
+/* ---------- pricing ---------- */
+.ptiers{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+@media(max-width:900px){.ptiers{grid-template-columns:1fr;max-width:440px;margin:0 auto}}
+.ptier{border:1px solid var(--card-border);border-radius:24px;background:var(--surface);backdrop-filter:blur(16px);padding:40px 34px;display:flex;flex-direction:column;position:relative;transition:transform .3s,border-color .3s,box-shadow .3s}
+.ptier:hover{transform:translateY(-8px);border-color:var(--accent-line);box-shadow:0 34px 80px -24px rgba(255,91,46,.3)}
+.ptier.pop{background:linear-gradient(180deg,rgba(255,91,46,.12),var(--surface2));border-color:var(--accent-line)}
+.ptier .pop-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FF5B2E,#E04A1F);color:#fff;font-family:var(--font-m);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;padding:7px 18px;border-radius:100px;box-shadow:0 6px 20px rgba(255,91,46,.5);white-space:nowrap}
+.ptier h3{font-family:var(--font-d);font-size:20px;margin-bottom:8px}
+.ptier .pdesc{font-size:13.5px;color:var(--muted);margin-bottom:24px;line-height:1.6}
+.ptier .price{font-family:var(--font-d);font-size:52px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.ptier .price span{font-size:15px;color:var(--muted);font-weight:500;font-family:var(--font-b)}
+.ptier ul{list-style:none;margin:26px 0 32px;display:flex;flex-direction:column;gap:13px;flex:1}
+.ptier li{display:flex;gap:11px;font-size:14px;color:#C6CEDC;line-height:1.5}
+.ptier li svg{flex-shrink:0;margin-top:2px}
+.ptier .btn{justify-content:center}
+
+/* ---------- faq ---------- */
+.faq-list{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.faq{border:1px solid var(--card-border);border-radius:16px;background:var(--surface);backdrop-filter:blur(14px);overflow:hidden;transition:border-color .25s}
+.faq.open{border-color:var(--accent-line)}
+.faq-q{width:100%;background:none;border:none;color:var(--ink);font-family:var(--font-d);font-size:16.5px;font-weight:600;text-align:left;padding:22px 26px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.faq-q .fi{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;transition:all .3s;font-size:18px;font-weight:300;color:var(--accent)}
+.faq.open .fi{transform:rotate(45deg);background:var(--accent);border-color:var(--accent);color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .45s cubic-bezier(.2,.8,.2,1)}
+.faq-a p{padding:0 26px 24px;color:var(--muted);font-size:14.5px;line-height:1.75}
+
+/* ---------- final cta ---------- */
+.final{border:1px solid var(--accent-line);border-radius:32px;background:radial-gradient(600px 300px at 50% 0%,rgba(255,91,46,.14),transparent 70%),var(--surface);backdrop-filter:blur(20px);padding:90px 40px;text-align:center;position:relative;overflow:hidden}
+.final h2{font-size:clamp(34px,5.4vw,62px)}
+.final p{color:var(--muted);margin:18px auto 36px;max-width:520px;line-height:1.7}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--card-border);padding:54px 22px 34px;position:relative;z-index:2;background:rgba(3,5,9,.7);backdrop-filter:blur(12px)}
+.foot-in{max-width:1120px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap}
+.foot-in .fbrand{max-width:340px}
+.foot-in .fbrand p{color:var(--faint);font-size:13.5px;line-height:1.7;margin-top:14px}
+.foot-links{display:flex;gap:56px;flex-wrap:wrap}
+.foot-links h4{font-family:var(--font-m);font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+.foot-links a{display:block;font-size:14px;color:var(--muted);margin-bottom:11px;transition:color .2s}
+.foot-links a:hover{color:var(--accent)}
+.copy{max-width:1120px;margin:44px auto 0;padding-top:24px;border-top:1px solid var(--card-border);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:var(--font-m);font-size:11px;letter-spacing:.1em;color:var(--faint)}
+
+/* ---------- modal ---------- */
+#orderModal{position:fixed;inset:0;z-index:90;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,5,9,.8);backdrop-filter:blur(8px)}
+#orderModal.show{display:flex}
+.modal-card{width:100%;max-width:560px;max-height:92vh;overflow-y:auto;background:#0B111D;border:1px solid var(--card-border);border-radius:24px;padding:38px;position:relative;animation:mup .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes mup{from{transform:translateY(30px) scale(.97);opacity:0}}
+.modal-x{position:absolute;top:18px;right:18px;width:36px;height:36px;border-radius:50%;border:1px solid var(--card-border);background:none;color:var(--muted);font-size:18px;cursor:pointer;transition:all .2s}
+.modal-x:hover{color:var(--ink);border-color:var(--accent)}
+.fld{margin-bottom:16px}
+.fld label{display:block;font-family:var(--font-m);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.fld input,.fld select,.fld textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--card-border);border-radius:12px;color:var(--ink);padding:13px 15px;font-size:14.5px;font-family:var(--font-b);transition:border-color .2s;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--accent)}
+.fld textarea{resize:vertical;min-height:84px}
+.fld-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:520px){.fld-row{grid-template-columns:1fr}}
+.rival-box{border:1px solid var(--card-border);border-radius:14px;padding:16px;margin-bottom:12px;background:rgba(255,255,255,.02)}
+.rival-box .rb-t{font-family:var(--font-m);font-size:10.5px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+.plan-line{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;padding:16px 18px;border:1px solid var(--accent-line);border-radius:14px;background:var(--accent-soft)}
+.plan-line .pn{font-family:var(--font-d);font-weight:700;font-size:16px}
+.plan-line .pp{font-family:var(--font-d);font-weight:700;font-size:22px;color:var(--accent)}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(120px);z-index:120;background:#0E1626;border:1px solid var(--accent-line);color:var(--ink);padding:15px 26px;border-radius:100px;font-size:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);transition:transform .4s cubic-bezier(.2,.9,.3,1.2);max-width:90vw;text-align:center}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ---------- reveal defaults ---------- */
+[data-reveal]{opacity:0;transform:translateY(36px)}
+.no-anim [data-reveal]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  [data-reveal]{opacity:1;transform:none}
+}
+</style>
 </head>
-<body class="bg-alabaster dark:bg-night text-slate-900 dark:text-slate-100 selection:bg-terracotta-light dark:selection:bg-terracotta selection:text-terracotta-hover">
+<body>
 
-  <!-- Ambient Blurred Lighting Geometry -->
-  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[55rem] h-[35rem] rounded-full bg-orange-100/50 dark:bg-terracotta/10 blur-[140px]"></div>
-    <div class="absolute top-[35%] -left-32 w-[42rem] h-[42rem] rounded-full bg-slate-200/40 dark:bg-blue-950/20 blur-[150px]"></div>
-    <div class="absolute top-[65%] -right-32 w-[44rem] h-[44rem] rounded-full bg-amber-100/40 dark:bg-terracotta/10 blur-[150px]"></div>
+<!-- Preloader -->
+<div id="loader">
+  <svg width="72" height="72" viewBox="0 0 64 64" fill="none">
+    <path d="M6 58 L20 42 L28 48 L43 27" stroke="#F4F1EA" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z" fill="#FF5B2E"/>
+  </svg>
+  <div class="l-word">NovaTrace</div>
+  <div class="l-bar"><i></i></div>
+</div>
+
+<canvas id="bg3d"></canvas>
+<div id="vignette"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="NovaTrace home">
+      <svg viewBox="0 0 64 64" fill="none"><rect width="64" height="64" rx="14" fill="#0F1B2D"/><path d="M6 58 L20 42 L28 48 L43 27" stroke="#F7F5F0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z" fill="#FF5B2E"/></svg>
+      NovaTrace
+    </a>
+    <div class="nav-links">
+      <a href="#demo">Live demo</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <button class="btn btn-accent btn-sm magnetic" onclick="openOrderModal('Single Competitor Audit','$149','5 In-Depth Reviews',1)">Start a trace</button>
   </div>
-
-  <!-- ================================================================= -->
-  <!-- 1. FLOATING NAVIGATION BAR WITH THEME MODE SWITCHER               -->
-  <!-- ================================================================= -->
-  <div class="sticky top-3 z-50 px-3 sm:px-6 lg:px-8">
-    <header class="max-w-7xl mx-auto flex items-center justify-between gap-2 sm:gap-3">
-      
-      <!-- Brand Logo -->
-      <a href="#" class="flex items-center gap-2.5 group rounded-full glass-nav shadow-glass-light dark:shadow-glass-dark py-2 pl-2 pr-5 sm:pr-6">
-        <span class="w-10 h-10 rounded-full bg-white dark:bg-white/[0.07] border border-slate-200 dark:border-white/10 flex items-center justify-center transition-transform group-hover:scale-95">
-          <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M6 58 L20 42 L28 48 L43 27" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="logo-trace"/>
-            <path d="M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z" fill="#FF5B2E"/>
-          </svg>
-        </span>
-        <span class="flex flex-col leading-none">
-          <span class="font-brand text-lg sm:text-xl tracking-tight text-[#0F1B2D] dark:text-[#F7F5F0]"><span class="font-bold">Nova</span><span class="font-normal">Trace</span></span>
-          <span class="text-[8px] font-mono tracking-[0.3em] text-slate-400 dark:text-slate-500 uppercase mt-1">Research Bureau</span>
-        </span>
-      </a>
-
-      <!-- Desktop Nav -->
-      <nav class="hidden lg:flex items-center gap-7 rounded-full glass-nav shadow-glass-light dark:shadow-glass-dark px-8 h-14 text-xs font-semibold tracking-wider text-slate-600 dark:text-slate-300 uppercase font-mono">
-        <a href="#about" class="hover:text-terracotta transition-colors">Manifesto</a>
-        <a href="#services" class="hover:text-terracotta transition-colors">Modules</a>
-        <a href="#dossier" class="hover:text-terracotta transition-colors">Sample Report</a>
-        <a href="#process" class="hover:text-terracotta transition-colors">Method</a>
-        <a href="#pricing" class="hover:text-terracotta transition-colors">Pricing</a>
-        <a href="#faq" class="hover:text-terracotta transition-colors">FAQ</a>
-      </nav>
-
-      <!-- Right Action Items -->
-      <div class="flex items-center gap-2 sm:gap-2.5">
-        
-        <!-- Light / Dark Mode Toggle Switch -->
-        <button 
-          id="themeToggleBtn"
-          type="button"
-          aria-label="Toggle display theme"
-          class="w-11 h-11 rounded-full bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 shadow-glass-light dark:shadow-glass-dark transition-all flex items-center justify-center">
-          <i id="themeSunIcon" data-lucide="sun" class="w-4 h-4 hidden dark:inline"></i>
-          <i id="themeMoonIcon" data-lucide="moon" class="w-4 h-4 inline dark:hidden"></i>
-        </button>
-
-        <button onclick="openOrderModal('Single Competitor Audit', '$149', '5 In-Depth Reviews', 1)" class="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-6 h-11 text-xs font-bold text-white uppercase tracking-wider font-mono btn-terracotta rounded-full shadow-glass-light dark:shadow-glass-dark active:scale-[0.98] transition-all">
-          <span>Order Audit</span>
-          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
-        </button>
-
-        <!-- Mobile Drawer Hamburger -->
-        <button id="mobileMenuBtn" class="lg:hidden w-11 h-11 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-glass-light dark:shadow-glass-dark flex flex-col items-center justify-center gap-[4px] active:scale-95 transition-all" aria-label="Toggle Navigation">
-          <span class="block w-4 h-[2px] rounded-full bg-current"></span>
-          <span class="block w-4 h-[2px] rounded-full bg-current"></span>
-          <span class="block w-4 h-[2px] rounded-full bg-current"></span>
-        </button>
-      </div>
-    </header>
-
-    <!-- Mobile Drawer Menu -->
-    <div id="mobileMenu" class="hidden lg:hidden max-w-7xl mx-auto mt-2 p-5 rounded-2xl glass-nav shadow-2xl flex flex-col gap-3 text-sm font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10">
-      <a href="#about" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">Manifesto</a>
-      <a href="#services" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">Modules</a>
-      <a href="#dossier" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">Sample Report</a>
-      <a href="#process" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">Method</a>
-      <a href="#pricing" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">Pricing</a>
-      <a href="#faq" class="mobile-link py-2 border-b border-slate-100 dark:border-white/5 hover:text-terracotta">FAQ</a>
-      <a href="mailto:johar@novatrace.tech" class="py-2 text-terracotta flex items-center gap-2 font-mono">
-        <i data-lucide="mail" class="w-4 h-4"></i> johar@novatrace.tech
-      </a>
-    </div>
-  </div>
-
-  <!-- ================================================================= -->
-  <!-- 2. HIGH-IMPACT HERO SECTION                                      -->
-  <!-- ================================================================= -->
-  <section class="pt-16 pb-16 sm:pt-28 sm:pb-32 px-4 relative overflow-hidden">
-    <div class="max-w-6xl mx-auto text-center">
-      
-      <!-- Pill Badge -->
-      <div class="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/80 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-[11px] sm:text-xs font-mono font-medium text-slate-700 dark:text-slate-200 mb-6 sm:mb-8 shadow-xs">
-        <span class="w-2 h-2 rounded-full bg-terracotta animate-pulse"></span>
-        <span class="text-terracotta font-bold">MANUAL REVIEW FORENSICS</span>
-        <span class="text-slate-300 dark:text-slate-600">//</span>
-        <span>NO SCRAPERS • NO GUESSWORK</span>
-      </div>
-
-      <!-- Main Catchy Headline -->
-      <h1 class="text-3xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.1] mb-5 sm:mb-6">
-        See What Customers <span class="text-terracotta">Love & Hate</span><br class="hidden sm:inline" /> About Your SaaS Rivals.
-      </h1>
-
-      <!-- Subheadline -->
-      <p class="text-sm sm:text-lg lg:text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto leading-relaxed mb-8 sm:mb-12 font-normal">
-        We review your product and your competitors' products. Our researchers manually read and break down customer reviews across Reddit, G2, and Capterra to give you the honest truth: why users leave, what they beg for, and the exact words you need to win them over.
-      </p>
-
-      <!-- Search Console Bar -->
-      <div class="max-w-2xl mx-auto mb-8 sm:mb-10">
-        <form id="heroForm" class="p-2 rounded-2xl glass-card shadow-glass-light dark:shadow-glass-dark flex flex-col sm:flex-row gap-2 border border-slate-200 dark:border-white/15">
-          <div class="relative flex-grow flex items-center">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-4"></i>
-            <input 
-              type="text" 
-              id="competitorInput" 
-              required 
-              placeholder="Enter your rival (e.g. Linear, ClickUp, Notion)..." 
-              class="w-full pl-11 pr-4 py-3 sm:py-3.5 text-xs sm:text-sm bg-white dark:bg-slate-900 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none border border-transparent focus:border-terracotta"
-            />
-          </div>
-          <button 
-            type="submit" 
-            class="px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-wider uppercase font-mono text-white btn-terracotta rounded-xl whitespace-nowrap active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-            <span>Request Teardown</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </form>
-      </div>
-
-      <!-- Trust Bar Metrics (72-96h Window) -->
-      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-[11px] sm:text-xs font-mono text-slate-500 dark:text-slate-400 uppercase tracking-widest">
-        <div class="flex items-center gap-2">
-          <i data-lucide="clock" class="w-4 h-4 text-terracotta"></i>
-          <span>72–96 Hour Turnaround</span>
-        </div>
-        <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
-        <div class="flex items-center gap-2">
-          <i data-lucide="user-check" class="w-4 h-4 text-terracotta"></i>
-          <span>100% Human Analysis</span>
-        </div>
-        <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
-        <div class="flex items-center gap-2">
-          <i data-lucide="file-check" class="w-4 h-4 text-terracotta"></i>
-          <span>Zero Subscriptions</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 3. AGENKO INFINITE MARQUEE TICKER                                 -->
-  <!-- ================================================================= -->
-  <div class="py-4 sm:py-5 border-y border-slate-200 dark:border-white/10 bg-white/70 dark:bg-white/[0.02] overflow-hidden relative">
-    <div class="flex whitespace-nowrap animate-marquee">
-      <div class="flex items-center gap-8 sm:gap-10 text-xs sm:text-sm font-mono tracking-widest text-slate-500 dark:text-slate-400 uppercase font-semibold">
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 72–96 HOUR IN-DEPTH RESEARCH</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-slate-900 dark:bg-slate-300"></span> 5, 12 & 16 REVIEWS PACKS</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 1, 2, OR 3 RIVALS AUDITED</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-slate-900 dark:bg-slate-300"></span> SALES BATTLECARDS & COUNTER-HEADLINES</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 100% HUMAN RESEARCHERS</span>
-      </div>
-      <div class="flex items-center gap-8 sm:gap-10 text-xs sm:text-sm font-mono tracking-widest text-slate-500 dark:text-slate-400 uppercase font-semibold pl-8 sm:pl-10">
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 72–96 HOUR IN-DEPTH RESEARCH</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-slate-900 dark:bg-slate-300"></span> 5, 12 & 16 REVIEWS PACKS</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 1, 2, OR 3 RIVALS AUDITED</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-slate-900 dark:bg-slate-300"></span> SALES BATTLECARDS & COUNTER-HEADLINES</span>
-        <span class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-terracotta"></span> 100% HUMAN RESEARCHERS</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ================================================================= -->
-  <!-- 4. AGENCY MANIFESTO & THE BLINDSPOT                              -->
-  <!-- ================================================================= -->
-  <section id="about" class="py-20 sm:py-32 px-4 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-        
-        <!-- Left Statement -->
-        <div class="lg:col-span-5">
-          <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">01 // The Bureau Manifesto</span>
-          <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-5 sm:mb-6">
-            Your rivals won't tell you their flaws. Their angry users will.
-          </h2>
-          <p class="text-xs sm:text-base text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-normal">
-            Most SaaS founders look at competitor landing pages and assume everything is working. Meanwhile, their customers are venting on Reddit, Discord, and review forums about unexpected price hikes, buggy updates, and broken syncs.
-          </p>
-          <div class="p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-white/10">
-            <div class="flex items-center gap-3 mb-2">
-              <i data-lucide="quote" class="w-5 h-5 text-terracotta"></i>
-              <span class="font-bold text-slate-900 dark:text-white text-sm">Our Core Belief:</span>
-            </div>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 italic leading-relaxed">
-              “Every customer who leaves your competitor leaves a public footprint explaining why. If you read what they write, you don't have to guess how to beat them.”
-            </p>
-          </div>
-        </div>
-
-        <!-- Right 4 Pillars Grid -->
-        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          
-          <div class="glass-card p-6 sm:p-7 rounded-3xl">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-red-100 dark:bg-red-950/50 border border-red-200 dark:border-red-500/20 text-red-600 flex items-center justify-center mb-4 sm:mb-5">
-              <i data-lucide="eye-off" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">The Silent Churn Trap</h3>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Buyers rarely fill out exit surveys. They simply cancel and complain in public communities where real discussions take place.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 sm:p-7 rounded-3xl">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-terracotta-subtle dark:bg-terracotta/10 border border-terracotta/20 text-terracotta flex items-center justify-center mb-4 sm:mb-5">
-              <i data-lucide="search-check" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Human Review Reading</h3>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              We read every review manually. We spot sarcasm, contract disputes, and genuine product rage that keyword tools miss completely.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 sm:p-7 rounded-3xl">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-slate-100 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-slate-800 dark:text-slate-200 flex items-center justify-center mb-4 sm:mb-5">
-              <i data-lucide="file-spreadsheet" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Concrete Citations</h3>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              Every single claim in your dossier includes a direct link to the public review or Reddit discussion thread so you can verify it yourself.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 sm:p-7 rounded-3xl">
-            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-500/20 text-emerald-700 flex items-center justify-center mb-4 sm:mb-5">
-              <i data-lucide="swords" class="w-5 h-5 sm:w-6 sm:h-6"></i>
-            </div>
-            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Ready Battlecards</h3>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-              We turn raw customer grievances into sharp website headlines and sales talk tracks your sales team can deploy immediately.
-            </p>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 5. STATS STRIP                                                    -->
-  <!-- ================================================================= -->
-  <section class="py-12 sm:py-16 border-y border-slate-200 dark:border-white/10 bg-white dark:bg-nightSurface/50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 text-center">
-        
-        <div class="p-2 sm:p-4">
-          <span class="block text-3xl sm:text-6xl font-black text-slate-900 dark:text-white font-mono tracking-tight">5-16</span>
-          <span class="text-[11px] sm:text-sm font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 block">Deep Reviews Extracted</span>
-        </div>
-
-        <div class="p-2 sm:p-4 border-l border-slate-200 dark:border-white/10">
-          <span class="block text-3xl sm:text-6xl font-black text-slate-900 dark:text-white font-mono tracking-tight">72–96<span class="text-terracotta">h</span></span>
-          <span class="text-[11px] sm:text-sm font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 block">Turnaround Window</span>
-        </div>
-
-        <div class="p-2 sm:p-4 border-l border-slate-200 dark:border-white/10">
-          <span class="block text-3xl sm:text-6xl font-black text-slate-900 dark:text-white font-mono tracking-tight">100<span class="text-terracotta">%</span></span>
-          <span class="text-[11px] sm:text-sm font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 block">Human Verified Data</span>
-        </div>
-
-        <div class="p-2 sm:p-4 border-l border-slate-200 dark:border-white/10">
-          <span class="block text-3xl sm:text-6xl font-black text-slate-900 dark:text-white font-mono tracking-tight">$0</span>
-          <span class="text-[11px] sm:text-sm font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 mt-2 block">Monthly Lock-ins</span>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 6. WHAT WE DO: 4 AUDIT MODULES                                   -->
-  <!-- ================================================================= -->
-  <section id="services" class="py-20 sm:py-32 px-4 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="max-w-3xl mb-12 sm:mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">02 // What We Investigate</span>
-        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          Four Pillars of Competitor Forensics
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-base mt-3">
-          Every report is broken down into four clear deliverables that give your product, marketing, and sales teams immediate tactical advantages.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-        
-        <!-- Module 1: The Hate List -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl relative overflow-hidden group">
-          <div class="flex items-center justify-between mb-4 sm:mb-6">
-            <span class="text-xs font-mono font-bold text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-950/60 border border-red-200 dark:border-red-500/20 px-3.5 py-1.5 rounded-full">
-              MODULE 01
-            </span>
-            <i data-lucide="skull" class="w-5 h-5 sm:w-6 sm:h-6 text-red-600"></i>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">The Hate List (Churn Catalysts)</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-normal">
-            The dealbreakers. We find the exact bugs, stealth price jumps, and support breakdown moments that make paying accounts rage-quit and search for alternatives.
-          </p>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-mono">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Hidden enterprise seat minimums</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Degraded ticket response SLAs</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Database sync crashes over 10k rows</li>
-          </ul>
-        </div>
-
-        <!-- Module 2: The Love List -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl relative overflow-hidden group">
-          <div class="flex items-center justify-between mb-4 sm:mb-6">
-            <span class="text-xs font-mono font-bold text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/20 px-3.5 py-1.5 rounded-full">
-              MODULE 02
-            </span>
-            <i data-lucide="heart" class="w-6 h-6 text-emerald-600"></i>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">The Love List (Core Stickiness)</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-normal">
-            What keeps their customers addicted. Don't launch your app or attempt to win accounts without matching these crucial baseline expectations.
-          </p>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-mono">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Lightning-fast keyboard shortcuts</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Clean, distraction-free typography</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-600"></i> Fast and lightweight mobile sync</li>
-          </ul>
-        </div>
-
-        <!-- Module 3: Ignored Feature Wishlist -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl relative overflow-hidden group">
-          <div class="flex items-center justify-between mb-4 sm:mb-6">
-            <span class="text-xs font-mono font-bold text-terracotta bg-terracotta-light dark:bg-terracotta/20 border border-terracotta/20 px-3.5 py-1.5 rounded-full">
-              MODULE 03
-            </span>
-            <i data-lucide="sparkles" class="w-6 h-6 text-terracotta"></i>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">Ignored Feature Wishlists</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-normal">
-            The roadmap gaps their product managers have ignored for over a year. Build these simple workflow features and attract their power users directly.
-          </p>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-mono">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Native real-time webhooks (no third party)</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Custom role-based permissions on standard tier</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-terracotta"></i> Native CSV export cleanups</li>
-          </ul>
-        </div>
-
-        <!-- Module 4: Sales Battlecards -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl relative overflow-hidden group">
-          <div class="flex items-center justify-between mb-4 sm:mb-6">
-            <span class="text-xs font-mono font-bold text-slate-800 dark:text-slate-300 bg-slate-200 dark:bg-white/10 border border-slate-300 dark:border-white/10 px-3.5 py-1.5 rounded-full">
-              MODULE 04
-            </span>
-            <i data-lucide="message-square" class="w-5 h-5 sm:w-6 sm:h-6 text-slate-700 dark:text-slate-300"></i>
-          </div>
-          <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-3">Counter-Headlines & Quotes</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed mb-6 font-normal">
-            We extract raw verbatim customer complaints and turn them into landing page headlines, Google ad hooks, and objection scripts for your sales calls.
-          </p>
-          <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-mono">
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-800 dark:text-slate-200"></i> Unfiltered customer voice excerpts</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-800 dark:text-slate-200"></i> Direct counter-positioning angles</li>
-            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-slate-800 dark:text-slate-200"></i> Email copy templates for competitor switchers</li>
-          </ul>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 7. THE DOSSIER PREVIEW: REALISTIC WORKSPACE VIEW                  -->
-  <!-- ================================================================= -->
-  <section id="dossier" class="py-20 sm:py-32 px-4 border-y border-slate-200 dark:border-white/10 bg-white dark:bg-nightSurface/40">
-    <div class="max-w-6xl mx-auto">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">03 // Inside The Deliverable</span>
-        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          A 4-Page Teardown Dossier
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-base mt-3">
-          Delivered in a private, duplicate-ready Notion workspace and an executive PDF ready for leadership review.
-        </p>
-      </div>
-
-      <!-- Dossier Window -->
-      <div class="rounded-3xl glass-card border border-slate-200 dark:border-white/10 shadow-paper overflow-hidden bg-alabaster dark:bg-nightCard">
-        
-        <!-- Window Top Bar -->
-        <div class="bg-slate-900 px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-800 text-slate-200 flex flex-wrap items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="flex items-center gap-1.5">
-              <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-700"></span>
-              <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-700"></span>
-              <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-slate-700"></span>
-            </div>
-            <span class="font-mono text-[11px] sm:text-xs text-slate-300 pl-2 sm:pl-3 border-l border-slate-700">NOVATRACE // DOSSIER #408</span>
-          </div>
-          <div class="flex items-center gap-3 font-mono text-[11px] sm:text-xs text-slate-400">
-            <span class="text-terracotta-light flex items-center gap-1"><i data-lucide="check-check" class="w-3.5 h-3.5 text-terracotta"></i> Hand-Verified</span>
-            <span>Lead: Johar</span>
-          </div>
-        </div>
-
-        <!-- Dossier Interior Cards -->
-        <div class="p-5 sm:p-10 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 bg-alabaster dark:bg-nightCard">
-          
-          <div class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 shadow-xs space-y-2 sm:space-y-3">
-            <span class="text-[10px] font-mono font-bold text-red-600 dark:text-red-400 uppercase tracking-wider block">PAGE 01 // CATALYSTS</span>
-            <h4 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Primary Churn Trigger</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              “5x pricing jump after passing 20 seats forced mid-market accounts into renewal panic.”
-            </p>
-            <div class="pt-2 sm:pt-3 border-t border-slate-100 dark:border-white/5 flex justify-between text-[11px] font-mono text-slate-400">
-              <span>Frequency: High</span>
-              <span>Source: Reddit & G2</span>
-            </div>
-          </div>
-
-          <div class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 shadow-xs space-y-2 sm:space-y-3">
-            <span class="text-[10px] font-mono font-bold text-terracotta uppercase tracking-wider block">PAGE 02 // ROADMAP GAPS</span>
-            <h4 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Missing Capabilities</h4>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              “Zero native webhooks. Integrators forced to maintain fragile third-party automations that break.”
-            </p>
-            <div class="pt-2 sm:pt-3 border-t border-slate-100 dark:border-white/5 flex justify-between text-[11px] font-mono text-slate-400">
-              <span>Friction: Constant</span>
-              <span>Source: Capterra</span>
-            </div>
-          </div>
-
-          <div class="p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-white/5 shadow-xs space-y-2 sm:space-y-3">
-            <span class="text-[10px] font-mono font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider block">PAGE 03 // MESSAGING</span>
-            <h4 class="font-bold text-slate-900 dark:text-white text-sm sm:text-base">Counter-Headline</h4>
-            <p class="text-xs italic text-slate-700 dark:text-slate-300 leading-relaxed">
-              “Real-time Webhook Sync. Zero Third-Party Tools. Predictable Flat Pricing.”
-            </p>
-            <div class="pt-2 sm:pt-3 border-t border-slate-100 dark:border-white/5 flex justify-between text-[11px] font-mono text-slate-400">
-              <span>Ready for Landing Page</span>
-              <span>Validated</span>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Bottom Bar -->
-        <div class="bg-white dark:bg-nightSurface px-4 sm:px-6 py-3.5 sm:py-4 border-t border-slate-200 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-slate-500 dark:text-slate-400">
-          <span>Complete source spreadsheet with live review links included.</span>
-          <button onclick="openOrderModal('Dual Competitor Teardown', '$299', '12 In-Depth Reviews', 2)" class="text-terracotta font-bold hover:underline flex items-center gap-1">
-            Order your dossier &rarr;
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 8. HOW IT WORKS (72–96 HOUR METHOD)                               -->
-  <!-- ================================================================= -->
-  <section id="process" class="py-20 sm:py-32 px-4 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="max-w-3xl mb-12 sm:mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">04 // The Execution</span>
-        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          How Our Analysts Unpack The Truth
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-base mt-3">
-          A completely frictionless 4-step workflow that delivers verified market intelligence in 72–96 hours.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-        
-        <div class="glass-card p-6 sm:p-7 rounded-3xl relative">
-          <span class="text-2xl sm:text-3xl font-black font-mono text-terracotta block mb-3 sm:mb-4">01</span>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Scope The Rivals</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Send us your website, product category, and 1 to 3 competitors you lose deals to.
-          </p>
-        </div>
-
-        <div class="glass-card p-6 sm:p-7 rounded-3xl relative">
-          <span class="text-2xl sm:text-3xl font-black font-mono text-terracotta block mb-3 sm:mb-4">02</span>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Extract Raw Feedback</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            We scour G2, Capterra, Reddit forums, and migration discussions for unvarnished buyer reviews.
-          </p>
-        </div>
-
-        <div class="glass-card p-6 sm:p-7 rounded-3xl relative">
-          <span class="text-2xl sm:text-3xl font-black font-mono text-terracotta block mb-3 sm:mb-4">03</span>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">Manual Synthesis</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Our researchers separate authentic complaints from spam and catalog key churn patterns.
-          </p>
-        </div>
-
-        <div class="glass-card p-6 sm:p-7 rounded-3xl relative">
-          <span class="text-2xl sm:text-3xl font-black font-mono text-terracotta block mb-3 sm:mb-4">04</span>
-          <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mb-2">72–96h Delivery</h3>
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Receive your private Notion workspace and executive PDF ready for your leadership team.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 9. PRICING: 5, 12, & 16 REVIEWS BREAKDOWN                         -->
-  <!-- ================================================================= -->
-  <section id="pricing" class="py-20 sm:py-32 px-4 border-t border-slate-200 dark:border-white/10 bg-white dark:bg-nightSurface/30 relative">
-    <div class="max-w-7xl mx-auto">
-      
-      <div class="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">05 // Clear Investment</span>
-        <h2 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          Straightforward Pricing. No Software Locks.
-        </h2>
-        <p class="text-slate-600 dark:text-slate-400 text-xs sm:text-base mt-3">
-          Fixed-scope deliverables produced by veteran SaaS researchers in 72–96 hours.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch max-w-6xl mx-auto">
-        
-        <!-- Tier 1: $149 Plan (1 Rival, 5 Reviews) -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl flex flex-col justify-between hover:border-slate-300 dark:hover:border-white/20 transition-all">
-          <div>
-            <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest block mb-2">1 RIVAL TARGET</span>
-            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Single Audit</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Meticulous teardown of 1 key competitor or your own product.</p>
-            
-            <div class="mb-6 pb-6 border-b border-slate-100 dark:border-white/10">
-              <span class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white font-mono">$149</span>
-              <span class="text-xs font-mono text-slate-400 ml-1">/ ONE-TIME</span>
-            </div>
-
-            <ul class="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 mb-8 font-mono">
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>1 Competitor</strong> fully audited</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>5 In-Depth Reviews</strong> broken down</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Core Churn Triggers & Wishlist matrix</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Private Notion dossier + PDF</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>72–96 hour</strong> delivery window</span>
-              </li>
-            </ul>
-          </div>
-
-          <button onclick="openOrderModal('Single Competitor Audit', '$149', '5 In-Depth Reviews', 1)" class="w-full py-3.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider font-mono border border-slate-200 dark:border-white/10 transition-all">
-            Order Single Audit (1 Rival)
-          </button>
-        </div>
-
-        <!-- Tier 2: $299 Plan (2 Rivals, 12 Reviews - Most Popular) -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl border-2 border-terracotta flex flex-col justify-between shadow-paper relative bg-white dark:bg-nightCard">
-          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-terracotta text-white font-mono text-[10px] font-bold uppercase tracking-widest px-4 py-1 rounded-full shadow-md whitespace-nowrap">
-            MOST POPULAR CHOICE
-          </div>
-
-          <div>
-            <span class="text-xs font-mono font-bold text-terracotta uppercase tracking-widest block mb-2">2 RIVALS HEAD-TO-HEAD</span>
-            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Dual Teardown</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Side-by-side comparison of 2 rivals against your solution.</p>
-            
-            <div class="mb-6 pb-6 border-b border-slate-100 dark:border-white/10">
-              <span class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white font-mono">$299</span>
-              <span class="text-xs font-mono text-slate-400 ml-1">/ ONE-TIME</span>
-            </div>
-
-            <ul class="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-slate-800 dark:text-slate-200 mb-8 font-mono font-medium">
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>2 Competitors</strong> audited head-to-head</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>12 In-Depth Reviews</strong> analyzed</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Side-by-side feature & pricing grid</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Sales battlecard with counter-hooks</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>72–96 hour</strong> delivery window</span>
-              </li>
-            </ul>
-          </div>
-
-          <button onclick="openOrderModal('Dual Competitor Teardown', '$299', '12 In-Depth Reviews', 2)" class="w-full py-3.5 rounded-xl btn-terracotta text-white text-xs font-bold uppercase tracking-wider font-mono shadow-md active:scale-[0.98] transition-all">
-            Order Dual Teardown (2 Rivals)
-          </button>
-        </div>
-
-        <!-- Tier 3: $399 Plan (3 Rivals, 16 Reviews) -->
-        <div class="glass-card p-6 sm:p-10 rounded-3xl flex flex-col justify-between hover:border-slate-300 dark:hover:border-white/20 transition-all">
-          <div>
-            <span class="text-xs font-mono font-bold text-slate-400 uppercase tracking-widest block mb-2">UP TO 3 RIVALS</span>
-            <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-2">Monthly Retainer</h3>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">Continuous sentiment and churn tracking for high-growth teams.</p>
-            
-            <div class="mb-6 pb-6 border-b border-slate-100 dark:border-white/10">
-              <span class="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white font-mono">$399</span>
-              <span class="text-xs font-mono text-slate-400 ml-1">/ MONTH</span>
-            </div>
-
-            <ul class="space-y-3 sm:space-y-3.5 text-xs sm:text-sm text-slate-700 dark:text-slate-300 mb-8 font-mono">
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check-circle-2" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>Up to 3 Competitors</strong> tracked continuously</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span><strong>16 In-Depth Reviews</strong> synthesized</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Bi-weekly churn pulse memo</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>Direct Slack channel with Johar</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <i data-lucide="check" class="w-4 h-4 text-terracotta flex-shrink-0"></i>
-                <span>72–96h delivery on kickoff audits</span>
-              </li>
-            </ul>
-          </div>
-
-          <button onclick="openOrderModal('Monthly Retainer', '$399/mo', '16 In-Depth Reviews', 3)" class="w-full py-3.5 rounded-xl bg-slate-100 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/15 text-slate-900 dark:text-white text-xs font-bold uppercase tracking-wider font-mono border border-slate-200 dark:border-white/10 transition-all">
-            Start Retainer (3 Rivals)
-          </button>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 10. FAQ ACCORDION                                                 -->
-  <!-- ================================================================= -->
-  <section id="faq" class="py-20 sm:py-32 px-4 relative">
-    <div class="max-w-3xl mx-auto">
-      
-      <div class="text-center mb-12 sm:mb-16">
-        <span class="font-mono text-xs uppercase tracking-widest text-terracotta font-bold block mb-3">06 // Common Inquiries</span>
-        <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-          Frequently Asked Questions
-        </h2>
-      </div>
-
-      <div class="space-y-3">
-        
-        <div class="glass-card rounded-2xl overflow-hidden p-4 sm:p-5 transition-all">
-          <button class="faq-btn w-full text-left font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
-            <span>Where do your researchers extract customer reviews from?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
-          </button>
-          <p class="faq-text hidden mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            We scour verified aggregator directories (G2, Capterra, TrustRadius, Gartner Peer Insights) as well as unfiltered public communities (Reddit subreddits like r/SaaS and r/sysadmin, Hacker News threads, and public customer discussion boards). Every single review cited is cataloged with its public URL for complete transparency.
-          </p>
-        </div>
-
-        <div class="glass-card rounded-2xl overflow-hidden p-4 sm:p-5 transition-all">
-          <button class="faq-btn w-full text-left font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
-            <span>How do the 1, 2, and 3 rivals breakdown work?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
-          </button>
-          <p class="faq-text hidden mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            For the $149 Single Audit, you enter 1 rival product and get 5 synthesized reviews. For the $299 Dual Audit, you provide 2 rivals side-by-side and get 12 reviews analyzed head-to-head. For the $399 Retainer, you provide up to 3 rivals and get 16 deep reviews monitored continuously.
-          </p>
-        </div>
-
-        <div class="glass-card rounded-2xl overflow-hidden p-4 sm:p-5 transition-all">
-          <button class="faq-btn w-full text-left font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
-            <span>Why is the delivery window 72 to 96 hours?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
-          </button>
-          <p class="faq-text hidden mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            Because a human researcher personally reads, cross-verifies, and summarizes every review. We verify genuine usage, filter out marketing noise, and write counter-headlines for your team rather than dumping raw unformatted text.
-          </p>
-        </div>
-
-        <div class="glass-card rounded-2xl overflow-hidden p-4 sm:p-5 transition-all">
-          <button class="faq-btn w-full text-left font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex justify-between items-center focus:outline-none">
-            <span>What exact file deliverables will our team receive?</span>
-            <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 transition-transform"></i>
-          </button>
-          <p class="faq-text hidden mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-            You receive a private Notion workspace duplicate link, an executive 4-page PDF designed for sharing with founders, executives, or investors, and an indexed spreadsheet of all verified quotes, source links, and tagged friction categories.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 11. BOTTOM CALL-TO-ACTION                                         -->
-  <!-- ================================================================= -->
-  <section class="py-20 sm:py-32 px-4 relative">
-    <div class="max-w-5xl mx-auto rounded-3xl bg-slate-900 dark:bg-nightCard text-white p-8 sm:p-16 border border-slate-800 text-center relative overflow-hidden shadow-2xl">
-      <div class="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-terracotta/20 blur-3xl"></div>
-      
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 border border-slate-700 text-xs font-mono text-terracotta-light mb-6">
-        <i data-lucide="lock" class="w-3.5 h-3.5 text-terracotta"></i>
-        <span>100% Confidential Delivery in 72–96h</span>
-      </div>
-
-      <h2 class="text-3xl sm:text-6xl font-black text-white mb-4 sm:mb-6 tracking-tight">
-        Turn Their Churn Into Your Advantage.
-      </h2>
-      <p class="text-slate-400 text-sm sm:text-lg max-w-2xl mx-auto mb-8 sm:mb-10 font-normal">
-        Stop guessing what their customers want. Receive an evidence-backed competitive teardown in 72–96 hours.
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-        <button onclick="openOrderModal('Dual Competitor Teardown', '$299', '12 In-Depth Reviews', 2)" class="w-full sm:w-auto px-8 py-3.5 sm:py-4 rounded-xl btn-terracotta text-white text-xs font-bold uppercase tracking-wider font-mono active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-          <span>Get Your Teardown — From $149</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
-        <a href="mailto:johar@novatrace.tech" class="w-full sm:w-auto px-8 py-3.5 sm:py-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold uppercase tracking-wider font-mono border border-slate-700 transition-colors flex items-center justify-center gap-2">
-          <i data-lucide="mail" class="w-4 h-4 text-terracotta"></i>
-          <span>Direct: johar@novatrace.tech</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================================= -->
-  <!-- 12. FOOTER                                                        -->
-  <!-- ================================================================= -->
-  <footer class="py-12 sm:py-14 border-t border-slate-200 dark:border-white/10 bg-white dark:bg-night text-xs text-slate-500 dark:text-slate-400 px-4">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
-      
-      <div class="flex items-center gap-3">
-        <span class="w-8 h-8 rounded-full bg-white dark:bg-white/[0.07] border border-slate-200 dark:border-white/10 flex items-center justify-center">
-          <svg width="18" height="18" viewBox="0 0 64 64" aria-hidden="true">
-            <path d="M6 58 L20 42 L28 48 L43 27" fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="logo-trace"/>
-            <path d="M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z" fill="#FF5B2E"/>
-          </svg>
-        </span>
-        <div class="flex flex-col">
-          <span class="font-bold text-slate-900 dark:text-white text-sm">NovaTrace</span>
-          <span class="font-mono text-[10px] text-slate-400">novatrace.tech</span>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-slate-600 dark:text-slate-400 font-mono text-xs uppercase">
-        <a href="#about" class="hover:text-terracotta transition-colors">Manifesto</a>
-        <a href="#services" class="hover:text-terracotta transition-colors">Modules</a>
-        <a href="#dossier" class="hover:text-terracotta transition-colors">Dossier</a>
-        <a href="#process" class="hover:text-terracotta transition-colors">Method</a>
-        <a href="#pricing" class="hover:text-terracotta transition-colors">Pricing</a>
-        <a href="#faq" class="hover:text-terracotta transition-colors">FAQ</a>
-      </div>
-
-      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-[11px] font-mono text-slate-400">
-        <span>Lead Researcher: <a href="mailto:johar@novatrace.tech" class="text-terracotta hover:underline font-bold">johar@novatrace.tech</a></span>
-        <span class="text-slate-300 dark:text-slate-700 hidden sm:inline">•</span>
-        <span>&copy; <span id="currentYear"></span> NovaTrace.</span>
-      </div>
-
-    </div>
-  </footer>
-
-  <!-- ================================================================= -->
-  <!-- DYNAMIC ORDER INTAKE MODAL (1, 2, OR 3 RIVALS SIDE-BY-SIDE)       -->
-  <!-- ================================================================= -->
-  <div id="orderModal" class="fixed inset-0 z-50 hidden bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
-    <div class="glass-card bg-white dark:bg-nightCard rounded-3xl max-w-3xl w-full p-5 sm:p-8 shadow-2xl relative border border-slate-200 dark:border-white/10 animate-in fade-in duration-150 max-h-[92vh] overflow-y-auto">
-      
-      <!-- Close Button -->
-      <button onclick="closeOrderModal()" class="absolute top-4 right-4 sm:top-5 sm:right-5 text-slate-400 hover:text-slate-700 dark:hover:text-white p-1 rounded-lg">
-        <i data-lucide="x" class="w-5 h-5"></i>
+</nav>
+
+<main id="top">
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="eyebrow" data-reveal><span class="dot"></span>Manual review forensics · No scrapers</div>
+    <h1>
+      <span class="line"><span>We trace why</span></span>
+      <span class="line"><span>your rivals <span class="grad">lose customers.</span></span></span>
+    </h1>
+    <p class="sub" data-reveal>Our researchers <b>manually read thousands of reviews</b> across Reddit, G2 and Capterra — then hand you the exact complaints, feature requests and <b>word-for-word quotes</b> you need to win those users over.</p>
+    <div class="hero-ctas" data-reveal>
+      <button class="btn btn-accent magnetic" onclick="openOrderModal('Single Competitor Audit','$149','5 In-Depth Reviews',1)">Start a trace — $149
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
       </button>
-
-      <!-- Modal Header -->
-      <div class="mb-5 sm:mb-6">
-        <div class="flex flex-wrap items-center gap-2 mb-1">
-          <span id="modalPlanBadge" class="text-xs font-mono font-bold text-terracotta uppercase tracking-wider">Single Competitor Audit</span>
-          <span class="text-slate-300 dark:text-slate-600">•</span>
-          <span id="modalReviewCountBadge" class="text-xs font-mono font-bold text-slate-600 dark:text-slate-400">5 In-Depth Reviews</span>
-          <span class="text-slate-300 dark:text-slate-600">•</span>
-          <span id="modalRivalCapacityBadge" class="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">1 Rival Slot</span>
-        </div>
-        <h3 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Configure Your Teardown Scope</h3>
-        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Manual research kickoff. Delivery guaranteed in 72–96 hours.</p>
-      </div>
-
-      <!-- Extended Structured Form -->
-      <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4 text-left">
-        
-        <!-- SECTION 1: YOUR PRODUCT DETAILS (RESPONSIVE SIDE-BY-SIDE) -->
-        <div class="bg-slate-50/80 dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-slate-200/80 dark:border-white/5 space-y-3">
-          <div class="flex items-center gap-2 mb-1">
-            <i data-lucide="building-2" class="w-4 h-4 text-terracotta"></i>
-            <span class="text-xs font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider">1. Your Product Details</span>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase font-mono tracking-wider mb-1">Your Company Name</label>
-              <input 
-                type="text" 
-                id="modalMyCompany" 
-                required 
-                placeholder="e.g. Pulseflow" 
-                class="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-              />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase font-mono tracking-wider mb-1">Your Website</label>
-              <input 
-                type="text" 
-                id="modalMyWebsite" 
-                required 
-                placeholder="e.g. pulseflow.io" 
-                class="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase font-mono tracking-wider mb-1">Your SaaS Category / Niche</label>
-            <select 
-              id="modalCategory" 
-              required 
-              class="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-terracotta">
-              <option value="" disabled selected>Select SaaS Category...</option>
-              <option value="Project Management & Productivity">Project Management & Productivity</option>
-              <option value="Product Analytics & Event Tracking">Product Analytics & Event Tracking</option>
-              <option value="CRM & Sales Pipelines">CRM & Sales Pipelines</option>
-              <option value="Developer Tools & Infrastructure">Developer Tools & Infrastructure</option>
-              <option value="Customer Support & Helpdesk">Customer Support & Helpdesk</option>
-              <option value="Marketing Automation & Campaigns">Marketing Automation & Campaigns</option>
-              <option value="FinTech & Billing Infrastructure">FinTech & Billing Infrastructure</option>
-              <option value="Other Vertical B2B SaaS">Other Vertical B2B SaaS</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- SECTION 2: DYNAMIC RIVAL TARGETS CONTAINER -->
-        <div class="bg-slate-50/80 dark:bg-white/[0.03] p-4 sm:p-5 rounded-2xl border border-slate-200/80 dark:border-white/5 space-y-3">
-          <div class="flex items-center justify-between mb-1">
-            <div class="flex items-center gap-2">
-              <i data-lucide="swords" class="w-4 h-4 text-terracotta"></i>
-              <span class="text-xs font-mono font-bold text-slate-900 dark:text-white uppercase tracking-wider">2. Rival Targets to Audit</span>
-            </div>
-            <span id="modalRivalHint" class="text-[11px] font-mono text-slate-500 dark:text-slate-400">1 Rival Included</span>
-          </div>
-
-          <!-- Dynamic Rival Grid: Automatically expands to 1, 2, or 3 side-by-side cards -->
-          <div id="rivalsGrid" class="grid grid-cols-1 gap-3.5 transition-all">
-            
-            <!-- Rival #1 Box (Always Visible) -->
-            <div id="rivalBox1" class="p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold text-terracotta uppercase">Competitor #1</span>
-                <span class="text-[10px] font-mono text-slate-400">Primary Target</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Company Name</label>
-                  <input 
-                    type="text" 
-                    id="modalRival1Name" 
-                    required 
-                    placeholder="e.g. Linear" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Website</label>
-                  <input 
-                    type="text" 
-                    id="modalRival1Website" 
-                    placeholder="e.g. linear.app" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- Rival #2 Box (Active for $299 and $399) -->
-            <div id="rivalBox2" class="hidden p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold text-terracotta uppercase">Competitor #2</span>
-                <span class="text-[10px] font-mono text-slate-400">Dual Analysis</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Company Name</label>
-                  <input 
-                    type="text" 
-                    id="modalRival2Name" 
-                    placeholder="e.g. ClickUp" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Website</label>
-                  <input 
-                    type="text" 
-                    id="modalRival2Website" 
-                    placeholder="e.g. clickup.com" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <!-- Rival #3 Box (Active for $399) -->
-            <div id="rivalBox3" class="hidden p-3.5 rounded-xl bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-white/10 space-y-2">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-mono font-bold text-terracotta uppercase">Competitor #3</span>
-                <span class="text-[10px] font-mono text-slate-400">Surveillance Target</span>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Company Name</label>
-                  <input 
-                    type="text" 
-                    id="modalRival3Name" 
-                    placeholder="e.g. Jira / Atlassian" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-                <div>
-                  <label class="block text-[10px] font-semibold text-slate-600 dark:text-slate-400 uppercase font-mono mb-1">Website</label>
-                  <input 
-                    type="text" 
-                    id="modalRival3Website" 
-                    placeholder="e.g. atlassian.com" 
-                    class="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-night border border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-                  />
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- SECTION 3: CONTACT & CUSTOM NOTES (SIDE-BY-SIDE ON DESKTOP) -->
-        <div class="space-y-3">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase font-mono tracking-wider mb-1">Your Work Email</label>
-              <input 
-                type="email" 
-                id="modalEmailInput" 
-                required 
-                placeholder="you@yourcompany.com" 
-                class="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-              />
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-700 dark:text-slate-300 uppercase font-mono tracking-wider mb-1">Specific Dealbreakers / Pains (Optional)</label>
-              <input 
-                type="text" 
-                id="modalNotesInput" 
-                placeholder="e.g. Look into price hikes, sync limits, support wait times..." 
-                class="w-full px-3.5 py-2.5 text-xs bg-white dark:bg-slate-900 border border-slate-300 dark:border-white/10 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-terracotta"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- INVESTMENT & TIMELINE SUMMARY -->
-        <div class="p-3.5 rounded-xl bg-terracotta-subtle dark:bg-terracotta/10 border border-terracotta/20 flex items-center justify-between text-xs font-mono">
-          <div>
-            <span class="text-slate-700 dark:text-slate-300 font-semibold block">Timeline: 72–96 Hours</span>
-            <span id="modalReviewSummary" class="text-[11px] text-slate-500 dark:text-slate-400">Scope: 5 in-depth teardown reviews</span>
-          </div>
-          <span id="modalPriceTag" class="font-bold text-terracotta text-sm sm:text-base">$149 One-time</span>
-        </div>
-
-        <!-- SUBMIT BUTTON -->
-        <button 
-          type="submit" 
-          class="w-full py-3.5 sm:py-4 rounded-xl btn-terracotta text-white text-xs font-bold uppercase tracking-wider font-mono shadow-md active:scale-[0.98] transition-all flex items-center justify-center gap-2">
-          <span>Submit Request to Johar</span>
-          <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </button>
-      </form>
-
-      <p class="text-[11px] text-center text-slate-400 mt-4 font-mono">
-        Direct analyst contact: <span class="text-terracotta font-semibold">johar@novatrace.tech</span>
-      </p>
+      <a href="#demo" class="btn btn-ghost magnetic">Watch a trace build</a>
+    </div>
+    <div class="hero-stats" data-reveal>
+      <div class="hstat"><div class="n"><span class="count" data-to="12000">0</span><em>+</em></div><div class="l">Reviews traced</div></div>
+      <div class="hstat"><div class="n"><span class="count" data-to="100">0</span><em>%</em></div><div class="l">Quotes verified</div></div>
+      <div class="hstat"><div class="n"><em>72–96</em>h</div><div class="l">Turnaround</div></div>
     </div>
   </div>
+  <div class="scroll-cue"><div class="wheel"></div>scroll</div>
+</header>
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden glass-card bg-slate-900 text-white px-5 py-4 rounded-2xl shadow-2xl text-xs font-medium border border-slate-800 flex items-center gap-3">
-    <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-    <span id="toastMsg">Request received.</span>
+<!-- Marquee -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Sources we trace <i>✦</i> G2 <i>✦</i> Capterra <i>✦</i> TrustRadius <i>✦</i> Reddit <i>✦</i> Hacker News <i>✦</i> Trustpilot <i>✦</i> X <i>✦</i> Product Hunt <i>✦</i>&nbsp;</span>
+    <span>Sources we trace <i>✦</i> G2 <i>✦</i> Capterra <i>✦</i> TrustRadius <i>✦</i> Reddit <i>✦</i> Hacker News <i>✦</i> Trustpilot <i>✦</i> X <i>✦</i> Product Hunt <i>✦</i>&nbsp;</span>
   </div>
+</div>
 
-  <!-- ================================================================= -->
-  <!-- JAVASCRIPT LOGIC                                                  -->
-  <!-- ================================================================= -->
-  <script>
-    let currentRivalCount = 1;
+<!-- Demo -->
+<section id="demo">
+  <div class="wrap">
+    <div class="sec-head center" data-reveal>
+      <div class="kicker">01 // Live demo</div>
+      <h2>Watch a trace build itself.</h2>
+      <p class="sec-sub">Pick a rival. This is a miniature of what lands in your inbox — real complaint patterns, real quote archetypes, zero guesswork.</p>
+    </div>
+    <div class="demo-shell" data-reveal>
+      <div class="demo-bar">
+        <span class="d" style="background:#FF5F57"></span><span class="d" style="background:#FEBC2E"></span><span class="d" style="background:#28C840"></span>
+        <span class="t">novatrace — teardown engine</span>
+      </div>
+      <div class="demo-body">
+        <div class="rival-list" id="rivalList"></div>
+        <div class="trace-view">
+          <div class="scanline" id="scanline"></div>
+          <div class="tabs" id="demoTabs">
+            <button class="tab active" data-tab="weak">Weak spots</button>
+            <button class="tab" data-tab="loved">What users love</button>
+            <button class="tab" data-tab="quotes">Verbatim</button>
+          </div>
+          <div id="demoContent"></div>
+          <div class="trace-meta">
+            <div><div class="mv" id="dmReviews">—</div><div class="ml">Reviews read</div></div>
+            <div><div class="mv" id="dmQuotes">—</div><div class="ml">Quotes verified</div></div>
+            <div><div class="mv" id="dmSources">—</div><div class="ml">Sources</div></div>
+            <div><div class="mv" style="color:var(--accent)" id="dmScore">—</div><div class="ml">Steal-score</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
-      document.getElementById('currentYear').textContent = new Date().getFullYear();
+<!-- Process -->
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="kicker">02 // Process</div>
+      <h2>Three steps. Zero scrapers.</h2>
+      <p class="sec-sub">Every trace is built by a human researcher who reads like your angriest lost customer — then thinks like your best salesperson.</p>
+    </div>
+    <div class="steps">
+      <div class="step tilt" data-reveal>
+        <div class="tag">Harvest</div><div class="num">01</div>
+        <h3>We read everything</h3>
+        <p>A researcher manually combs G2, Capterra, TrustRadius, Reddit threads and Hacker News for your rival — filtering marketing noise, verifying genuine usage, cataloging every public URL.</p>
+      </div>
+      <div class="step tilt" data-reveal>
+        <div class="tag">Trace</div><div class="num">02</div>
+        <h3>We map the patterns</h3>
+        <p>Complaints get clustered into friction categories — pricing shocks, onboarding pain, missing features, support horror stories. You see exactly where the rival bleeds, ranked by frequency.</p>
+      </div>
+      <div class="step tilt" data-reveal>
+        <div class="tag">Arm</div><div class="num">03</div>
+        <h3>You get the battlecards</h3>
+        <p>A private Notion workspace, a 4-page executive PDF, and an indexed spreadsheet of verified quotes with source links — ready for sales calls, landing pages and ads in 72–96 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Sample teardowns -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="kicker">03 // Sample output</div>
+      <h2>What a finished trace looks like.</h2>
+      <p class="sec-sub">Anonymized slices from real teardown archetypes. Yours goes deeper — with your rival's name on it.</p>
+    </div>
+    <div class="tstrip">
+      <div class="tcard tilt" data-reveal>
+        <div class="tk">Scheduling SaaS · 214 reviews</div>
+        <h3>"The free plan got us in. The paywall got us out."</h3>
+        <svg class="spark" width="100%" height="44" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0 34 C30 32 45 20 70 24 C95 28 110 10 140 14 C165 17 180 6 200 8" fill="none" stroke="#FF5B2E" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div class="tstat">38%<small>of complaints mention pricing-tier shock</small></div>
+        <div class="tq">"We loved it until we hit 3 seats. Then the price tripled overnight." — G2 review</div>
+      </div>
+      <div class="tcard tilt" data-reveal>
+        <div class="tk">Async video SaaS · 186 reviews</div>
+        <h3>"Great recorder. Terrible everything after recording."</h3>
+        <svg class="spark" width="100%" height="44" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0 10 C35 14 55 30 85 26 C115 22 130 36 160 30 C180 26 190 32 200 30" fill="none" stroke="#FF5B2E" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div class="tstat">1.9★<small>avg rating for the sharing &amp; permissions flow</small></div>
+        <div class="tq">"Sharing a video with a client shouldn't require a tutorial." — Capterra review</div>
+      </div>
+      <div class="tcard tilt" data-reveal>
+        <div class="tk">Docs SaaS · 342 reviews</div>
+        <h3>"Powerful — if you have a week to learn it."</h3>
+        <svg class="spark" width="100%" height="44" viewBox="0 0 200 44" preserveAspectRatio="none"><path d="M0 30 C40 28 60 8 100 12 C140 16 155 34 200 26" fill="none" stroke="#FF5B2E" stroke-width="2.5" stroke-linecap="round"/></svg>
+        <div class="tstat">52%<small>of churned users cite onboarding complexity</small></div>
+        <div class="tq">"I just wanted notes. I got a second job." — Reddit, r/productivity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="sec-head center" data-reveal>
+      <div class="kicker">04 // Pricing</div>
+      <h2>One teardown can pay for itself with a single won deal.</h2>
+      <p class="sec-sub">Fixed price. Human-built. Delivered in 72–96 hours.</p>
+    </div>
+    <div class="ptiers">
+      <div class="ptier" data-reveal>
+        <h3>Single Audit</h3><p class="pdesc">One rival, fully torn down.</p>
+        <div class="price">$149<span> one-time</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>1 rival teardown</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>5 in-depth reviews synthesized</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Battlecard PDF + quote sheet</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>72–96h delivery</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openOrderModal('Single Competitor Audit','$149','5 In-Depth Reviews',1)">Choose Single</button>
+      </div>
+      <div class="ptier pop" data-reveal>
+        <div class="pop-badge">Most popular</div>
+        <h3>Dual Teardown</h3><p class="pdesc">Two rivals, head-to-head.</p>
+        <div class="price">$299<span> one-time</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>2 rival teardowns, compared</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>12 in-depth reviews synthesized</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Side-by-side battle matrix</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Notion workspace + PDF + sheet</li>
+        </ul>
+        <button class="btn btn-accent" onclick="openOrderModal('Dual Competitor Teardown','$299','12 In-Depth Reviews',2)">Choose Dual</button>
+      </div>
+      <div class="ptier" data-reveal>
+        <h3>Monthly Retainer</h3><p class="pdesc">Your rivals, watched forever.</p>
+        <div class="price">$399<span> /month</span></div>
+        <ul>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Up to 3 rivals monitored</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>16 deep reviews / month</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Monthly fresh battlecards</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF5B2E" stroke-width="3" stroke-linecap="round"><path d="M4 12l5 5L20 6"/></svg>Direct analyst line</li>
+        </ul>
+        <button class="btn btn-ghost" onclick="openOrderModal('Monthly Retainer','$399','16 Deep Reviews / month',3)">Choose Retainer</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head center" data-reveal>
+      <div class="kicker">05 // FAQ</div>
+      <h2>Fair questions.</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq" data-reveal>
+        <button class="faq-q">Where do your researchers extract customer reviews from?<span class="fi">+</span></button>
+        <div class="faq-a"><p>We scour verified aggregator directories (G2, Capterra, TrustRadius, Gartner Peer Insights) as well as unfiltered public communities (Reddit subreddits like r/SaaS and r/sysadmin, Hacker News threads, and public customer discussion boards). Every single review cited is cataloged with its public URL for complete transparency.</p></div>
+      </div>
+      <div class="faq" data-reveal>
+        <button class="faq-q">How do the 1, 2, and 3 rival breakdowns work?<span class="fi">+</span></button>
+        <div class="faq-a"><p>For the $149 Single Audit, you enter 1 rival product and get 5 synthesized reviews. For the $299 Dual Audit, you provide 2 rivals side-by-side and get 12 reviews analyzed head-to-head. For the $399 Retainer, you provide up to 3 rivals and get 16 deep reviews monitored continuously.</p></div>
+      </div>
+      <div class="faq" data-reveal>
+        <button class="faq-q">Why is the delivery window 72 to 96 hours?<span class="fi">+</span></button>
+        <div class="faq-a"><p>Because a human researcher personally reads, cross-verifies, and summarizes every review. We verify genuine usage, filter out marketing noise, and write counter-headlines for your team rather than dumping raw unformatted text.</p></div>
+      </div>
+      <div class="faq" data-reveal>
+        <button class="faq-q">What exact deliverables will our team receive?<span class="fi">+</span></button>
+        <div class="faq-a"><p>You receive a private Notion workspace duplicate link, an executive 4-page PDF designed for sharing with founders, executives, or investors, and an indexed spreadsheet of all verified quotes, source links, and tagged friction categories.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section>
+  <div class="wrap">
+    <div class="final" data-reveal>
+      <div class="kicker" style="justify-content:center">06 // Your move</div>
+      <h2>Stop guessing.<br>Start tracing.</h2>
+      <p>Your rivals' angriest customers are already telling the internet exactly how to beat them. We just listen — and hand you the playbook.</p>
+      <button class="btn btn-accent magnetic" onclick="openOrderModal('Single Competitor Audit','$149','5 In-Depth Reviews',1)">Start your first trace</button>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-in">
+    <div class="fbrand">
+      <a class="brand" href="#top">
+        <svg viewBox="0 0 64 64" fill="none" width="30" height="30"><rect width="64" height="64" rx="14" fill="#0F1B2D"/><path d="M6 58 L20 42 L28 48 L43 27" stroke="#F7F5F0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M50 2 L53 13 L64 16 L53 19 L50 30 L47 19 L36 16 L47 13 Z" fill="#FF5B2E"/></svg>
+        NovaTrace
+      </a>
+      <p>Manual competitor-review forensics for SaaS teams. Built by Johar in Chennai, shipped worldwide.</p>
+    </div>
+    <div class="foot-links">
+      <div><h4>Product</h4><a href="#demo">Live demo</a><a href="#process">Process</a><a href="#pricing">Pricing</a></div>
+      <div><h4>Company</h4><a href="#faq">FAQ</a><a href="mailto:johar@novatrace.tech">Contact</a></div>
+    </div>
+  </div>
+  <div class="copy"><span>© <span id="currentYear"></span> NovaTrace. All traces reserved.</span><span>johar@novatrace.tech</span></div>
+</footer>
+
+<!-- Order modal -->
+<div id="orderModal" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <button class="modal-x" onclick="closeOrderModal()" aria-label="Close">✕</button>
+    <div class="kicker">Start a trace</div>
+    <h2 style="font-size:28px;margin-bottom:20px">Request your teardown</h2>
+    <div class="plan-line"><span class="pn" id="modalPlanName">Single Competitor Audit</span><span class="pp" id="modalPlanPrice">$149</span></div>
+    <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+      <div class="fld-row">
+        <div class="fld"><label>Your company</label><input id="modalMyCompany" required placeholder="Acme Inc."></div>
+        <div class="fld"><label>Website</label><input id="modalMyWebsite" placeholder="acme.com"></div>
+      </div>
+      <div class="fld"><label>SaaS category</label>
+        <select id="modalCategory">
+          <option>Productivity</option><option>Marketing</option><option>Sales / CRM</option><option>Developer tools</option><option>Finance</option><option>HR</option><option>Other</option>
+        </select>
+      </div>
+      <div class="rival-box" id="rivalBox1"><div class="rb-t">Rival 1</div>
+        <div class="fld-row">
+          <div class="fld" style="margin:0"><input id="modalRival1Name" required placeholder="Rival name"></div>
+          <div class="fld" style="margin:0"><input id="modalRival1Website" placeholder="rival.com"></div>
+        </div>
+      </div>
+      <div class="rival-box" id="rivalBox2" style="display:none"><div class="rb-t">Rival 2</div>
+        <div class="fld-row">
+          <div class="fld" style="margin:0"><input id="modalRival2Name" placeholder="Rival name"></div>
+          <div class="fld" style="margin:0"><input id="modalRival2Website" placeholder="rival.com"></div>
+        </div>
+      </div>
+      <div class="rival-box" id="rivalBox3" style="display:none"><div class="rb-t">Rival 3</div>
+        <div class="fld-row">
+          <div class="fld" style="margin:0"><input id="modalRival3Name" placeholder="Rival name"></div>
+          <div class="fld" style="margin:0"><input id="modalRival3Website" placeholder="rival.com"></div>
+        </div>
+      </div>
+      <div class="fld"><label>Work email</label><input id="modalEmailInput" type="email" required placeholder="you@company.com"></div>
+      <div class="fld"><label>Notes <span style="text-transform:none;letter-spacing:0">(optional)</span></label><textarea id="modalNotesInput" placeholder="Anything we should focus on?"></textarea></div>
+      <button type="submit" class="btn btn-accent" style="width:100%;justify-content:center"><span>Send teardown request</span></button>
+      <p style="margin-top:14px;font-size:12px;color:var(--faint);text-align:center">We reply within 24h to confirm your 72–96h audit window.</p>
+    </form>
+  </div>
+</div>
+
+<div id="toast"></div>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('bg3d');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+try {
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x05080e, 0.0105);
+  const camera = new THREE.PerspectiveCamera(62, window.innerWidth / window.innerHeight, 0.1, 500);
+
+  // The Trace — a glowing path weaving through the page
+  const curve = new THREE.CatmullRomCurve3([
+    new THREE.Vector3(7, 2.5, 34), new THREE.Vector3(-9, -3.5, 12),
+    new THREE.Vector3(8, 4.5, -12), new THREE.Vector3(-7, -4.5, -36),
+    new THREE.Vector3(9, 3.5, -60), new THREE.Vector3(-8, -2.5, -84),
+    new THREE.Vector3(6, 4, -108), new THREE.Vector3(-5, 0, -132)
+  ]);
+  const tube = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 500, 0.055, 8, false),
+    new THREE.MeshBasicMaterial({ color: 0xFF5B2E, transparent: true, opacity: 0.9, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  scene.add(tube);
+  const halo = new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 220, 0.55, 8, false),
+    new THREE.MeshBasicMaterial({ color: 0xFF5B2E, transparent: true, opacity: 0.05, blending: THREE.AdditiveBlending, depthWrite: false })
+  );
+  scene.add(halo);
+
+  // Traveling pulses along the trace
+  const glowTex = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 128;
+    const g = c.getContext('2d');
+    const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+    grad.addColorStop(0, 'rgba(255,220,170,1)'); grad.addColorStop(0.35, 'rgba(255,91,46,.55)'); grad.addColorStop(1, 'rgba(255,91,46,0)');
+    g.fillStyle = grad; g.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  })();
+  const pulses = [];
+  for (let i = 0; i < 4; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+    s.scale.set(2.4, 2.4, 1); scene.add(s); pulses.push(s);
+  }
+
+  // Particle field
+  const pCount = 1300, pos = new Float32Array(pCount * 3);
+  for (let i = 0; i < pCount; i++) {
+    pos[i * 3] = (Math.random() - 0.5) * 90;
+    pos[i * 3 + 1] = (Math.random() - 0.5) * 55;
+    pos[i * 3 + 2] = 40 - Math.random() * 190;
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  const points = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x8B95A9, size: 0.3, transparent: true, opacity: 0.55, sizeAttenuation: true, depthWrite: false }));
+  scene.add(points);
+
+  // Insight nodes with floating labels
+  const words = ['pricing', 'churn', 'support', 'onboarding', 'contracts', 'bugs', 'billing', 'ux debt', 'api limits', 'slow'];
+  const nodes = [];
+  function textSprite(text) {
+    const c = document.createElement('canvas'); c.width = 320; c.height = 80;
+    const g = c.getContext('2d');
+    g.font = '500 30px "JetBrains Mono", monospace';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillStyle = 'rgba(244,241,234,.85)';
+    g.fillText(text, 160, 42);
+    const tex = new THREE.CanvasTexture(c);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.75, depthWrite: false }));
+    sp.scale.set(5.2, 1.3, 1);
+    return sp;
+  }
+  words.forEach((w, i) => {
+    const t = 0.07 + (i / words.length) * 0.86;
+    const p = curve.getPointAt(t);
+    const n = new THREE.Mesh(
+      new THREE.OctahedronGeometry(0.34),
+      new THREE.MeshBasicMaterial({ color: 0xF4F1EA, wireframe: true, transparent: true, opacity: 0.45 })
+    );
+    n.position.copy(p); scene.add(n); nodes.push(n);
+    const label = textSprite(w);
+    label.position.set(p.x + 2.6, p.y + 1.4, p.z);
+    scene.add(label);
+  });
+
+  // Camera drive: scroll moves along the trace, mouse adds parallax
+  let mx = 0, my = 0, tmx = 0, tmy = 0;
+  window.addEventListener('mousemove', e => {
+    tmx = (e.clientX / window.innerWidth - 0.5) * 2;
+    tmy = (e.clientY / window.innerHeight - 0.5) * 2;
+  }, { passive: true });
+  const lookTarget = new THREE.Vector3();
+  const camPos = new THREE.Vector3();
+  const tmpV = new THREE.Vector3();
+
+  function scrollT() {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    return max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+  }
+
+  const clock = new THREE.Clock();
+  function frame() {
+    requestAnimationFrame(frame);
+    if (document.hidden) return;
+    const el = clock.getElapsedTime();
+    mx += (tmx - mx) * 0.04; my += (tmy - my) * 0.04;
+
+    const st = scrollT();
+    const t = 0.03 + st * 0.9;
+    curve.getPointAt(t, tmpV);
+    camPos.set(tmpV.x + mx * 3.2, tmpV.y - my * 2.2, tmpV.z + 7);
+    camera.position.lerp(camPos, 0.055);
+    curve.getPointAt(Math.min(1, t + 0.05), tmpV);
+    lookTarget.lerp(tmpV, 0.07);
+    camera.lookAt(lookTarget);
+
+    pulses.forEach((p, i) => {
+      const pt = (el * 0.022 + i * 0.27) % 1;
+      p.position.copy(curve.getPointAt(pt));
+      const s = 2.1 + Math.sin(el * 3 + i * 2) * 0.35;
+      p.scale.set(s, s, 1);
     });
+    nodes.forEach((n, i) => { n.rotation.y += 0.004; n.rotation.x += 0.0025; });
+    points.rotation.y = el * 0.006;
 
-    // Theme Switcher Mode Bar Logic
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    function applyTheme(isDark) {
-      if (isDark) {
-        document.documentElement.classList.add('dark');
-        localStorage.theme = 'dark';
-      } else {
-        document.documentElement.classList.remove('dark');
-        localStorage.theme = 'light';
+    renderer.render(scene, camera);
+  }
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  if (reduceMotion) {
+    const t = 0.06;
+    curve.getPointAt(t, tmpV);
+    camera.position.set(tmpV.x, tmpV.y, tmpV.z + 7);
+    curve.getPointAt(t + 0.05, tmpV);
+    camera.lookAt(tmpV);
+    renderer.render(scene, camera);
+  } else {
+    frame();
+  }
+} catch (err) {
+  document.body.classList.add('no-webgl');
+  canvas.style.display = 'none';
+}
+</script>
+
+<script>
+/* ============ helpers ============ */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+function showToast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 4200);
+}
+$('#currentYear').textContent = new Date().getFullYear();
+$$('section[id]').forEach(s => s.style.scrollMarginTop = '84px');
+
+/* ============ preloader ============ */
+window.addEventListener('load', () => setTimeout(() => $('#loader').classList.add('done'), 1750));
+setTimeout(() => $('#loader').classList.add('done'), 4500); // failsafe
+
+/* ============ GSAP reveals ============ */
+if (window.gsap && window.ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+  $$('[data-reveal]').forEach(el => {
+    gsap.to(el, {
+      opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 88%', once: true }
+    });
+  });
+  // hero headline lines
+  gsap.fromTo('h1 .line > span', { yPercent: 115 }, { yPercent: 0, duration: 1.1, ease: 'power4.out', stagger: 0.14, delay: 1.9 });
+  // counters
+  $$('.count').forEach(el => {
+    const to = parseInt(el.dataset.to, 10);
+    ScrollTrigger.create({
+      trigger: el, start: 'top 92%', once: true,
+      onEnter: () => {
+        const o = { v: 0 };
+        gsap.to(o, { v: to, duration: 1.8, ease: 'power2.out', onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString(); } });
       }
-      lucide.createIcons();
-    }
-
-    themeToggleBtn.addEventListener('click', () => {
-      const isCurrentlyDark = document.documentElement.classList.contains('dark');
-      applyTheme(!isCurrentlyDark);
     });
+  });
+} else {
+  document.body.classList.add('no-anim');
+  $$('.count').forEach(el => el.textContent = parseInt(el.dataset.to, 10).toLocaleString());
+}
 
-    // Mobile Navigation Drawer Toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    mobileMenuBtn.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
+/* ============ demo widget ============ */
+const DEMO = {
+  calendly: {
+    name: 'Calendly', cat: 'Scheduling SaaS',
+    reviews: 214, quotes: 38, sources: 6, score: '8.7',
+    weak: [['Pricing-tier shock', 78], ['Key features paywalled', 64], ['Clunky team scheduling', 52], ['Slow support', 41]],
+    loved: [['Dead-simple booking links', 91], ['Calendar sync just works', 84], ['Embeds everywhere', 66]],
+    quotes: [
+      ['"We loved it until we hit 3 seats. Then the price tripled overnight."', 'G2 review'],
+      ['"Setting up round-robin for our sales team took two weeks and a support ticket."', 'Capterra review'],
+      ['"It is great until you need anything beyond 1:1 meetings."', 'Reddit · r/sales']
+    ]
+  },
+  loom: {
+    name: 'Loom', cat: 'Async video SaaS',
+    reviews: 186, quotes: 31, sources: 5, score: '7.9',
+    weak: [['Viewer experience feels dated', 71], ['Per-creator pricing adds up', 63], ['Search is near-useless', 48], ['Rigid workspace structure', 39]],
+    loved: [['Recording is instant', 93], ['Async kills meetings', 88], ['Transcripts are solid', 72]],
+    quotes: [
+      ['"Recording: 10/10. Finding that recording a week later: 2/10."', 'G2 review'],
+      ['"We pay for 40 creators and maybe 12 record regularly."', 'Capterra review'],
+      ['"The share page feels like it was designed in 2019."', 'X post']
+    ]
+  },
+  notion: {
+    name: 'Notion', cat: 'Docs SaaS',
+    reviews: 342, quotes: 57, sources: 7, score: '9.1',
+    weak: [['Steep learning curve', 82], ['Slow with large databases', 67], ['Offline is unreliable', 55], ['Per-seat pricing stings', 44]],
+    loved: [['Infinitely flexible', 95], ['Template ecosystem', 81], ['Great team wikis', 77]],
+    quotes: [
+      ['"I just wanted notes. I got a second job."', 'Reddit · r/productivity'],
+      ['"Our 10k-row database takes 8 seconds to load. Every time."', 'X post'],
+      ['"Powerful, beautiful — and my team still uses Google Docs."', 'G2 review']
+    ]
+  }
+};
+let demoRival = 'calendly', demoTab = 'weak';
+
+function buildRivalList() {
+  const host = $('#rivalList'); host.innerHTML = '';
+  Object.keys(DEMO).forEach(k => {
+    const d = DEMO[k];
+    const b = document.createElement('button');
+    b.className = 'rival-btn' + (k === demoRival ? ' active' : '');
+    b.innerHTML = '<span class="rn">' + d.name + '</span><span class="rc">' + d.cat + '</span>';
+    b.onclick = () => { if (demoRival !== k) { demoRival = k; buildRivalList(); runTrace(); } };
+    host.appendChild(b);
+  });
+}
+function runTrace() {
+  const scan = $('#scanline');
+  scan.classList.remove('run'); void scan.offsetWidth; scan.classList.add('run');
+  const d = DEMO[demoRival];
+  // animate meta numbers
+  const metas = [['#dmReviews', d.reviews], ['#dmQuotes', d.quotes], ['#dmSources', d.sources]];
+  metas.forEach(([sel, to]) => {
+    const el = $(sel), o = { v: 0 }, t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min(1, (t - t0) / 900);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+  $('#dmScore').textContent = d.score;
+  setTimeout(renderDemoTab, 500);
+}
+function renderDemoTab() {
+  const d = DEMO[demoRival], host = $('#demoContent');
+  host.innerHTML = '';
+  if (demoTab === 'quotes') {
+    const q = document.createElement('div'); q.className = 'quotes';
+    d.quotes.forEach(([text, src], i) => {
+      const el = document.createElement('div'); el.className = 'quote';
+      el.innerHTML = '<span class="qt"></span><span class="qs">' + src + '</span>';
+      q.appendChild(el);
+      typeText(el.querySelector('.qt'), text, i * 450);
     });
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    host.appendChild(q);
+  } else {
+    const rows = demoTab === 'weak' ? d.weak : d.loved;
+    const good = demoTab === 'loved';
+    const b = document.createElement('div'); b.className = 'bars';
+    rows.forEach(([label, pct], i) => {
+      const r = document.createElement('div'); r.className = 'bar-row';
+      r.innerHTML = '<div class="bl"><b>' + label + '</b><span class="pct">' + pct + '% mention</span></div>' +
+        '<div class="bar-track"><div class="bar-fill' + (good ? ' good' : '') + '"></div></div>';
+      b.appendChild(r);
+      setTimeout(() => r.querySelector('.bar-fill').style.width = pct + '%', 120 + i * 160);
     });
+    host.appendChild(b);
+  }
+}
+function typeText(el, text, delay) {
+  setTimeout(() => {
+    let i = 0;
+    (function t() {
+      el.textContent = text.slice(0, ++i);
+      if (i < text.length) setTimeout(t, 14);
+    })();
+  }, delay);
+}
+$$('#demoTabs .tab').forEach(t => t.onclick = () => {
+  $$('#demoTabs .tab').forEach(x => x.classList.remove('active'));
+  t.classList.add('active'); demoTab = t.dataset.tab; renderDemoTab();
+});
+buildRivalList(); runTrace();
 
-    // FAQ Accordion
-    document.querySelectorAll('.faq-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const text = btn.nextElementSibling;
-        const icon = btn.querySelector('svg');
-        const isHidden = text.classList.contains('hidden');
-
-        document.querySelectorAll('.faq-text').forEach(t => t.classList.add('hidden'));
-        document.querySelectorAll('.faq-btn svg').forEach(i => i.classList.remove('rotate-180'));
-
-        if (isHidden) {
-          text.classList.remove('hidden');
-          icon.classList.add('rotate-180');
-        }
-      });
+/* ============ 3D tilt cards ============ */
+if (window.matchMedia('(pointer:fine)').matches) {
+  $$('.tilt').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      card.style.transform = 'perspective(900px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg) translateY(-4px)';
     });
-
-    // Hero Form Quick Launch
-    const heroForm = document.getElementById('heroForm');
-    heroForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const val = document.getElementById('competitorInput').value.trim();
-      openOrderModal('Single Competitor Audit', '$149', '5 In-Depth Reviews', 1, val);
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+  /* magnetic buttons */
+  $$('.magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width / 2, y = e.clientY - r.top - r.height / 2;
+      btn.style.transform = 'translate(' + x * 0.14 + 'px,' + y * 0.22 + 'px)';
     });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
 
-    // Dynamic Modal Control & Plan Population (1, 2, or 3 rivals)
-    function openOrderModal(plan, price, reviewsCount, rivalsCount = 1, rivalDefault = '') {
-      currentRivalCount = rivalsCount;
+/* ============ FAQ ============ */
+$$('.faq').forEach(f => {
+  const q = f.querySelector('.faq-q'), a = f.querySelector('.faq-a');
+  q.onclick = () => {
+    const open = f.classList.contains('open');
+    $$('.faq.open').forEach(o => { o.classList.remove('open'); o.querySelector('.faq-a').style.maxHeight = '0'; });
+    if (!open) { f.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+  };
+});
 
-      document.getElementById('modalPlanBadge').innerText = plan;
-      document.getElementById('modalReviewCountBadge').innerText = reviewsCount;
-      document.getElementById('modalReviewSummary').innerText = `Scope: ${reviewsCount} synthesized across ${rivalsCount} rival${rivalsCount > 1 ? 's' : ''}`;
-      document.getElementById('modalPriceTag').innerText = price + (price.includes('/mo') ? '' : ' One-time');
-      
-      const rivalCapacityBadge = document.getElementById('modalRivalCapacityBadge');
-      const rivalHint = document.getElementById('modalRivalHint');
-      const rivalsGrid = document.getElementById('rivalsGrid');
-      const box1 = document.getElementById('rivalBox1');
-      const box2 = document.getElementById('rivalBox2');
-      const box3 = document.getElementById('rivalBox3');
+/* ============ order modal + FormSubmit ============ */
+let currentPlan = 'Single Competitor Audit', currentRivalCount = 1;
+function openOrderModal(plan, price, reviews, rivalCount) {
+  currentPlan = plan; currentRivalCount = rivalCount;
+  $('#modalPlanName').textContent = plan + ' · ' + reviews;
+  $('#modalPlanPrice').textContent = price;
+  $('#rivalBox2').style.display = rivalCount >= 2 ? 'block' : 'none';
+  $('#rivalBox3').style.display = rivalCount >= 3 ? 'block' : 'none';
+  $('#orderModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeOrderModal() {
+  $('#orderModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+$('#orderModal').addEventListener('click', e => { if (e.target.id === 'orderModal') closeOrderModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOrderModal(); });
 
-      const name2Input = document.getElementById('modalRival2Name');
-      const name3Input = document.getElementById('modalRival3Name');
+async function handleOrderSubmit(e) {
+  e.preventDefault();
+  const plan = currentPlan;
+  const myCompany = $('#modalMyCompany').value.trim();
+  const myWebsite = $('#modalMyWebsite').value.trim() || 'N/A';
+  const category = $('#modalCategory').value;
+  const email = $('#modalEmailInput').value.trim();
+  const notes = $('#modalNotesInput').value.trim();
+  if (!myCompany || !email) { showToast('Please add your company and email.'); return; }
 
-      if (rivalDefault) {
-        document.getElementById('modalRival1Name').value = rivalDefault;
-      }
+  let rivalsText = '1. ' + ($('#modalRival1Name').value.trim() || 'N/A') + ' (' + ($('#modalRival1Website').value.trim() || 'N/A') + ')';
+  if (currentRivalCount >= 2 && $('#modalRival2Name').value.trim())
+    rivalsText += '\n2. ' + $('#modalRival2Name').value.trim() + ' (' + ($('#modalRival2Website').value.trim() || 'N/A') + ')';
+  if (currentRivalCount >= 3 && $('#modalRival3Name').value.trim())
+    rivalsText += '\n3. ' + $('#modalRival3Name').value.trim() + ' (' + ($('#modalRival3Website').value.trim() || 'N/A') + ')';
 
-      // Configure layout based on rival count
-      if (rivalsCount === 1) {
-        rivalCapacityBadge.innerText = '1 Rival Slot';
-        rivalHint.innerText = '1 Rival Included';
-        box2.classList.add('hidden');
-        box3.classList.add('hidden');
-        name2Input.required = false;
-        name3Input.required = false;
-        rivalsGrid.className = 'grid grid-cols-1 gap-3.5 transition-all';
-      } else if (rivalsCount === 2) {
-        rivalCapacityBadge.innerText = '2 Rival Slots';
-        rivalHint.innerText = '2 Rivals Analyzed Head-to-Head';
-        box2.classList.remove('hidden');
-        box3.classList.add('hidden');
-        name2Input.required = true;
-        name3Input.required = false;
-        // Side-by-side on desktop for 2 rivals
-        rivalsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-3.5 transition-all';
-      } else if (rivalsCount === 3) {
-        rivalCapacityBadge.innerText = '3 Rival Slots';
-        rivalHint.innerText = 'Up to 3 Rivals Monitored';
-        box2.classList.remove('hidden');
-        box3.classList.remove('hidden');
-        name2Input.required = true;
-        name3Input.required = true;
-        // Responsive 3-slot layout
-        rivalsGrid.className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 transition-all';
-      }
-
-      document.getElementById('orderModal').classList.remove('hidden');
-    }
-
-    function closeOrderModal() {
-      document.getElementById('orderModal').classList.add('hidden');
-    }
-
-    document.getElementById('orderModal').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('orderModal')) closeOrderModal();
+  const btn = e.target.querySelector('button[type="submit"]');
+  const label = btn.querySelector('span');
+  const orig = label.innerText;
+  btn.disabled = true; label.innerText = 'Sending...';
+  try {
+    const res = await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'NovaTrace Teardown Request: ' + myCompany + ' (' + plan + ')',
+        _template: 'table', _captcha: 'false',
+        'Plan': plan,
+        'Rivals Tracked': String(currentRivalCount),
+        'Company': myCompany, 'Website': myWebsite,
+        'SaaS Category': category, 'Rival Targets': rivalsText,
+        'Work Email': email, 'Notes': notes || 'Standard manual review teardown'
+      })
     });
-
-    // Toast helper with dynamic message
-    function showToast(msg) {
-      document.getElementById('toastMsg').textContent = msg;
-      const toast = document.getElementById('toast');
-      toast.classList.remove('hidden');
-      setTimeout(() => toast.classList.add('hidden'), 6000);
-    }
-
-    // Form Submission: Sends the teardown request straight to Johar's inbox
-    async function handleOrderSubmit(e) {
-      e.preventDefault();
-
-      const plan = document.getElementById('modalPlanBadge').innerText;
-      const reviewsCount = document.getElementById('modalReviewCountBadge').innerText;
-      const myCompany = document.getElementById('modalMyCompany').value.trim();
-      const myWebsite = document.getElementById('modalMyWebsite').value.trim();
-      const category = document.getElementById('modalCategory').value;
-      const email = document.getElementById('modalEmailInput').value.trim();
-      const notes = document.getElementById('modalNotesInput').value.trim();
-
-      // Gather Rival 1
-      const r1Name = document.getElementById('modalRival1Name').value.trim();
-      const r1Web = document.getElementById('modalRival1Website').value.trim() || 'N/A';
-
-      // Gather Rival 2 if applicable
-      let rivalsText = `1. ${r1Name} (${r1Web})`;
-      if (currentRivalCount >= 2) {
-        const r2Name = document.getElementById('modalRival2Name').value.trim();
-        const r2Web = document.getElementById('modalRival2Website').value.trim() || 'N/A';
-        rivalsText += `\n2. ${r2Name} (${r2Web})`;
-      }
-
-      // Gather Rival 3 if applicable
-      if (currentRivalCount >= 3) {
-        const r3Name = document.getElementById('modalRival3Name').value.trim();
-        const r3Web = document.getElementById('modalRival3Website').value.trim() || 'N/A';
-        rivalsText += `\n3. ${r3Name} (${r3Web})`;
-      }
-
-      const submitBtn = e.target.querySelector('button[type="submit"]');
-      const btnLabel = submitBtn.querySelector('span');
-      const originalLabel = btnLabel.innerText;
-      submitBtn.disabled = true;
-      btnLabel.innerText = 'Sending...';
-
-      try {
-        const res = await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({
-            _subject: `NovaTrace Teardown Request: ${myCompany} (${plan})`,
-            _template: 'table',
-            _captcha: 'false',
-            'Plan': plan,
-            'Reviews Scope': reviewsCount,
-            'Rivals Tracked': String(currentRivalCount),
-            'Company': myCompany,
-            'Website': myWebsite,
-            'SaaS Category': category,
-            'Rival Targets': rivalsText,
-            'Work Email': email,
-            'Notes': notes || 'Standard manual review teardown'
-          })
-        });
-        if (!res.ok) throw new Error('send failed');
-        closeOrderModal();
-        showToast('Request received. Johar will confirm your 72–96h audit window.');
-        document.getElementById('orderForm').reset();
-      } catch (err) {
-        showToast('Could not send just now — please email johar@novatrace.tech directly.');
-      } finally {
-        submitBtn.disabled = false;
-        btnLabel.innerText = originalLabel;
-      }
-    }
-  </script>
+    if (!res.ok) throw new Error('send failed');
+    closeOrderModal();
+    showToast('Request received. Johar will confirm your 72–96h audit window.');
+    $('#orderForm').reset();
+  } catch (err) {
+    showToast('Could not send just now — please email johar@novatrace.tech directly.');
+  } finally {
+    btn.disabled = false; label.innerText = orig;
+  }
+}
+</script>
 </body>
 </html>
