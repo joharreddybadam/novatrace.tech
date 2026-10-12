@@ -132,7 +132,8 @@
 
   <!-- Prevent FOUC on Theme Load -->
   <script>
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    // Default to light mode for first-time visitors; dark only if the visitor explicitly chose it before
+    if (localStorage.theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
