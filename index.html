@@ -330,11 +330,19 @@ document.addEventListener('keydown', function(e){
   if(e.key === 'Escape'){ closeModal('order-modal'); closeModal('sample-modal'); }
 });
 /* ---------- CHECKOUT ---------- */
-/* Single choke point for purchase buttons.
-   Currently opens the order form (interim checkout).
-   When Lemon Squeezy products are live, point this at the
-   Lemon Squeezy checkout overlay URL for the matching product. */
+/* Buy buttons go straight to Gumroad product pages.
+   NOTE: the Gumroad products are still UNPUBLISHED with no files,
+   so these links only start working once the products are published
+   (upload real CSVs + publish in Gumroad). Until then, buyers will
+   see an unavailable page. */
+var GUMROAD = {
+  'US Funded Tech & SaaS Index — $99': 'https://novatrace.gumroad.com/l/ijoxp',
+  'US High-Ticket Trade Contractors (Solar & Roofing) — $79': 'https://novatrace.gumroad.com/l/tmiydx',
+  'Independent US B2B Agencies & Recruiters — $79': 'https://novatrace.gumroad.com/l/woaov'
+};
 function buy(product){
+  var url = GUMROAD[product];
+  if(url){ window.open(url, '_blank', 'noopener'); return; }
   openModal('order-modal', product);
 }
 /* ---------- TERMINAL FILTER ---------- */
