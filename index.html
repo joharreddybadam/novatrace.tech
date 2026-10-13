@@ -100,7 +100,7 @@ h1 .grad{background:linear-gradient(90deg,var(--orange),var(--amber),#FDE68A);-w
 .chip1{top:8%;left:-46px;animation:floaty 5s ease-in-out infinite}
 .chip2{bottom:14%;right:-40px;animation:floaty 6s ease-in-out infinite reverse}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.proof{margin:76px auto 0;font-size:13px;color:var(--muted);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;position:relative;z-index:5}
+.proof{margin:96px auto 0;font-size:13px;color:var(--muted);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;position:relative;z-index:5}
 .proof b{color:var(--text);font-weight:600}
 .proof .sep{color:#334155}
 /* marquee */
@@ -697,13 +697,20 @@ document.querySelectorAll('.count').forEach(function(el){
 var scene = document.getElementById('dashScene');
 var dashCard = document.getElementById('dashCard');
 if (scene && window.matchMedia('(pointer:fine)').matches) {
-  document.querySelector('.hero').addEventListener('mousemove', function(e){
+  var heroEl = document.querySelector('.hero');
+  heroEl.addEventListener('mousemove', function(e){
     var cx = (e.clientX / window.innerWidth - .5);
     var cy = (e.clientY / window.innerHeight - .5);
-    gsap.to(dashCard, {rotateY: cx * 7, rotateX: -cy * 5, x: cx * 10, duration:.6, ease:'power2.out', transformPerspective:1000});
+    gsap.to(dashCard, {rotateY: cx * 5, rotateX: -cy * 3.5, x: cx * 6, duration:.6, ease:'power2.out', transformPerspective:1000});
     document.querySelectorAll('.float-chip').forEach(function(chip){
       var depth = parseFloat(chip.dataset.depth || 14);
       gsap.to(chip, {x: cx * depth, y: cy * depth, duration:.8, ease:'power2.out'});
+    });
+  });
+  heroEl.addEventListener('mouseleave', function(){
+    gsap.to(dashCard, {rotateY: 0, rotateX: 0, x: 0, duration:.7, ease:'power2.out'});
+    document.querySelectorAll('.float-chip').forEach(function(chip){
+      gsap.to(chip, {x: 0, y: 0, duration:.7, ease:'power2.out'});
     });
   });
 }
