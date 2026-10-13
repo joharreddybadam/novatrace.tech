@@ -45,7 +45,7 @@ a{color:inherit;text-decoration:none}
 .btn-ghost:hover{border-color:var(--text);background:rgba(255,255,255,.08)}
 .btn-lg{padding:15px 30px;font-size:16px}
 /* ---------- HERO ---------- */
-.hero{position:relative;padding:164px 0 0;text-align:center;overflow:hidden}
+.hero{position:relative;padding:164px 0 64px;text-align:center;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(148,163,184,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.06) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 20%,transparent 75%);pointer-events:none}
 .hero-in{position:relative;z-index:2}
 .badge{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:1.6px;color:#FDBA74;border:1px solid rgba(255,107,44,.4);background:rgba(255,107,44,.08);padding:8px 16px;border-radius:999px;text-transform:uppercase;box-shadow:0 0 30px rgba(255,107,44,.15)}
@@ -100,7 +100,7 @@ h1 .grad{background:linear-gradient(90deg,var(--orange),var(--amber),#FDE68A);-w
 .chip1{top:8%;left:-46px;animation:floaty 5s ease-in-out infinite}
 .chip2{bottom:14%;right:-40px;animation:floaty 6s ease-in-out infinite reverse}
 @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.proof{margin:48px auto 0;font-size:13px;color:var(--muted);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;position:relative;z-index:2}
+.proof{margin:76px auto 0;font-size:13px;color:var(--muted);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center;position:relative;z-index:5}
 .proof b{color:var(--text);font-weight:600}
 .proof .sep{color:#334155}
 /* marquee */
@@ -110,7 +110,7 @@ h1 .grad{background:linear-gradient(90deg,var(--orange),var(--amber),#FDE68A);-w
 .marquee-track span b{color:#FDE68A;font-size:18px}
 @keyframes scroll{to{transform:translateX(-50%)}}
 /* ---------- SECTIONS ---------- */
-section{padding:84px 0;position:relative;z-index:1}
+section{padding:84px 0;position:relative;z-index:1;scroll-margin-top:90px}
 .sec-head{max-width:700px;margin:0 auto 44px;text-align:center}
 .sec-head .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
 .sec-head h2{font-size:clamp(28px,4vw,44px);font-weight:900;letter-spacing:-1.2px;line-height:1.12}
@@ -677,7 +677,7 @@ gsap.from('.hero h1', {y:34, opacity:0, duration:.9, ease:'power3.out', delay:.2
 gsap.from('.hero .sub', {y:26, opacity:0, duration:.8, ease:'power3.out', delay:.35});
 gsap.from('.hero .hero-ctas', {y:22, opacity:0, duration:.8, ease:'power3.out', delay:.5});
 gsap.from('.arc-wrap', {opacity:0, duration:1.4, ease:'power2.out', delay:.4});
-gsap.from('#dashCard', {y:90, opacity:0, rotateX:14, transformPerspective:1000, duration:1.2, ease:'power3.out', delay:.55});
+gsap.from('#dashCard', {y:46, opacity:0, rotateX:10, transformPerspective:1000, duration:1.1, ease:'power3.out', delay:.55, clearProps:'transform'});
 gsap.from('.float-chip', {scale:.6, opacity:0, duration:.8, ease:'back.out(2)', delay:1.1, stagger:.15});
 gsap.from('.proof', {opacity:0, y:16, duration:.8, delay:1.2});
 document.querySelectorAll('.reveal').forEach(function(el){
