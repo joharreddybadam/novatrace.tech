@@ -5,114 +5,133 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NovaTrace.tech — Clean US B2B Lead Datasets. Direct Cell Lines. Instant CSV.</title>
 <meta name="description" content="Hyper-targeted, triple-verified US B2B contact lists — founders, contractors, and agencies with direct dials and zero dead emails. Instant CSV download.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%2306080F'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%2338BDF8'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23000000'/%3E%3Ccircle cx='32' cy='32' r='8' fill='%2322C55E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#06080F; --card:#0B101D; --card2:#0E1526; --border:#1E293B; --border2:#2A3B57;
-  --amber:#F59E0B; --cyan:#38BDF8;
-  --text:#F8FAFC; --muted:#94A3B8; --dim:#64748B;
+  --bg:#000000; --panel:#0A0A0A; --panel2:#0D0D0D; --border:#262626; --border2:#3F3F46;
+  --green:#22C55E; --green-bright:#4ADE80; --cyan:#22D3EE;
+  --text:#FAFAFA; --muted:#A1A1AA; --dim:#71717A;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 .mono{font-family:'JetBrains Mono',monospace}
 .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+::selection{background:var(--green);color:#000}
+/* telemetry grid backdrop */
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%);-webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%)}
+.glow{position:fixed;width:640px;height:340px;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
+.glow1{background:rgba(34,197,94,.13);top:-140px;left:50%;transform:translateX(-50%)}
+.glow2{background:rgba(34,211,238,.08);top:70%;left:-180px}
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
 /* ---------- NAV ---------- */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(6,8,15,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(38,38,38,.6)}
 .nav-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{display:flex;align-items:center;gap:9px;font-weight:700;font-size:19px;letter-spacing:-.3px}
-.logo .dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan),0 0 26px rgba(56,189,248,.6);display:inline-block}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:-.3px}
+.ping-dot{position:relative;width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block}
+.ping-dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--green);animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
+@keyframes ping{0%{transform:scale(.6);opacity:.9}80%,100%{transform:scale(1.9);opacity:0}}
 .nav-links{display:flex;gap:32px}
 .nav-links a{font-size:14px;font-weight:500;color:var(--muted);transition:color .2s}
 .nav-links a:hover{color:var(--text)}
-.btn-amber{background:var(--amber);color:#14090A;font-weight:700;font-size:14px;padding:11px 20px;border-radius:8px;border:none;cursor:pointer;transition:filter .15s,transform .15s;display:inline-block;text-align:center}
-.btn-amber:hover{filter:brightness(1.08);transform:translateY(-1px)}
-.btn-ghost{background:transparent;color:var(--text);font-weight:600;font-size:14px;padding:11px 20px;border-radius:8px;border:1px solid #475569;cursor:pointer;transition:all .2s;display:inline-block;text-align:center}
-.btn-ghost:hover{border-color:var(--text);background:rgba(255,255,255,.04)}
-.btn-lg{padding:14px 26px;font-size:15px}
+.btn-primary{background:var(--green);color:#000;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;border:none;cursor:pointer;transition:all .18s;display:inline-block;text-align:center;box-shadow:0 0 0 1px rgba(34,197,94,.5),0 0 28px rgba(34,197,94,.35)}
+.btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 0 1px rgba(34,197,94,.7),0 0 40px rgba(34,197,94,.5);transform:translateY(-1px)}
+.btn-ghost{background:rgba(255,255,255,.03);color:var(--text);font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:all .2s;display:inline-block;text-align:center}
+.btn-ghost:hover{border-color:#52525B;background:rgba(255,255,255,.06)}
+.btn-glow{border:1px solid rgba(34,197,94,.6);box-shadow:0 0 18px rgba(34,197,94,.25),inset 0 0 12px rgba(34,197,94,.08)}
+.btn-lg{padding:14px 28px;font-size:15px}
 /* ---------- HERO ---------- */
-.hero{padding:150px 0 56px;text-align:center}
-.badge{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;letter-spacing:1.4px;color:#7DD3FC;border:1px solid rgba(56,189,248,.35);background:rgba(56,189,248,.06);padding:8px 15px;border-radius:999px;text-transform:uppercase}
-.badge i{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan);display:inline-block}
-h1{font-size:clamp(34px,5vw,56px);line-height:1.1;font-weight:800;letter-spacing:-1.5px;margin:28px auto 20px;max-width:860px}
-.sub{font-size:clamp(15.5px,2vw,18px);color:var(--muted);max-width:720px;margin:0 auto 34px;line-height:1.7}
+.hero{position:relative;z-index:1;padding:158px 0 56px;text-align:center}
+.badge{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.4px;color:#D1FAE5;border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.06);padding:8px 16px;border-radius:999px}
+.badge .ping-dot{width:7px;height:7px}
+h1{font-size:clamp(36px,5.4vw,60px);line-height:1.06;font-weight:800;letter-spacing:-2px;margin:30px auto 20px;max-width:880px}
+h1 .grad{background:linear-gradient(90deg,var(--green-bright),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:clamp(15.5px,2vw,18px);color:var(--muted);max-width:720px;margin:0 auto 36px;line-height:1.7}
 .hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.trust{margin:30px auto 0;font-size:13px;color:var(--dim);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
+.trust{margin:32px auto 0;font-size:13px;color:var(--dim);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
 .trust b{color:var(--muted);font-weight:600}
-.trust .sep{color:#334155}
+.trust .sep{color:#3F3F46}
 /* ---------- SECTIONS ---------- */
-section{padding:64px 0;scroll-margin-top:84px}
+section{position:relative;z-index:1;padding:64px 0;scroll-margin-top:84px}
 .sec-head{max-width:680px;margin:0 auto 36px;text-align:center}
-.sec-head .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:12px}
+.sec-head .eyebrow{font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
 .sec-head h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.15}
 .sec-head p{color:var(--muted);margin-top:12px;font-size:16px;line-height:1.65}
 /* ---------- TERMINAL ---------- */
-.terminal{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.terminal{background:#0A0A0A;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(34,197,94,.06)}
 .term-bar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
 .tdot{width:10px;height:10px;border-radius:50%}
 .term-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-left:8px}
-.term-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#06080F;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--muted);min-width:190px}
+.term-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#000;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--muted);min-width:190px}
 .term-search input{background:none;border:none;outline:none;color:var(--text);font-family:inherit;font-size:13px;width:100%}
-.term-search input::placeholder{color:#475569}
+.term-search input::placeholder{color:#52525B}
 .term-wrap{overflow-x:auto;position:relative}
 table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:860px}
 th{text-align:left;padding:12px 16px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:13px 16px;border-bottom:1px solid rgba(30,41,59,.6);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid rgba(38,38,38,.6);white-space:nowrap}
 tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(34,197,94,.03)}
 td .co{font-weight:600}
 td .dm{color:var(--text)}
 td .ti{color:var(--muted)}
-td .mono{color:#CBD5E1;font-family:'JetBrains Mono',monospace}
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--cyan);background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.3);padding:3px 9px;border-radius:999px;white-space:nowrap}
-.pill i{width:5px;height:5px;border-radius:50%;background:var(--cyan);display:inline-block}
+td .mono{color:#D4D4D8;font-family:'JetBrains Mono',monospace}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green-bright);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.35);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pill i{position:relative;width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
+.pill i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--green);animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
 .blur-zone{position:relative}
-.blur-zone tbody.blurred{filter:blur(5px);opacity:.55;user-select:none;pointer-events:none}
-.unlock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:linear-gradient(to bottom,rgba(6,8,15,.08),rgba(6,8,15,.8));z-index:2;text-align:center;padding:20px}
-.unlock p{font-size:14px;color:#CBD5E1;font-weight:500}
+.blur-zone tbody.blurred{filter:blur(5px);opacity:.5;user-select:none;pointer-events:none}
+.unlock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.82));backdrop-filter:blur(2px);z-index:2;text-align:center;padding:20px}
+.unlock p{font-size:14px;color:#D4D4D8;font-weight:500}
 .term-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
 /* ---------- DATASET CARDS ---------- */
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:border-color .2s}
-.card:hover{border-color:var(--border2)}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s,box-shadow .2s;position:relative}
+.card:hover{border-color:#52525B;transform:translateY(-3px)}
+.card.popular{border-color:rgba(34,197,94,.55);box-shadow:0 0 0 1px rgba(34,197,94,.25),0 0 44px rgba(34,197,94,.12)}
+.card.popular:hover{box-shadow:0 0 0 1px rgba(34,197,94,.4),0 0 60px rgba(34,197,94,.2)}
+.pop-badge{position:absolute;top:-12px;left:28px;background:var(--green);color:#000;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:999px}
 .card .cat{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
 .card h3{font-size:19px;font-weight:700;letter-spacing:-.3px;line-height:1.3}
 .card .desc{font-size:14px;color:var(--muted);margin:10px 0 16px;flex:1;line-height:1.65}
 .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
-.tag{font-size:11.5px;font-weight:600;color:#CBD5E1;background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 10px;border-radius:999px}
+.tag{font-size:11.5px;font-weight:600;color:#D4D4D8;background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 10px;border-radius:999px}
 .price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:16px}
 .price{font-size:30px;font-weight:800;letter-spacing:-.5px}
 .price-note{font-size:12.5px;color:var(--muted)}
-.card .btn-amber{width:100%;padding:13px}
+.card .btn-primary,.card .btn-ghost{width:100%;padding:13px}
 /* ---------- HYGIENE ---------- */
 .hygiene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.hyg{border:1px solid var(--border);border-radius:14px;background:var(--card);padding:26px}
-.hyg .n{width:40px;height:40px;border-radius:10px;background:rgba(56,189,248,.1);border:1px solid rgba(56,189,248,.3);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
+.hyg{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:26px;transition:border-color .2s,transform .2s}
+.hyg:hover{border-color:#52525B;transform:translateY(-2px)}
+.hyg .n{width:40px;height:40px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
 .hyg h3{font-size:16.5px;font-weight:700}
 .hyg p{font-size:14px;color:var(--muted);margin-top:7px;line-height:1.65}
-.guarantee{margin-top:18px;border:1px solid rgba(245,158,11,.35);background:rgba(245,158,11,.05);border-radius:14px;padding:24px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.guarantee .g-badge{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--amber);white-space:nowrap}
-.guarantee p{font-size:14.5px;color:#CBD5E1;line-height:1.65;flex:1;min-width:260px}
+.guarantee{margin-top:18px;border:1px solid rgba(34,197,94,.4);background:rgba(34,197,94,.05);border-radius:14px;padding:24px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.guarantee .g-badge{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green-bright);white-space:nowrap}
+.guarantee p{font-size:14.5px;color:#D4D4D8;line-height:1.65;flex:1;min-width:260px}
 .guarantee a{color:var(--cyan);font-weight:600}
 /* ---------- FOOTER ---------- */
-footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:var(--muted)}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:var(--muted)}
 .foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
-.foot a{color:#CBD5E1}
-.foot a:hover{color:var(--amber)}
+.foot a{color:#D4D4D8}
+.foot a:hover{color:var(--green-bright)}
 /* ---------- MODAL ---------- */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
 .modal.open{display:flex}
-.modal-box{background:var(--card2);border:1px solid var(--border2);border-radius:14px;padding:32px;width:100%;max-width:440px;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.7)}
+.modal-box{background:#0D0D0D;border:1px solid var(--border2);border-radius:14px;padding:32px;width:100%;max-width:440px;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.8)}
 .modal-box h3{font-size:21px;font-weight:800;letter-spacing:-.3px}
 .modal-box p{font-size:14px;color:var(--muted);margin:8px 0 20px}
 .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
 .field{margin-bottom:14px}
 .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
-.field input,.field select,.field textarea{width:100%;background:#06080F;border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan)}
-.modal-box .btn-amber{width:100%;padding:13px;font-size:15px}
+.field input,.field select,.field textarea{width:100%;background:#000;border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
+.modal-box .btn-primary{width:100%;padding:13px;font-size:15px}
 .form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
 .form-ok{display:none;text-align:center;padding:14px 0 4px}
 .form-ok .big{font-size:32px}
@@ -123,43 +142,44 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
   .grid3,.hygiene-grid{grid-template-columns:1fr}
   .term-search{min-width:120px}
   section{padding:48px 0}
-  .hero{padding:126px 0 44px}
+  .hero{padding:132px 0 44px}
 }
 </style>
 </head>
 <body>
+<div class="grid-bg"></div><div class="glow glow1"></div><div class="glow glow2"></div>
 
 <!-- NAV -->
 <header class="nav">
   <div class="nav-in">
-    <a href="#" class="logo"><span class="dot"></span>NovaTrace</a>
+    <a href="#" class="logo"><span class="ping-dot"></span>NovaTrace</a>
     <nav class="nav-links">
       <a href="#datasets">Datasets</a>
       <a href="#hygiene">Data Hygiene</a>
       <a href="#" onclick="openModal('sample-modal');return false;">Free Sample</a>
     </nav>
-    <a href="#datasets" class="btn-amber">Browse Vault</a>
+    <a href="#datasets" class="btn-ghost btn-glow">Browse Vault</a>
   </div>
 </header>
 
 <!-- HERO -->
 <section class="hero">
   <div class="wrap">
-    <span class="badge"><i></i>Updated Monthly &nbsp;•&nbsp; Zero-Bounce Guarantee</span>
-    <h1>Clean US B2B Lead Datasets. Direct Cell Lines. Instant CSV.</h1>
+    <span class="badge"><span class="ping-dot"></span>📡 Updated Monthly &nbsp;•&nbsp; Zero-Bounce Guarantee</span>
+    <h1>Clean US B2B Lead Datasets.<br>Direct Cell Lines. <span class="grad">Instant CSV.</span></h1>
     <p class="sub">Stop burning $4,000/month on enterprise subscriptions. Download hyper-targeted, triple-verified contact lists of US founders, contractors, and agencies with direct dials and zero dead emails.</p>
     <div class="hero-ctas">
-      <a href="#datasets" class="btn-amber btn-lg">Explore Datasets ($79)</a>
-      <button class="btn-ghost btn-lg" onclick="openModal('sample-modal')">Download Free 25-Lead Sample</button>
+      <a href="#datasets" class="btn-primary btn-lg">Explore Datasets ($79)</a>
+      <button class="btn-ghost btn-lg" onclick="openModal('sample-modal')">Get Free 25-Lead Sample</button>
     </div>
     <div class="trust"><span><b>Triple-Verified</b></span><span class="sep">•</span><span><b>Instant CSV Delivery</b></span><span class="sep">•</span><span><b>5% Replacement Guarantee</b></span></div>
   </div>
 </section>
 
-<!-- TERMINAL -->
+<!-- TERMINAL VAULT -->
 <section id="terminal" style="padding-top:0">
   <div class="wrap">
-    <div class="terminal">
+    <div class="terminal reveal">
       <div class="term-bar">
         <span class="tdot" style="background:#FF5F57"></span><span class="tdot" style="background:#FEBC2E"></span><span class="tdot" style="background:#28C840"></span>
         <span class="term-title">novatrace_terminal — us_trade_contractors.csv</span>
@@ -190,7 +210,7 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
           </table>
           <div class="unlock">
             <p>1,250+ more rows behind the vault door</p>
-            <button class="btn-amber btn-lg" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Unlock All 1,250+ Rows in this Dataset — $79</button>
+            <button class="btn-primary btn-lg" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Unlock All 1,250+ Rows in this Dataset — $79</button>
           </div>
         </div>
       </div>
@@ -202,35 +222,36 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
 <!-- DATASETS -->
 <section id="datasets" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <div class="eyebrow">The Datasets</div>
       <h2>Three lists. Zero dead emails.</h2>
       <p>Pick your market. Download the CSV. Start dialing today.</p>
     </div>
     <div class="grid3">
-      <div class="card">
+      <div class="card reveal">
         <div class="cat">Funded Tech / SaaS</div>
         <h3>US Funded Tech &amp; SaaS Index</h3>
         <p class="desc">Contact directories of US founders who raised funding in the last 90 days. Includes direct email, founder LinkedIn, and investor notes.</p>
         <div class="tags"><span class="tag">850+ Records</span><span class="tag">Seed &amp; Series A</span><span class="tag">Tech Stacks Included</span></div>
         <div class="price-row"><span class="price">$99</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-amber" onclick="buy('US Funded Tech &amp; SaaS Index — $99')">Instant Download CSV</button>
+        <button class="btn-primary" onclick="buy('US Funded Tech &amp; SaaS Index — $99')">Instant CSV Download</button>
       </div>
-      <div class="card">
+      <div class="card popular reveal">
+        <span class="pop-badge">★ Most Popular</span>
         <div class="cat">Trade Contractors</div>
         <h3>US High-Ticket Trade Contractors (Solar &amp; Roofing)</h3>
         <p class="desc">Commercial and residential solar installers, roofing company owners, and HVAC principals across TX, FL, and CA.</p>
         <div class="tags"><span class="tag">1,250+ Records</span><span class="tag">Direct Cell Lines</span><span class="tag">State Licensed</span></div>
         <div class="price-row"><span class="price">$79</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-amber" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Instant Download CSV</button>
+        <button class="btn-primary" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Instant CSV Download</button>
       </div>
-      <div class="card">
+      <div class="card reveal">
         <div class="cat">Agencies &amp; Recruiters</div>
         <h3>Independent US B2B Agencies &amp; Recruiters</h3>
         <p class="desc">Active boutique recruitment firms, performance marketing agencies, and outbound lead generation operators.</p>
         <div class="tags"><span class="tag">1,100+ Records</span><span class="tag">Founder Dials</span><span class="tag">1–20 Headcount</span></div>
         <div class="price-row"><span class="price">$79</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-amber" onclick="buy('Independent US B2B Agencies &amp; Recruiters — $79')">Instant Download CSV</button>
+        <button class="btn-primary" onclick="buy('Independent US B2B Agencies &amp; Recruiters — $79')">Instant CSV Download</button>
       </div>
     </div>
   </div>
@@ -239,17 +260,17 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
 <!-- HYGIENE & GUARANTEE -->
 <section id="hygiene" style="padding-top:0">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <div class="eyebrow">Data Hygiene</div>
       <h2>Built to survive the spam filter.</h2>
       <p>The #1 fear with bought data is dead emails. Here is exactly how we kill it.</p>
     </div>
     <div class="hygiene-grid">
-      <div class="hyg"><div class="n">📡</div><h3>Real-Time SMTP Pings</h3><p>Every email address is verified via live server handshakes. No catch-all guesses, no scraped junk.</p></div>
-      <div class="hyg"><div class="n">📞</div><h3>Direct Dials Only</h3><p>Cleaned to prioritize direct mobile numbers and owner lines, bypassing corporate front desks.</p></div>
-      <div class="hyg"><div class="n">🛡️</div><h3>Monthly Re-Verification</h3><p>Every dataset is re-checked monthly. Dead mailboxes are removed before the list ever ships.</p></div>
+      <div class="hyg reveal"><div class="n">📡</div><h3>Real-Time SMTP Pings</h3><p>Every email address is verified via live server handshakes. No catch-all guesses, no scraped junk.</p></div>
+      <div class="hyg reveal"><div class="n">📞</div><h3>Direct Dials Only</h3><p>Cleaned to prioritize direct mobile numbers and owner lines, bypassing corporate front desks.</p></div>
+      <div class="hyg reveal"><div class="n">🛡️</div><h3>Monthly Re-Verification</h3><p>Every dataset is re-checked monthly. Dead mailboxes are removed before the list ever ships.</p></div>
     </div>
-    <div class="guarantee">
+    <div class="guarantee reveal">
       <span class="g-badge">5% Replacement Guarantee</span>
       <p>If your campaign sees higher than a 5% bounce rate, email <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a> with your bounce log for an immediate fresh replacement batch or 100% refund.</p>
     </div>
@@ -265,35 +286,6 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
   </div>
 </footer>
 
-<!-- ORDER MODAL -->
-<div class="modal" id="order-modal" onclick="if(event.target===this)closeModal('order-modal')">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('order-modal')">×</button>
-    <div id="order-form-wrap">
-      <h3>Get instant access</h3>
-      <p>Fill this in — we'll email your secure payment link &amp; delivery details.</p>
-      <form onsubmit="submitOrder(event)">
-        <div class="field"><label>Full name</label><input type="text" name="name" required placeholder="Alex Rivera"></div>
-        <div class="field"><label>Work email</label><input type="email" name="email" required placeholder="alex@company.com"></div>
-        <div class="field"><label>Dataset</label>
-          <select name="product" id="order-product">
-            <option>US Funded Tech &amp; SaaS Index — $99</option>
-            <option>US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79</option>
-            <option>Independent US B2B Agencies &amp; Recruiters — $79</option>
-          </select>
-        </div>
-        <button class="btn-amber" type="submit">Continue to Checkout</button>
-        <p class="form-note">No spam. Your payment link &amp; delivery details arrive right after.</p>
-      </form>
-    </div>
-    <div class="form-ok" id="order-ok">
-      <div class="big">✅</div>
-      <h4>Order received.</h4>
-      <p>Check your inbox — your payment link &amp; delivery details are on the way.</p>
-    </div>
-  </div>
-</div>
-
 <!-- SAMPLE MODAL -->
 <div class="modal" id="sample-modal" onclick="if(event.target===this)closeModal('sample-modal')">
   <div class="modal-box">
@@ -303,7 +295,7 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
       <p>25 real, verified records — see the quality before you buy.</p>
       <form onsubmit="submitSample(event)">
         <div class="field"><label>Work email</label><input type="email" name="email" required placeholder="alex@company.com"></div>
-        <button class="btn-amber" type="submit">Send Me the Sample</button>
+        <button class="btn-primary" type="submit">Send Me the Sample</button>
         <p class="form-note">One email with the sample CSV. No spam, unsubscribe anytime.</p>
       </form>
     </div>
@@ -317,8 +309,7 @@ footer{border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:
 
 <script>
 /* ---------- MODALS ---------- */
-function openModal(id, product){
-  if(product) document.getElementById('order-product').value = product;
+function openModal(id){
   document.getElementById(id).classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -327,14 +318,13 @@ function closeModal(id){
   document.body.style.overflow = '';
 }
 document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape'){ closeModal('order-modal'); closeModal('sample-modal'); }
+  if(e.key === 'Escape'){ closeModal('sample-modal'); }
 });
-/* ---------- CHECKOUT ---------- */
-/* Buy buttons go straight to Gumroad product pages.
-   NOTE: the Gumroad products are still UNPUBLISHED with no files,
-   so these links only start working once the products are published
-   (upload real CSVs + publish in Gumroad). Until then, buyers will
-   see an unavailable page. */
+/* ---------- CHECKOUT (Gumroad) ---------- */
+/* Buy buttons open the matching Gumroad product page in a new tab.
+   NOTE: Gumroad products are still UNPUBLISHED with no files, so these
+   links only start working once the products are published (upload real
+   CSVs + publish in Gumroad). Until then, buyers see an unavailable page. */
 var GUMROAD = {
   'US Funded Tech & SaaS Index — $99': 'https://novatrace.gumroad.com/l/ijoxp',
   'US High-Ticket Trade Contractors (Solar & Roofing) — $79': 'https://novatrace.gumroad.com/l/tmiydx',
@@ -342,8 +332,7 @@ var GUMROAD = {
 };
 function buy(product){
   var url = GUMROAD[product];
-  if(url){ window.open(url, '_blank', 'noopener'); return; }
-  openModal('order-modal', product);
+  if(url) window.open(url, '_blank', 'noopener');
 }
 /* ---------- TERMINAL FILTER ---------- */
 function filterRows(){
@@ -352,34 +341,24 @@ function filterRows(){
     row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
   });
 }
-/* ---------- FORMS ---------- */
-async function postForm(data, okId, wrapId){
+/* ---------- SCROLL REVEAL ---------- */
+var io = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, {threshold: 0.12});
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+/* ---------- SAMPLE FORM ---------- */
+async function submitSample(e){
+  e.preventDefault();
+  var f = e.target;
   try{
     await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', {
       method: 'POST',
       headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify(data)
+      body: JSON.stringify({_subject: 'NovaTrace Free Sample Request', email: f.email.value, type: 'free-sample'})
     });
-  }catch(e){ /* still show success */ }
-  document.getElementById(wrapId).style.display = 'none';
-  document.getElementById(okId).style.display = 'block';
-}
-function submitOrder(e){
-  e.preventDefault();
-  var f = e.target;
-  postForm({
-    _subject: 'NovaTrace Order: ' + f.product.value,
-    name: f.name.value, email: f.email.value,
-    product: f.product.value, type: 'dataset-order'
-  }, 'order-ok', 'order-form-wrap');
-}
-function submitSample(e){
-  e.preventDefault();
-  var f = e.target;
-  postForm({
-    _subject: 'NovaTrace Free Sample Request',
-    email: f.email.value, type: 'free-sample'
-  }, 'sample-ok', 'sample-form-wrap');
+  }catch(err){ /* still show success */ }
+  document.getElementById('sample-form-wrap').style.display = 'none';
+  document.getElementById('sample-ok').style.display = 'block';
 }
 </script>
 </body>
