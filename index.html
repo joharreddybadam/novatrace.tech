@@ -2089,27 +2089,39 @@
       const successView = document.getElementById('modal-success-view');
       const sampleForm = document.getElementById('sample-form');
 
+      var errView = document.getElementById('modal-error-view');
+      function resetSampleForm() {
+        formView.style.display = 'block';
+        successView.style.display = 'none';
+        if (errView) errView.style.display = 'none';
+        if (sampleForm) { var b = sampleForm.querySelector('button[type=submit]'); if (b) { b.disabled = false; if (b.dataset.origText) b.textContent = b.dataset.origText; } }
+      }
+
       document.querySelectorAll('[data-open-sample]').forEach(function (btn) {
         btn.addEventListener('click', function (e) {
           e.preventDefault();
-          formView.style.display = 'block';
-          successView.style.display = 'none';
+          resetSampleForm();
           modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
         });
       });
 
       function closeModal() {
         modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
       }
 
       if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('open')) closeModal();
+      });
       if (modal) {
         modal.addEventListener('click', function (e) {
           if (e.target === modal) closeModal();
         });
       }
 
-      if (sampleForm) { sampleForm.addEventListener('submit', async function (e) { e.preventDefault(); var btn = sampleForm.querySelector('button[type=submit]'); var email = sampleForm.querySelector('input[type=email]').value; var dataset = sampleForm.querySelector('select').value; var errView = document.getElementById('modal-error-view'); if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; } try { var res = await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: 'NovaTrace Free Sample Request', email: email, dataset: dataset, type: 'free-sample' }) }); if (!res.ok) throw new Error('delivery failed'); formView.style.display = 'none'; successView.style.display = 'block'; } catch (err) { formView.style.display = 'none'; if (errView) errView.style.display = 'block'; } }); }
+      if (sampleForm) { sampleForm.addEventListener('submit', async function (e) { e.preventDefault(); var btn = sampleForm.querySelector('button[type=submit]'); var email = sampleForm.querySelector('input[type=email]').value; var dataset = sampleForm.querySelector('select').value; if (errView) errView.style.display = 'none'; if (btn) { if (!btn.dataset.origText) btn.dataset.origText = btn.textContent; btn.disabled = true; btn.textContent = 'Sending…'; } try { var res = await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: 'NovaTrace Free Sample Request', email: email, dataset: dataset, type: 'free-sample' }) }); if (!res.ok) throw new Error('delivery failed'); formView.style.display = 'none'; successView.style.display = 'block'; } catch (err) { formView.style.display = 'none'; if (errView) errView.style.display = 'block'; } }); }
     })();
   </script>
 
