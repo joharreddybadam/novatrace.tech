@@ -1,366 +1,2116 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaTrace.tech — Clean US B2B Lead Datasets. Direct Cell Lines. Instant CSV.</title>
+<html lang="en" class="scroll-smooth"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaTrace — Clean US B2B Lead Datasets. Direct Cell Lines. Instant CSV.</title>
 <meta name="description" content="Hyper-targeted, triple-verified US B2B contact lists — founders, contractors, and agencies with direct dials and zero dead emails. Instant CSV download.">
-<link rel="icon" href="novatrace-icon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#000000; --panel:#0A0A0A; --panel2:#0D0D0D; --border:#262626; --border2:#3F3F46;
-  --green:#22C55E; --green-bright:#4ADE80; --cyan:#22D3EE;
-  --text:#FAFAFA; --muted:#A1A1AA; --dim:#71717A;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-.mono{font-family:'JetBrains Mono',monospace}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
-::selection{background:var(--green);color:#000}
-/* telemetry grid backdrop */
-.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(34,197,94,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(34,197,94,.045) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%);-webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 78%)}
-.glow{position:fixed;width:640px;height:340px;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
-.glow1{background:rgba(34,197,94,.13);top:-140px;left:50%;transform:translateX(-50%)}
-.glow2{background:rgba(34,211,238,.08);top:70%;left:-180px}
-/* reveal on scroll */
-.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
-.reveal.in{opacity:1;transform:none}
-/* ---------- NAV ---------- */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.6);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(38,38,38,.6)}
-.nav-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:-.3px}
-.logo-icon{width:30px;height:30px;display:block;border-radius:8px}
-.ping-dot{position:relative;width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block}
-.ping-dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--green);animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
-@keyframes ping{0%{transform:scale(.6);opacity:.9}80%,100%{transform:scale(1.9);opacity:0}}
-.nav-links{display:flex;gap:32px}
-.nav-links a{font-size:14px;font-weight:500;color:var(--muted);transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.btn-primary{background:var(--green);color:#000;font-weight:700;font-size:14px;padding:12px 22px;border-radius:8px;border:none;cursor:pointer;transition:all .18s;display:inline-block;text-align:center;box-shadow:0 0 0 1px rgba(34,197,94,.5),0 0 28px rgba(34,197,94,.35)}
-.btn-primary:hover{filter:brightness(1.1);box-shadow:0 0 0 1px rgba(34,197,94,.7),0 0 40px rgba(34,197,94,.5);transform:translateY(-1px)}
-.btn-ghost{background:rgba(255,255,255,.03);color:var(--text);font-weight:600;font-size:14px;padding:12px 22px;border-radius:8px;border:1px solid var(--border2);cursor:pointer;transition:all .2s;display:inline-block;text-align:center}
-.btn-ghost:hover{border-color:#52525B;background:rgba(255,255,255,.06)}
-.btn-glow{border:1px solid rgba(34,197,94,.6);box-shadow:0 0 18px rgba(34,197,94,.25),inset 0 0 12px rgba(34,197,94,.08)}
-.btn-lg{padding:14px 28px;font-size:15px}
-/* ---------- HERO ---------- */
-.hero{position:relative;z-index:1;padding:158px 0 56px;text-align:center}
-.badge{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.4px;color:#D1FAE5;border:1px solid rgba(34,197,94,.35);background:rgba(34,197,94,.06);padding:8px 16px;border-radius:999px}
-.badge .ping-dot{width:7px;height:7px}
-h1{font-size:clamp(36px,5.4vw,60px);line-height:1.06;font-weight:800;letter-spacing:-2px;margin:30px auto 20px;max-width:880px}
-h1 .grad{background:linear-gradient(90deg,var(--green-bright),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sub{font-size:clamp(15.5px,2vw,18px);color:var(--muted);max-width:720px;margin:0 auto 36px;line-height:1.7}
-.hero-ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.trust{margin:32px auto 0;font-size:13px;color:var(--dim);display:flex;gap:10px;justify-content:center;flex-wrap:wrap;align-items:center}
-.trust b{color:var(--muted);font-weight:600}
-.trust .sep{color:#3F3F46}
-/* ---------- SECTIONS ---------- */
-section{position:relative;z-index:1;padding:64px 0;scroll-margin-top:84px}
-.sec-head{max-width:680px;margin:0 auto 36px;text-align:center}
-.sec-head .eyebrow{font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase;color:var(--green);margin-bottom:12px}
-.sec-head h2{font-size:clamp(26px,3.6vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.15}
-.sec-head p{color:var(--muted);margin-top:12px;font-size:16px;line-height:1.65}
-/* ---------- TERMINAL ---------- */
-.terminal{background:#0A0A0A;border:1px solid var(--border);border-radius:14px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(34,197,94,.06)}
-.term-bar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
-.tdot{width:10px;height:10px;border-radius:50%}
-.term-title{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-left:8px}
-.term-search{margin-left:auto;display:flex;align-items:center;gap:8px;background:#000;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--muted);min-width:190px}
-.term-search input{background:none;border:none;outline:none;color:var(--text);font-family:inherit;font-size:13px;width:100%}
-.term-search input::placeholder{color:#52525B}
-.term-wrap{overflow-x:auto;position:relative}
-table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:860px}
-th{text-align:left;padding:12px 16px;font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:600;border-bottom:1px solid var(--border);white-space:nowrap}
-td{padding:13px 16px;border-bottom:1px solid rgba(38,38,38,.6);white-space:nowrap}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:rgba(34,197,94,.03)}
-td .co{font-weight:600}
-td .dm{color:var(--text)}
-td .ti{color:var(--muted)}
-td .mono{color:#D4D4D8;font-family:'JetBrains Mono',monospace}
-.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;color:var(--green-bright);background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.35);padding:3px 9px;border-radius:999px;white-space:nowrap}
-.pill i{position:relative;width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block}
-.pill i::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--green);animation:ping 2s cubic-bezier(0,0,.2,1) infinite}
-.blur-zone{position:relative}
-.blur-zone tbody.blurred{filter:blur(5px);opacity:.5;user-select:none;pointer-events:none}
-.unlock{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;background:linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.82));backdrop-filter:blur(2px);z-index:2;text-align:center;padding:20px}
-.unlock p{font-size:14px;color:#D4D4D8;font-weight:500}
-.term-note{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
-/* ---------- DATASET CARDS ---------- */
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:28px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s,box-shadow .2s;position:relative}
-.card:hover{border-color:#52525B;transform:translateY(-3px)}
-.card.popular{border-color:rgba(34,197,94,.55);box-shadow:0 0 0 1px rgba(34,197,94,.25),0 0 44px rgba(34,197,94,.12)}
-.card.popular:hover{box-shadow:0 0 0 1px rgba(34,197,94,.4),0 0 60px rgba(34,197,94,.2)}
-.pop-badge{position:absolute;top:-12px;left:28px;background:var(--green);color:#000;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:999px}
-.card .cat{font-size:11px;font-weight:700;letter-spacing:1.6px;text-transform:uppercase;color:var(--cyan);margin-bottom:14px}
-.card h3{font-size:19px;font-weight:700;letter-spacing:-.3px;line-height:1.3}
-.card .desc{font-size:14px;color:var(--muted);margin:10px 0 16px;flex:1;line-height:1.65}
-.tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
-.tag{font-size:11.5px;font-weight:600;color:#D4D4D8;background:rgba(255,255,255,.04);border:1px solid var(--border);padding:4px 10px;border-radius:999px}
-.price-row{display:flex;align-items:baseline;gap:8px;margin-bottom:16px}
-.price{font-size:30px;font-weight:800;letter-spacing:-.5px}
-.price-note{font-size:12.5px;color:var(--muted)}
-.card .btn-primary,.card .btn-ghost{width:100%;padding:13px}
-/* ---------- HYGIENE ---------- */
-.hygiene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.hyg{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:26px;transition:border-color .2s,transform .2s}
-.hyg:hover{border-color:#52525B;transform:translateY(-2px)}
-.hyg .n{width:40px;height:40px;border-radius:10px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:16px}
-.hyg h3{font-size:16.5px;font-weight:700}
-.hyg p{font-size:14px;color:var(--muted);margin-top:7px;line-height:1.65}
-.guarantee{margin-top:18px;border:1px solid rgba(34,197,94,.4);background:rgba(34,197,94,.05);border-radius:14px;padding:24px 28px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
-.guarantee .g-badge{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--green-bright);white-space:nowrap}
-.guarantee p{font-size:14.5px;color:#D4D4D8;line-height:1.65;flex:1;min-width:260px}
-.guarantee a{color:var(--cyan);font-weight:600}
-/* ---------- FOOTER ---------- */
-footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:28px 0;font-size:13.5px;color:var(--muted)}
-.foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
-.foot a{color:#D4D4D8}
-.foot a:hover{color:var(--green-bright)}
-/* ---------- MODAL ---------- */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:300;padding:20px}
-.modal.open{display:flex}
-.modal-box{background:#0D0D0D;border:1px solid var(--border2);border-radius:14px;padding:32px;width:100%;max-width:440px;position:relative;box-shadow:0 40px 100px rgba(0,0,0,.8)}
-.modal-box h3{font-size:21px;font-weight:800;letter-spacing:-.3px}
-.modal-box p{font-size:14px;color:var(--muted);margin:8px 0 20px}
-.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
-.field{margin-bottom:14px}
-.field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
-.field input,.field select,.field textarea{width:100%;background:#000;border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
-.modal-box .btn-primary{width:100%;padding:13px;font-size:15px}
-.form-note{font-size:12px;color:var(--muted);text-align:center;margin-top:12px}
-.form-ok{display:none;text-align:center;padding:14px 0 4px}
-.form-ok .big{font-size:32px}
-.form-ok h4{margin:10px 0 6px}
-.form-ok p{font-size:14px;color:var(--muted)}
-@media(max-width:820px){
-  .nav-links{display:none}
-  .grid3,.hygiene-grid{grid-template-columns:1fr}
-  .term-search{min-width:120px}
-  section{padding:48px 0}
-  .hero{padding:132px 0 44px}
-}
-</style>
-</head>
-<body>
-<div class="grid-bg"></div><div class="glow glow1"></div><div class="glow glow2"></div>
+  <link rel="icon" href="novatrace-icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&amp;family=Instrument+Serif:ital@0;1&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Syne:wght@600;700;800&amp;display=swap" rel="stylesheet">
 
-<!-- NAV -->
-<header class="nav">
-  <div class="nav-in">
-    <a href="#" class="logo"><img class="logo-icon" src="novatrace-icon.svg" alt="NovaTrace">NovaTrace</a>
-    <nav class="nav-links">
+  <style>
+    /* ==========================================================================
+       APPLE visionOS / FEY GLASS DESIGN SYSTEM (ZERO SLOP, ZERO EMOJIS)
+       - Neutral smoked obsidian glass with 1px white top-edge specular highlight
+       - Separate, non-touching squircle containers (28px card radius, 9999px pills)
+       - Blue Accretion Vortex light lives strictly in the 3D WebGL backdrop &
+         surgical 1.5px SVG accents
+       ========================================================================== */
+    :root {
+      --bg-void: #02050B;
+      --text-primary: #FAFAFC;
+      --text-secondary: #A3ADC2;
+      --text-muted: #647087;
+
+      /* Blue Accretion Vortex Spectrum */
+      --blue-cobalt: #2563EB;
+      --blue-sky: #60A5FA;
+      --blue-ice: #BAE6FD;
+
+      /* Authentic iOS / visionOS Frosted Glass Surfaces */
+      --glass-bg: linear-gradient(
+        165deg,
+        rgba(255, 255, 255, 0.058) 0%,
+        rgba(255, 255, 255, 0.018) 100%
+      );
+      --glass-bg-hover: linear-gradient(
+        165deg,
+        rgba(255, 255, 255, 0.082) 0%,
+        rgba(255, 255, 255, 0.028) 100%
+      );
+      --glass-bg-featured: linear-gradient(
+        165deg,
+        rgba(186, 230, 253, 0.095) 0%,
+        rgba(37, 99, 235, 0.045) 48%,
+        rgba(255, 255, 255, 0.022) 100%
+      );
+      --glass-well: rgba(2, 5, 12, 0.56);
+
+      --glass-border: rgba(255, 255, 255, 0.09);
+      --glass-border-hover: rgba(186, 230, 253, 0.24);
+      --glass-border-featured: rgba(186, 230, 253, 0.34);
+
+      --glass-shadow:
+        0 28px 60px -16px rgba(0, 0, 0, 0.82),
+        0 4px 16px 0 rgba(0, 0, 0, 0.42),
+        inset 0 1px 0 0 rgba(255, 255, 255, 0.16),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+
+      --glass-blur: blur(38px) saturate(175%);
+
+      /* Concentric Apple Squircle Curvature */
+      --radius-card: 28px;
+      --radius-well: 18px;
+      --radius-sm: 12px;
+      --radius-pill: 9999px;
+
+      /* Typography Tokens */
+      --font-display: 'Instrument Serif', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --display-tracking: -0.024em;
+      --display-lh: 1.03;
+      --display-weight: 400;
+    }
+
+    /* Spectrum Variations */
+    body[data-spectrum="cobalt"] {
+      --blue-cobalt: #1D4ED8;
+      --blue-sky: #3B82F6;
+      --blue-ice: #DBEAFE;
+    }
+    body[data-spectrum="sapphire"] {
+      --blue-cobalt: #4338CA;
+      --blue-sky: #818CF8;
+      --blue-ice: #E0E7FF;
+    }
+    body[data-spectrum="arctic"] {
+      --blue-cobalt: #0284C7;
+      --blue-sky: #38BDF8;
+      --blue-ice: #E0F2FE;
+    }
+
+    /* Display Typography Variations */
+    body[data-font="syne"] {
+      --font-display: 'Syne', sans-serif;
+      --display-tracking: -0.04em;
+      --display-lh: 1.05;
+      --display-weight: 700;
+    }
+    body[data-font="cormorant"] {
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --display-tracking: -0.02em;
+      --display-lh: 1.02;
+      --display-weight: 600;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .tabular-nums {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ==========================================================================
+       CONTINUOUS 3D BLUE ACCRETION VORTEX & PARALLAX STARFIELD
+       ========================================================================== */
+    #celestial-viewport {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .viewport-vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(
+        115% 85% at 50% 18%,
+        transparent 0%,
+        rgba(2, 5, 11, 0.42) 65%,
+        rgba(2, 5, 11, 0.88) 100%
+      );
+    }
+
+    /* ==========================================================================
+       SHARED iOS GLASS PRIMITIVES
+       ========================================================================== */
+    .ios-glass-box {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      box-shadow: var(--glass-shadow);
+      transition:
+        transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s ease,
+        background 0.3s ease;
+    }
+
+    .ios-glass-pill {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-pill);
+      box-shadow: var(--glass-shadow);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ios-inset-well {
+      background: var(--glass-well);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-well);
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ==========================================================================
+       1. TOP BAR: 3 SEPARATE FLOATING iOS GLASS PILLS
+       (1: NovaTrace Logo | 2: Datasets, Data Hygiene, Free Sample | 3: Browse Vault)
+       ========================================================================== */
+    header.top-bar-3 {
+      position: sticky;
+      top: 20px;
+      z-index: 60;
+      max-width: 1220px;
+      margin: 20px auto 0;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      pointer-events: none;
+    }
+
+    .top-bar-island {
+      pointer-events: auto;
+    }
+
+    /* Pill 1: Logo */
+    .logo-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      padding: 8px 20px 8px 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 0.94rem;
+      letter-spacing: -0.015em;
+    }
+
+    .logo-pill:hover {
+      border-color: var(--glass-border-hover);
+      transform: translateY(-1px);
+    }
+
+    .logo-icon-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon-circle img,
+    .logo-icon-circle svg {
+      width: 34px;
+      height: 34px;
+      display: block;
+    }
+    .logo-icon-circle .logo-mark { width: 34px; height: 34px; }
+
+    /* Pill 2: Center Navigation */
+    nav.nav-links-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 8px;
+    }
+
+    nav.nav-links-pill a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 7px 18px;
+      border-radius: var(--radius-pill);
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    nav.nav-links-pill a:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    /* Pill 3: Browse Vault Action */
+    .vault-cta-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 11px 24px;
+      border-radius: var(--radius-pill);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #02050B;
+      background: #FAFAFC;
+      border: 1px solid #FFFFFF;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .vault-cta-pill:hover {
+      background: #FFFFFF;
+      transform: translateY(-1px);
+      box-shadow: 0 14px 34px rgba(96, 165, 250, 0.3);
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT SHELL
+       ========================================================================== */
+    .page-shell {
+      position: relative;
+      z-index: 10;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ==========================================================================
+       2. HERO SECTION (HIGH-CONTRAST INSTRUMENT SERIF + SEPARATE TRUST PILLS)
+       ========================================================================== */
+    .hero-section {
+      padding: 76px 0 56px;
+      text-align: center;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+    }
+
+    .hero-badge-pill svg {
+      width: 15px;
+      height: 15px;
+      color: var(--blue-ice);
+      flex-shrink: 0;
+    }
+
+    .hero-headline {
+      font-family: var(--font-display);
+      font-weight: var(--display-weight);
+      font-size: clamp(3.1rem, 6.2vw, 5.4rem);
+      line-height: var(--display-lh);
+      letter-spacing: var(--display-tracking);
+      color: var(--text-primary);
+      margin-bottom: 24px;
+    }
+
+    .hero-headline em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-ice);
+    }
+
+    body[data-italic="off"] .hero-headline em,
+    body[data-italic="off"] .section-title em {
+      font-style: normal;
+    }
+
+    .hero-subheadline {
+      font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+      line-height: 1.68;
+      color: var(--text-secondary);
+      max-width: 670px;
+      margin: 0 auto 36px;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .btn-primary-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 32px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans);
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: #02050B;
+      background: #FAFAFC;
+      border: 1px solid #FFFFFF;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-primary-pill:hover {
+      background: #FFFFFF;
+      transform: translateY(-2px);
+      box-shadow: 0 20px 42px rgba(96, 165, 250, 0.28);
+    }
+
+    .btn-secondary-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans);
+      font-size: 0.94rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border: 1px solid var(--glass-border-hover);
+      box-shadow: var(--glass-shadow);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-secondary-pill:hover {
+      background: var(--glass-bg-hover);
+      border-color: rgba(186, 230, 253, 0.42);
+      transform: translateY(-2px);
+    }
+
+    /* 3 Separate Non-Touching Floating iOS Glass Trust Pills */
+    .trust-pills-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .trust-pill-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .trust-pill-item svg {
+      width: 15px;
+      height: 15px;
+      color: var(--blue-sky);
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       3. TERMINAL WINDOW (SEPARATE FLOATING visionOS SMOKED-GLASS WINDOW)
+       ========================================================================== */
+    .terminal-section {
+      padding: 8px 0 96px;
+    }
+
+    .terminal-glass-shell {
+      padding: 10px;
+    }
+
+    .terminal-inner-frame {
+      border-radius: 20px;
+      background: rgba(3, 6, 14, 0.76);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+    }
+
+    .terminal-titlebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 22px;
+      background: rgba(255, 255, 255, 0.025);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      gap: 12px;
+    }
+
+    .window-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .terminal-label {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.01em;
+    }
+
+    .table-scroll-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table.csv-table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.86rem;
+    }
+
+    table.csv-table thead th {
+      padding: 14px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    table.csv-table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+      transition: background 0.18s ease;
+    }
+
+    table.csv-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    table.csv-table tbody td {
+      padding: 15px 20px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    table.csv-table tbody td.td-company {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    table.csv-table tbody td.td-mono {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    table.csv-table tbody td.td-state {
+      font-family: var(--font-mono);
+      color: var(--blue-ice);
+      font-weight: 500;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 11px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-primary);
+      background: rgba(96, 165, 250, 0.1);
+      border: 1px solid rgba(186, 230, 253, 0.22);
+    }
+
+    .verified-badge i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-sky);
+      box-shadow: 0 0 8px var(--blue-sky);
+      display: inline-block;
+    }
+
+    /* Blurred Vault Zone */
+    .vault-blur-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .vault-blur-container table.csv-table {
+      filter: blur(5px);
+      opacity: 0.28;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .vault-glass-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(3, 6, 14, 0.08) 0%,
+        rgba(3, 6, 14, 0.84) 55%,
+        rgba(3, 6, 14, 0.96) 100%
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .vault-dock-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 12px 14px 12px 24px;
+      border-radius: var(--radius-pill);
+      background: rgba(12, 17, 28, 0.82);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    }
+
+    .vault-dock-card span {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .terminal-caption {
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    /* ==========================================================================
+       SECTION HEADERS
+       ========================================================================== */
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 28px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .section-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue-sky);
+      margin-bottom: 10px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-sky);
+      box-shadow: 0 0 8px var(--blue-sky);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-weight: var(--display-weight);
+      font-size: clamp(2.5rem, 4.4vw, 3.75rem);
+      line-height: var(--display-lh);
+      letter-spacing: var(--display-tracking);
+      color: var(--text-primary);
+    }
+
+    .section-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-ice);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 380px;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       4. THE DATASETS SECTION
+       (3 Separate Non-Touching iOS Glass Squircle Cards, 28px Radius, 24px Gap)
+       ========================================================================== */
+    .datasets-section {
+      padding: 24px 0 96px;
+    }
+
+    .cards-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    body[data-layout="stacked"] .cards-grid-3 {
+      grid-template-columns: 1fr;
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .dataset-glass-card {
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 26px;
+    }
+
+    .dataset-glass-card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-5px);
+    }
+
+    .dataset-glass-card.featured {
+      background: var(--glass-bg-featured);
+      border-color: var(--glass-border-featured);
+      box-shadow:
+        0 34px 68px -16px rgba(0, 0, 0, 0.88),
+        inset 0 1px 0 0 rgba(186, 230, 253, 0.42);
+    }
+
+    .dataset-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .dataset-category {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue-sky);
+    }
+
+    .most-popular-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.69rem;
+      font-weight: 500;
+      color: var(--blue-ice);
+      background: rgba(37, 99, 235, 0.22);
+      border: 1px solid rgba(186, 230, 253, 0.32);
+    }
+
+    .most-popular-pill svg {
+      width: 11px;
+      height: 11px;
+      color: var(--blue-ice);
+    }
+
+    .dataset-glass-card h3 {
+      font-family: var(--font-sans);
+      font-size: 1.32rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .dataset-glass-card p {
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* Inset Dark-Glass Specification Pills */
+    .spec-well-box {
+      padding: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .spec-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .spec-pill svg {
+      width: 12px;
+      height: 12px;
+      color: var(--blue-sky);
+      flex-shrink: 0;
+    }
+
+    /* Bottom Price & Action Bar */
+    .dataset-action-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .price-stack {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .price-value {
+      font-family: var(--font-display);
+      font-size: 2.7rem;
+      line-height: 0.95;
+      color: var(--text-primary);
+    }
+
+    .price-label {
+      font-size: 0.73rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .btn-download-csv {
+      padding: 13px 22px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      transition: all 0.25s ease;
+      white-space: nowrap;
+    }
+
+    .btn-download-csv:hover,
+    .dataset-glass-card.featured .btn-download-csv {
+      background: #FAFAFC;
+      color: #02050B;
+      border-color: #FFFFFF;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ==========================================================================
+       5. DATA HYGIENE SECTION
+       (Horizontal-Header iOS Glass Modules with Precision 1.5px SVGs +
+        Separate Floating Guarantee Bar)
+       ========================================================================== */
+    .hygiene-section {
+      padding: 24px 0 96px;
+    }
+
+    .hygiene-module-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hygiene-module-card:hover {
+      background: var(--glass-bg-hover);
+      border-color: var(--glass-border-hover);
+      transform: translateY(-4px);
+    }
+
+    .hygiene-header-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hygiene-icon-squircle {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      background: rgba(96, 165, 250, 0.09);
+      border: 1px solid rgba(186, 230, 253, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .hygiene-icon-squircle svg {
+      width: 20px;
+      height: 20px;
+      color: var(--blue-ice);
+    }
+
+    .hygiene-module-card h3 {
+      font-size: 1.18rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.015em;
+      line-height: 1.25;
+    }
+
+    .hygiene-module-card p {
+      font-size: 0.93rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    /* Separate Floating iOS Glass Guarantee Bar */
+    .guarantee-glass-bar {
+      margin-top: 24px;
+      padding: 26px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .guarantee-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: #02050B;
+      background: #FAFAFC;
+      white-space: nowrap;
+    }
+
+    .guarantee-pill-tag svg {
+      width: 14px;
+      height: 14px;
+      color: #02050B;
+    }
+
+    .guarantee-glass-bar p {
+      flex: 1;
+      min-width: 260px;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .guarantee-glass-bar a {
+      color: var(--text-primary);
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      text-decoration-color: var(--blue-sky);
+    }
+
+    /* ==========================================================================
+       6. FOOTER: 3 SEPARATE FLOATING iOS GLASS PILLS
+       ========================================================================== */
+    footer.footer-islands {
+      position: relative;
+      z-index: 10;
+      max-width: 1220px;
+      margin: 0 auto 44px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer-pill {
+      padding: 11px 22px;
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    .footer-pill a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer-pill a:hover {
+      color: var(--blue-ice);
+    }
+
+    /* ==========================================================================
+       FREE 25-LEAD SAMPLE MODAL (iOS GLASS SHEET)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(2, 5, 11, 0.78);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-glass-sheet {
+      width: 100%;
+      max-width: 450px;
+      padding: 36px 32px;
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--glass-border-hover);
+    }
+
+    .modal-close-btn svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .ios-input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(2, 5, 12, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.92rem;
+      margin-bottom: 12px;
+      outline: none;
+    }
+
+    .ios-input:focus {
+      border-color: var(--blue-sky);
+    }
+
+    .modal-confirm-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: rgba(96, 165, 250, 0.12);
+      border: 1px solid rgba(186, 230, 253, 0.28);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      color: var(--blue-ice);
+    }
+
+    .modal-confirm-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* ==========================================================================
+       STUDIO TWEAKS BAR (LOCKED TO SCREENSHOT SETTINGS)
+       ========================================================================== */
+    .tweaks-dock {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 90;
+      font-family: var(--font-mono);
+    }
+
+    .tweaks-trigger-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 20px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .tweaks-trigger-pill svg {
+      width: 14px;
+      height: 14px;
+      color: var(--blue-sky);
+    }
+
+    .tweaks-panel {
+      display: none;
+      width: 320px;
+      padding: 22px;
+      margin-bottom: 12px;
+    }
+
+    .tweaks-panel.open {
+      display: block;
+    }
+
+    .tweaks-group {
+      margin-bottom: 15px;
+    }
+
+    .tweaks-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .tweaks-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .tweak-btn {
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--glass-border);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tweak-btn.active,
+    .tweak-btn:hover {
+      border-color: var(--blue-sky);
+      color: var(--text-primary);
+      background: rgba(96, 165, 250, 0.12);
+    }
+
+    .tweak-range {
+      width: 100%;
+      accent-color: var(--blue-sky);
+      cursor: pointer;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .cards-grid-3 {
+        grid-template-columns: 1fr;
+        max-width: 640px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 760px) {
+      nav.nav-links-pill {
+        display: none;
+      }
+      .hero-section {
+        padding: 52px 0 42px;
+      }
+      footer.footer-islands {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body data-spectrum="sapphire" data-layout="three-col" data-font="instrument" data-italic="on">
+
+  <!-- ========================================================================
+       CONTINUOUS 3D BLUE ACCRETION VORTEX & PARALLAX STARFIELD
+       (Locked to 0.35x Nebula Density & 0.2x Star Flares for crisp legibility)
+       ======================================================================== -->
+  <canvas id="celestial-viewport" aria-hidden="true" width="1795" height="1020"></canvas>
+  <div class="viewport-vignette" aria-hidden="true"></div>
+
+  <!-- ========================================================================
+       1. TOP BAR: 3 SEPARATE FLOATING iOS GLASS PILLS
+       ======================================================================== -->
+  <header class="top-bar-3">
+    <!-- Pill 1: Logo -->
+    <a href="#" class="ios-glass-pill logo-pill top-bar-island">
+      <span class="logo-icon-circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="34" height="34" class="logo-mark" fill="none" class="logo-mark">
+  <style>
+    @keyframes traceDraw { 0% { stroke-dashoffset: 420; } 55%, 100% { stroke-dashoffset: 0; } }
+    @keyframes novaPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+    @keyframes nodePing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+    .trace-line { stroke-dasharray: 420; animation: traceDraw 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+    .nova-star { transform-origin: 100px 100px; animation: novaPulse 3.2s ease-in-out infinite; }
+    .nova-star-offset { transform-origin: 108px 92px; animation: novaPulse 3.2s ease-in-out infinite; }
+    .trace-node { transform-box: fill-box; transform-origin: center; animation: nodePing 2.4s ease-in-out infinite; }
+  </style>
+  <!-- Sweeping Outer Trajectory Trace -->
+  <path class="trace-line" d="M 42 158 C 16 112 38 42 104 32" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Precision Inner Circuit Trace Wrapping Into Nova Core -->
+  <path class="trace-line" d="M 48 164 C 98 182 158 152 166 96" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Direct Vector Trace Stem Into Star Center -->
+  <path class="trace-line" d="M 42 158 L 86 114" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Primary 4-Point Geometric Nova Star -->
+  <path class="nova-star-offset" d="M 108 24 C 108 73 127 92 176 92 C 127 92 108 111 108 160 C 108 111 89 92 40 92 C 89 92 108 73 108 24 Z" fill="#FFFFFF" />
+  <!-- Contrasting Inner Trace Core Node -->
+  <circle cx="108" cy="92" r="4.8999999999999995" fill="#06152D" />
+  <!-- Origin Trace Ring Node (Bottom-Left) -->
+  <circle class="trace-node" cx="42" cy="158" r="6.6499999999999995" fill="#06152D" stroke="#FFFFFF" stroke-width="4.55" />
+  <!-- Satellite Terminal Trace Node (Top-Right) -->
+  <circle class="trace-node" cx="156" cy="44" r="5.6000000000000005" fill="#FFFFFF" />
+</svg></span> <span>NovaTrace</span>
+    </a>
+
+    <!-- Pill 2: Navigation Links -->
+    <nav class="ios-glass-pill nav-links-pill top-bar-island" aria-label="Primary Navigation">
       <a href="#datasets">Datasets</a>
       <a href="#hygiene">Data Hygiene</a>
-      <a href="#" onclick="openModal('sample-modal');return false;">Free Sample</a>
+      <a href="#free-sample" data-open-sample="">Free Sample</a>
     </nav>
-    <a href="#datasets" class="btn-ghost btn-glow">Browse Vault</a>
-  </div>
-</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="wrap">
-    <span class="badge"><span class="ping-dot"></span>📡 Updated Monthly &nbsp;•&nbsp; Zero-Bounce Guarantee</span>
-    <h1>Clean US B2B Lead Datasets.<br>Direct Cell Lines. <span class="grad">Instant CSV.</span></h1>
-    <p class="sub">Stop burning $4,000/month on enterprise subscriptions. Download hyper-targeted, triple-verified contact lists of US founders, contractors, and agencies with direct dials and zero dead emails.</p>
-    <div class="hero-ctas">
-      <a href="#datasets" class="btn-primary btn-lg">Explore Datasets ($79)</a>
-      <button class="btn-ghost btn-lg" onclick="openModal('sample-modal')">Get Free 25-Lead Sample</button>
-    </div>
-    <div class="trust"><span><b>Triple-Verified</b></span><span class="sep">•</span><span><b>Instant CSV Delivery</b></span><span class="sep">•</span><span><b>5% Replacement Guarantee</b></span></div>
-  </div>
-</section>
+    <!-- Pill 3: Browse Vault -->
+    <a href="#datasets" class="vault-cta-pill top-bar-island">
+      Browse Vault
+    </a>
+  </header>
 
-<!-- TERMINAL VAULT -->
-<section id="terminal" style="padding-top:0">
-  <div class="wrap">
-    <div class="terminal reveal">
-      <div class="term-bar">
-        <span class="tdot" style="background:#FF5F57"></span><span class="tdot" style="background:#FEBC2E"></span><span class="tdot" style="background:#28C840"></span>
-        <span class="term-title">novatrace_terminal — us_trade_contractors.csv</span>
-        <label class="term-search">⌕ <input type="text" id="termFilter" placeholder="Filter rows…" oninput="filterRows()"></label>
+  <!-- ========================================================================
+       MAIN WORKSPACE
+       ======================================================================== -->
+  <main class="page-shell">
+
+    <!-- ======================================================================
+         2. HERO SECTION (ZERO EMOJIS, EXACT COPY, SEPARATE GLASS PILLS)
+         ====================================================================== -->
+    <section class="hero-section">
+      <div class="ios-glass-pill hero-badge-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="2.5"></circle>
+          <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"></path>
+        </svg>
+        <span>Updated Monthly &nbsp;•&nbsp; Zero-Bounce Guarantee</span>
       </div>
-      <div class="term-wrap">
-        <table>
-          <thead>
-            <tr><th>Company</th><th>Decision Maker</th><th>Title</th><th>Verified Work Email</th><th>Direct Mobile</th><th>State</th><th>Verification</th></tr>
-          </thead>
-          <tbody id="termBody">
-            <tr><td><span class="co">Apex Solar TX</span></td><td class="dm">Mark M.</td><td class="ti">Founder</td><td class="mono">mark@apex…</td><td class="mono">+1 (512) 555-0142</td><td>TX</td><td><span class="pill"><i></i>Verified</span></td></tr>
-            <tr><td><span class="co">Lone Star Roofing</span></td><td class="dm">Dana K.</td><td class="ti">Owner</td><td class="mono">dana@lonest…</td><td class="mono">+1 (214) 555-0187</td><td>TX</td><td><span class="pill"><i></i>Verified</span></td></tr>
-            <tr><td><span class="co">Sunshine Solar FL</span></td><td class="dm">Chris P.</td><td class="ti">CEO</td><td class="mono">chris@sunsh…</td><td class="mono">+1 (305) 555-0119</td><td>FL</td><td><span class="pill"><i></i>Verified</span></td></tr>
-            <tr><td><span class="co">Golden Gate HVAC</span></td><td class="dm">Priya R.</td><td class="ti">Principal</td><td class="mono">priya@golde…</td><td class="mono">+1 (415) 555-0163</td><td>CA</td><td><span class="pill"><i></i>Verified</span></td></tr>
-          </tbody>
-        </table>
-        <div class="blur-zone">
-          <table aria-hidden="true">
-            <tbody class="blurred">
-              <tr><td><span class="co">Blue Ridge Solar</span></td><td class="dm">Jake R.</td><td class="ti">Founder</td><td class="mono">jake@bluer…</td><td class="mono">+1 (713) 555-0128</td><td>TX</td><td><span class="pill"><i></i>Verified</span></td></tr>
-              <tr><td><span class="co">Palm Coast Roofing</span></td><td class="dm">Maya K.</td><td class="ti">Owner</td><td class="mono">maya@palmc…</td><td class="mono">+1 (407) 555-0174</td><td>FL</td><td><span class="pill"><i></i>Verified</span></td></tr>
-              <tr><td><span class="co">Desert Peak Solar</span></td><td class="dm">Tom H.</td><td class="ti">CEO</td><td class="mono">tom@deser…</td><td class="mono">+1 (602) 555-0139</td><td>AZ</td><td><span class="pill"><i></i>Verified</span></td></tr>
-              <tr><td><span class="co">Bay Area Roof Co</span></td><td class="dm">Sofia L.</td><td class="ti">Principal</td><td class="mono">sofia@bayar…</td><td class="mono">+1 (650) 555-0155</td><td>CA</td><td><span class="pill"><i></i>Verified</span></td></tr>
-              <tr><td><span class="co">Sunbelt Energy</span></td><td class="dm">Ben A.</td><td class="ti">Founder</td><td class="mono">ben@sunbe…</td><td class="mono">+1 (210) 555-0191</td><td>TX</td><td><span class="pill"><i></i>Verified</span></td></tr>
-              <tr><td><span class="co">Coastal HVAC Pro</span></td><td class="dm">Ava P.</td><td class="ti">Owner</td><td class="mono">ava@coast…</td><td class="mono">+1 (813) 555-0106</td><td>FL</td><td><span class="pill"><i></i>Verified</span></td></tr>
-            </tbody>
-          </table>
-          <div class="unlock">
-            <p>1,250+ more rows behind the vault door</p>
-            <button class="btn-primary btn-lg" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Unlock All 1,250+ Rows in this Dataset — $79</button>
+
+      <h1 class="hero-headline">
+        Clean US B2B Lead Datasets.<br>
+        Direct Cell Lines. <em>Instant CSV.</em>
+      </h1>
+
+      <p class="hero-subheadline">
+        Stop burning $4,000/month on enterprise subscriptions. Download hyper-targeted, triple-verified contact lists of US founders, contractors, and agencies with direct dials and zero dead emails.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#datasets" class="btn-primary-pill">
+          Explore Datasets ($79)
+        </a>
+        <button type="button" class="btn-secondary-pill" data-open-sample="">
+          Free 25-lead sample
+        </button>
+      </div>
+
+      <!-- 3 Separate Floating iOS Glass Trust Pills (Exact Website Copy Only) -->
+      <div class="trust-pills-row">
+        <div class="ios-glass-pill trust-pill-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5"></path>
+          </svg>
+          <span>Triple-Verified</span>
+        </div>
+
+        <div class="ios-glass-pill trust-pill-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Instant CSV Delivery</span>
+        </div>
+
+        <div class="ios-glass-pill trust-pill-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>5% Replacement Guarantee</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         3. TERMINAL WINDOW (novatrace_terminal — us_trade_contractors.csv)
+         ====================================================================== -->
+    <section class="terminal-section">
+      <div class="ios-glass-box terminal-glass-shell">
+        <div class="terminal-inner-frame">
+          <div class="terminal-titlebar">
+            <div class="window-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <span class="terminal-label">novatrace_terminal — us_trade_contractors.csv</span>
+          </div>
+
+          <div class="table-scroll-wrap">
+            <table class="csv-table">
+              <thead>
+                <tr>
+                  <th>Company</th>
+                  <th>Decision Maker</th>
+                  <th>Title</th>
+                  <th>Verified Work Email</th>
+                  <th>Direct Mobile</th>
+                  <th>State</th>
+                  <th>Verification</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-company">Apex Solar TX</td>
+                  <td>Mark M.</td>
+                  <td>Founder</td>
+                  <td class="td-mono">mark@apex…</td>
+                  <td class="td-mono">+1 (512) 555-0142</td>
+                  <td class="td-state">TX</td>
+                  <td><span class="verified-badge"><i></i>Verified</span></td>
+                </tr>
+                <tr>
+                  <td class="td-company">Lone Star Roofing</td>
+                  <td>Dana K.</td>
+                  <td>Owner</td>
+                  <td class="td-mono">dana@lonest…</td>
+                  <td class="td-mono">+1 (214) 555-0187</td>
+                  <td class="td-state">TX</td>
+                  <td><span class="verified-badge"><i></i>Verified</span></td>
+                </tr>
+                <tr>
+                  <td class="td-company">Sunshine Solar FL</td>
+                  <td>Chris P.</td>
+                  <td>CEO</td>
+                  <td class="td-mono">chris@sunsh…</td>
+                  <td class="td-mono">+1 (305) 555-0119</td>
+                  <td class="td-state">FL</td>
+                  <td><span class="verified-badge"><i></i>Verified</span></td>
+                </tr>
+                <tr>
+                  <td class="td-company">Golden Gate HVAC</td>
+                  <td>Priya R.</td>
+                  <td>Principal</td>
+                  <td class="td-mono">priya@golde…</td>
+                  <td class="td-mono">+1 (415) 555-0163</td>
+                  <td class="td-state">CA</td>
+                  <td><span class="verified-badge"><i></i>Verified</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- 6 Vaulted Rows Behind Frosted visionOS Dock -->
+            <div class="vault-blur-container">
+              <table class="csv-table" aria-hidden="true">
+                <tbody>
+                  <tr>
+                    <td class="td-company">Blue Ridge Solar</td>
+                    <td>Jake R.</td>
+                    <td>Founder</td>
+                    <td class="td-mono">jake@bluer…</td>
+                    <td class="td-mono">+1 (713) 555-0128</td>
+                    <td class="td-state">TX</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td class="td-company">Palm Coast Roofing</td>
+                    <td>Maya K.</td>
+                    <td>Owner</td>
+                    <td class="td-mono">maya@palmc…</td>
+                    <td class="td-mono">+1 (407) 555-0174</td>
+                    <td class="td-state">FL</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td class="td-company">Desert Peak Solar</td>
+                    <td>Tom H.</td>
+                    <td>CEO</td>
+                    <td class="td-mono">tom@deser…</td>
+                    <td class="td-mono">+1 (602) 555-0139</td>
+                    <td class="td-state">AZ</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td class="td-company">Bay Area Roof Co</td>
+                    <td>Sofia L.</td>
+                    <td>Principal</td>
+                    <td class="td-mono">sofia@bayar…</td>
+                    <td class="td-mono">+1 (650) 555-0155</td>
+                    <td class="td-state">CA</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td class="td-company">Sunbelt Energy</td>
+                    <td>Ben A.</td>
+                    <td>Founder</td>
+                    <td class="td-mono">ben@sunbe…</td>
+                    <td class="td-mono">+1 (210) 555-0191</td>
+                    <td class="td-state">TX</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                  <tr>
+                    <td class="td-company">Coastal HVAC Pro</td>
+                    <td>Ava P.</td>
+                    <td>Owner</td>
+                    <td class="td-mono">ava@coast…</td>
+                    <td class="td-mono">+1 (813) 555-0106</td>
+                    <td class="td-state">FL</td>
+                    <td><span class="verified-badge"><i></i>Verified</span></td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div class="vault-glass-overlay">
+                <div class="vault-dock-card">
+                  <span class="tabular-nums">1,250+ more rows behind the vault door</span>
+                  <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <a href="#datasets" class="btn-primary-pill" style="padding:10px 22px; font-size:0.84rem;">
+                      Explore Datasets ($79)
+                    </a>
+                    <button type="button" class="btn-secondary-pill" style="padding:10px 18px; font-size:0.84rem;" data-open-sample="">
+                      Free Sample
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <p class="term-note">Preview uses illustrative records with masked contact details. Full datasets ship complete &amp; verified.</p>
-  </div>
-</section>
 
-<!-- DATASETS -->
-<section id="datasets" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">The Datasets</div>
-      <h2>Three lists. Zero dead emails.</h2>
-      <p>Pick your market. Download the CSV. Start dialing today.</p>
-    </div>
-    <div class="grid3">
-      <div class="card reveal">
-        <div class="cat">Funded Tech / SaaS</div>
-        <h3>US Funded Tech &amp; SaaS Index</h3>
-        <p class="desc">Contact directories of US founders who raised funding in the last 90 days. Includes direct email, founder LinkedIn, and investor notes.</p>
-        <div class="tags"><span class="tag">850+ Records</span><span class="tag">Seed &amp; Series A</span><span class="tag">Tech Stacks Included</span></div>
-        <div class="price-row"><span class="price">$99</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-primary" onclick="buy('US Funded Tech &amp; SaaS Index — $99')">Instant CSV Download</button>
+      <p class="terminal-caption">
+        Preview uses illustrative records with masked contact details. Full datasets ship complete &amp; verified.
+      </p>
+    </section>
+
+    <!-- ======================================================================
+         4. THE DATASETS SECTION (3 SEPARATE iOS GLASS SQUIRCLE CARDS)
+         ====================================================================== -->
+    <section id="datasets" class="datasets-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">The Datasets</div>
+          <h2 class="section-title">
+            Three lists. <em>Zero dead emails.</em>
+          </h2>
+        </div>
+        <p class="section-subtitle">
+          Pick your market. Download the CSV. Start dialing today.
+        </p>
       </div>
-      <div class="card popular reveal">
-        <span class="pop-badge">★ Most Popular</span>
-        <div class="cat">Trade Contractors</div>
-        <h3>US High-Ticket Trade Contractors (Solar &amp; Roofing)</h3>
-        <p class="desc">Commercial and residential solar installers, roofing company owners, and HVAC principals across TX, FL, and CA.</p>
-        <div class="tags"><span class="tag">1,250+ Records</span><span class="tag">Direct Cell Lines</span><span class="tag">State Licensed</span></div>
-        <div class="price-row"><span class="price">$79</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-primary" onclick="buy('US High-Ticket Trade Contractors (Solar &amp; Roofing) — $79')">Instant CSV Download</button>
+
+      <div class="cards-grid-3">
+        <!-- Dataset 1: Funded Tech / SaaS -->
+        <article class="ios-glass-box dataset-glass-card">
+          <div>
+            <div class="dataset-top-row">
+              <span class="dataset-category">Funded Tech / SaaS</span>
+            </div>
+            <h3>US Funded Tech &amp; SaaS Index</h3>
+            <p>
+              Contact directories of US founders who raised funding in the last 90 days. Includes direct email, founder LinkedIn, and investor notes.
+            </p>
+          </div>
+
+          <div>
+            <div class="ios-inset-well spec-well-box tabular-nums">
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                850+ Records
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Seed &amp; Series A
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Tech Stacks Included
+              </span>
+            </div>
+
+            <div class="dataset-action-bar">
+              <div class="price-stack">
+                <span class="price-value tabular-nums">$99</span>
+                <span class="price-label">USD • One-time download</span>
+              </div>
+              <a href="https://novatrace.gumroad.com/l/ijoxp" target="_blank" rel="noopener" class="btn-download-csv">
+                Download CSV ($99)
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Dataset 2: Trade Contractors (Most Popular) -->
+        <article class="ios-glass-box dataset-glass-card featured">
+          <div>
+            <div class="dataset-top-row">
+              <span class="dataset-category">Trade Contractors</span>
+              <span class="most-popular-pill">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true">
+                  <path d="M12 2L14.8 9.2L22 12L14.8 14.8L12 22L9.2 14.8L2 12L9.2 9.2L12 2Z"></path>
+                </svg>
+                Most Popular
+              </span>
+            </div>
+            <h3>US High-Ticket Trade Contractors (Solar &amp; Roofing)</h3>
+            <p>
+              Commercial and residential solar installers, roofing company owners, and HVAC principals across TX, FL, and CA.
+            </p>
+          </div>
+
+          <div>
+            <div class="ios-inset-well spec-well-box tabular-nums">
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                1,250+ Records
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Direct Cell Lines
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                State Licensed
+              </span>
+            </div>
+
+            <div class="dataset-action-bar">
+              <div class="price-stack">
+                <span class="price-value tabular-nums">$79</span>
+                <span class="price-label">USD • One-time download</span>
+              </div>
+              <a href="https://novatrace.gumroad.com/l/tmiydx" target="_blank" rel="noopener" class="btn-download-csv">
+                Download CSV ($79)
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Dataset 3: Agencies & Recruiters -->
+        <article class="ios-glass-box dataset-glass-card">
+          <div>
+            <div class="dataset-top-row">
+              <span class="dataset-category">Agencies &amp; Recruiters</span>
+            </div>
+            <h3>Independent US B2B Agencies &amp; Recruiters</h3>
+            <p>
+              Active boutique recruitment firms, performance marketing agencies, and outbound lead generation operators.
+            </p>
+          </div>
+
+          <div>
+            <div class="ios-inset-well spec-well-box tabular-nums">
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                1,100+ Records
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Founder Dials
+              </span>
+              <span class="spec-pill">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                1–20 Headcount
+              </span>
+            </div>
+
+            <div class="dataset-action-bar">
+              <div class="price-stack">
+                <span class="price-value tabular-nums">$79</span>
+                <span class="price-label">USD • One-time download</span>
+              </div>
+              <a href="https://novatrace.gumroad.com/l/woaov" target="_blank" rel="noopener" class="btn-download-csv">
+                Download CSV ($79)
+              </a>
+            </div>
+          </div>
+        </article>
       </div>
-      <div class="card reveal">
-        <div class="cat">Agencies &amp; Recruiters</div>
-        <h3>Independent US B2B Agencies &amp; Recruiters</h3>
-        <p class="desc">Active boutique recruitment firms, performance marketing agencies, and outbound lead generation operators.</p>
-        <div class="tags"><span class="tag">1,100+ Records</span><span class="tag">Founder Dials</span><span class="tag">1–20 Headcount</span></div>
-        <div class="price-row"><span class="price">$79</span><span class="price-note">USD • One-time download</span></div>
-        <button class="btn-primary" onclick="buy('Independent US B2B Agencies &amp; Recruiters — $79')">Instant CSV Download</button>
+    </section>
+
+    <!-- ======================================================================
+         5. DATA HYGIENE SECTION
+         (Sleek Horizontal-Header iOS Glass Modules + Precision 1.5px SVGs)
+         ====================================================================== -->
+    <section id="hygiene" class="hygiene-section">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Data Hygiene</div>
+          <h2 class="section-title">
+            Built to survive <em>the spam filter.</em>
+          </h2>
+        </div>
+        <p class="section-subtitle">
+          The #1 fear with bought data is dead emails. Here is exactly how we kill it.
+        </p>
+      </div>
+
+      <div class="cards-grid-3">
+        <!-- Hygiene Module 1: Real-Time SMTP Pings -->
+        <div class="ios-glass-box hygiene-module-card">
+          <div class="hygiene-header-row">
+            <div class="hygiene-icon-squircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <h3>Real-Time SMTP Pings</h3>
+          </div>
+          <p>
+            Every email address is verified via live server handshakes. No catch-all guesses, no scraped junk.
+          </p>
+        </div>
+
+        <!-- Hygiene Module 2: Direct Dials Only -->
+        <div class="ios-glass-box hygiene-module-card">
+          <div class="hygiene-header-row">
+            <div class="hygiene-icon-squircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <h3>Direct Dials Only</h3>
+          </div>
+          <p>
+            Cleaned to prioritize direct mobile numbers and owner lines, bypassing corporate front desks.
+          </p>
+        </div>
+
+        <!-- Hygiene Module 3: Monthly Re-Verification -->
+        <div class="ios-glass-box hygiene-module-card">
+          <div class="hygiene-header-row">
+            <div class="hygiene-icon-squircle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="M9 12l2 2 4-4"></path>
+              </svg>
+            </div>
+            <h3>Monthly Re-Verification</h3>
+          </div>
+          <p>
+            Every dataset is re-checked monthly. Dead mailboxes are removed before the list ever ships.
+          </p>
+        </div>
+      </div>
+
+      <!-- Separate Standalone Guarantee Glass Box -->
+      <div class="ios-glass-box guarantee-glass-bar">
+        <span class="guarantee-pill-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          5% Replacement Guarantee
+        </span>
+        <p>
+          If your campaign sees higher than a 5% bounce rate, email
+          <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a>
+          with your bounce log for an immediate fresh replacement batch or 100% refund.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       6. FOOTER: 3 SEPARATE FLOATING iOS GLASS PILLS
+       ======================================================================== -->
+  <footer class="footer-islands">
+    <div class="ios-glass-pill footer-pill">
+      © 2026 NovaTrace.tech. High-precision outbound telemetry &amp; data assets.
+    </div>
+    <div class="ios-glass-pill footer-pill">
+      Support: <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a>
+    </div>
+    <div class="ios-glass-pill footer-pill">
+      Secure checkout • Instant CSV delivery
+    </div>
+  </footer>
+
+  <!-- ========================================================================
+       FREE 25-LEAD SAMPLE MODAL (ZERO EMOJIS, PRECISION SVGs)
+       ======================================================================== -->
+  <div class="modal-backdrop" id="sample-modal" aria-hidden="true">
+    <div class="ios-glass-box modal-glass-sheet" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+      <button type="button" class="modal-close-btn" id="close-modal-btn" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div id="modal-form-view">
+        <h3 id="modal-heading" style="font-family:var(--font-display); font-size:2.25rem; font-weight:400; line-height:1.08; margin-bottom:8px;">
+          Free 25-lead sample
+        </h3>
+        <p style="font-size:0.93rem; color:var(--text-secondary); margin-bottom:22px;">
+          25 real, verified records — see the quality before you buy.
+        </p>
+
+        <form id="sample-form">
+          <input type="email" class="ios-input" placeholder="Work email address" required="">
+          <select class="ios-input" required="">
+            <option value="Trade Contractors">US High-Ticket Trade Contractors (Solar &amp; Roofing)</option>
+            <option value="Funded Tech / SaaS">US Funded Tech &amp; SaaS Index</option>
+            <option value="Agencies &amp; Recruiters">Independent US B2B Agencies &amp; Recruiters</option>
+          </select>
+          <button type="submit" class="btn-primary-pill" style="width:100%;">
+            Free 25-lead sample
+          </button>
+        </form>
+      </div>
+
+      <div id="modal-success-view" style="display:none; text-align:center; padding:16px 0;">
+        <div class="modal-confirm-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="3"></rect>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+          </svg>
+        </div>
+        <h4 style="font-family:var(--font-display); font-size:2rem; font-weight:400; margin-bottom:6px;">
+          Sample on its way.
+        </h4>
+        <p style="font-size:0.93rem; color:var(--text-secondary);">
+          Check your inbox — your 25-lead sample CSV is headed your way.
+        </p>
+      </div>
+      <div id="modal-error-view" style="display:none; text-align:center; padding:16px 0;">
+        <h4 style="font-family:var(--font-display); font-size:2rem; font-weight:400; margin-bottom:6px;">Couldn&rsquo;t send the request.</h4>
+        <p style="font-size:0.93rem; color:var(--text-secondary);">Something went wrong &mdash; please email <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a> directly and we&rsquo;ll send your 25-lead sample.</p>
       </div>
     </div>
   </div>
-</section>
 
-<!-- HYGIENE & GUARANTEE -->
-<section id="hygiene" style="padding-top:0">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div class="eyebrow">Data Hygiene</div>
-      <h2>Built to survive the spam filter.</h2>
-      <p>The #1 fear with bought data is dead emails. Here is exactly how we kill it.</p>
-    </div>
-    <div class="hygiene-grid">
-      <div class="hyg reveal"><div class="n">📡</div><h3>Real-Time SMTP Pings</h3><p>Every email address is verified via live server handshakes. No catch-all guesses, no scraped junk.</p></div>
-      <div class="hyg reveal"><div class="n">📞</div><h3>Direct Dials Only</h3><p>Cleaned to prioritize direct mobile numbers and owner lines, bypassing corporate front desks.</p></div>
-      <div class="hyg reveal"><div class="n">🛡️</div><h3>Monthly Re-Verification</h3><p>Every dataset is re-checked monthly. Dead mailboxes are removed before the list ever ships.</p></div>
-    </div>
-    <div class="guarantee reveal">
-      <span class="g-badge">5% Replacement Guarantee</span>
-      <p>If your campaign sees higher than a 5% bounce rate, email <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a> with your bounce log for an immediate fresh replacement batch or 100% refund.</p>
-    </div>
-  </div>
-</section>
+  <!-- ========================================================================
+       STUDIO TWEAKS BAR (LOCKED TO SCREENSHOT SETTINGS, ZERO EMOJIS)
+       ======================================================================== -->
+  
 
-<!-- FOOTER -->
-<footer>
-  <div class="wrap foot">
-    <span>© 2026 NovaTrace.tech. High-precision outbound telemetry &amp; data assets.</span>
-    <span>Support: <a href="mailto:johar@novatrace.tech">johar@novatrace.tech</a></span>
-    <span>Secure checkout • Instant CSV delivery</span>
-  </div>
-</footer>
+  <!-- ========================================================================
+       CONTINUOUS 3D BLUE ACCRETION VORTEX ENGINE & UI CONTROLLERS
+       ======================================================================== -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('celestial-viewport');
+      let gl = null;
+      try {
+        gl = canvas.getContext('webgl', { antialias: false, depth: false, stencil: false, preserveDrawingBuffer: false }) ||
+             canvas.getContext('experimental-webgl');
+      } catch (err) {
+        gl = null;
+      }
 
-<!-- SAMPLE MODAL -->
-<div class="modal" id="sample-modal" onclick="if(event.target===this)closeModal('sample-modal')">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('sample-modal')">×</button>
-    <div id="sample-form-wrap">
-      <h3>Free 25-lead sample</h3>
-      <p>25 real, verified records — see the quality before you buy.</p>
-      <form onsubmit="submitSample(event)">
-        <div class="field"><label>Work email</label><input type="email" name="email" required placeholder="alex@company.com"></div>
-        <button class="btn-primary" type="submit">Send Me the Sample</button>
-        <p class="form-note">One email with the sample CSV. No spam, unsubscribe anytime.</p>
-      </form>
-    </div>
-    <div class="form-ok" id="sample-ok">
-      <div class="big">📬</div>
-      <h4>Sample on its way.</h4>
-      <p>Check your inbox — your 25-lead sample CSV is headed your way.</p>
-    </div>
-  </div>
-</div>
+      const state = {
+        scrollNorm: 0,
+        targetScroll: 0,
+        mouseX: 0.5,
+        mouseY: 0.5,
+        targetMouseX: 0.5,
+        targetMouseY: 0.5,
+        nebulaIntensity: 0.35,
+        flareIntensity: 0.20,
+        palettes: {
+          vortex:   [0.03, 0.08, 0.20,  0.15, 0.39, 0.92,  0.73, 0.90, 0.99],
+          cobalt:   [0.02, 0.07, 0.19,  0.23, 0.51, 0.96,  0.86, 0.92, 1.00],
+          sapphire: [0.05, 0.06, 0.22,  0.38, 0.42, 0.95,  0.88, 0.90, 1.00],
+          arctic:   [0.02, 0.12, 0.22,  0.15, 0.68, 0.96,  0.85, 0.97, 1.00]
+        },
+        currentPalette: [0.03, 0.08, 0.20,  0.15, 0.39, 0.92,  0.73, 0.90, 0.99],
+        targetPalette:  [0.03, 0.08, 0.20,  0.15, 0.39, 0.92,  0.73, 0.90, 0.99]
+      };
 
-<script>
-/* ---------- MODALS ---------- */
-function openModal(id){
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal(id){
-  document.getElementById(id).classList.remove('open');
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape'){ closeModal('sample-modal'); }
-});
-/* ---------- CHECKOUT (Gumroad) ---------- */
-/* Buy buttons open the matching Gumroad product page in a new tab.
-   NOTE: Gumroad products are still UNPUBLISHED with no files, so these
-   links only start working once the products are published (upload real
-   CSVs + publish in Gumroad). Until then, buyers see an unavailable page. */
-var GUMROAD = {
-  'US Funded Tech & SaaS Index — $99': 'https://novatrace.gumroad.com/l/ijoxp',
-  'US High-Ticket Trade Contractors (Solar & Roofing) — $79': 'https://novatrace.gumroad.com/l/tmiydx',
-  'Independent US B2B Agencies & Recruiters — $79': 'https://novatrace.gumroad.com/l/woaov'
-};
-function buy(product){
-  var url = GUMROAD[product];
-  if(url) window.open(url, '_blank', 'noopener');
-}
-/* ---------- TERMINAL FILTER ---------- */
-function filterRows(){
-  var q = document.getElementById('termFilter').value.toLowerCase();
-  document.querySelectorAll('#termBody tr').forEach(function(row){
-    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
-  });
-}
-/* ---------- SCROLL REVEAL ---------- */
-var io = new IntersectionObserver(function(entries){
-  entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-}, {threshold: 0.12});
-document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-/* ---------- SAMPLE FORM ---------- */
-async function submitSample(e){
-  e.preventDefault();
-  var f = e.target;
-  try{
-    await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-      body: JSON.stringify({_subject: 'NovaTrace Free Sample Request', email: f.email.value, type: 'free-sample'})
-    });
-  }catch(err){ /* still show success */ }
-  document.getElementById('sample-form-wrap').style.display = 'none';
-  document.getElementById('sample-ok').style.display = 'block';
-}
-</script>
-</body>
-</html>
+      function onScroll() {
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        state.targetScroll = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+
+      window.addEventListener('mousemove', function (e) {
+        state.targetMouseX = e.clientX / Math.max(1, window.innerWidth);
+        state.targetMouseY = 1.0 - (e.clientY / Math.max(1, window.innerHeight));
+      }, { passive: true });
+
+      if (gl) {
+        const vsSource = `
+          attribute vec2 a_pos;
+          void main() {
+            gl_Position = vec4(a_pos, 0.0, 1.0);
+          }
+        `;
+
+        const fsSource = `
+          precision highp float;
+          uniform vec2 u_res;
+          uniform float u_time;
+          uniform float u_scroll;
+          uniform vec2 u_mouse;
+          uniform vec3 u_colDust;
+          uniform vec3 u_colNebula;
+          uniform vec3 u_colCore;
+          uniform float u_density;
+          uniform float u_flare;
+
+          float hash21(vec2 p) {
+            p = fract(p * vec2(234.34, 435.345));
+            p += dot(p, p + 34.23);
+            return fract(p.x * p.y);
+          }
+
+          float noise(vec2 p) {
+            vec2 i = floor(p);
+            vec2 f = fract(p);
+            f = f * f * (3.0 - 2.0 * f);
+            float a = hash21(i);
+            float b = hash21(i + vec2(1.0, 0.0));
+            float c = hash21(i + vec2(0.0, 1.0));
+            float d = hash21(i + vec2(1.0, 1.0));
+            return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+          }
+
+          mat2 rot(float a) {
+            float s = sin(a), c = cos(a);
+            return mat2(c, -s, s, c);
+          }
+
+          float fbm(vec2 p) {
+            float v = 0.0;
+            float amp = 0.5;
+            mat2 m = rot(0.42);
+            for (int i = 0; i < 4; i++) {
+              v += amp * noise(p);
+              p = m * p * 2.02 + vec2(1.4, 7.1);
+              amp *= 0.5;
+            }
+            return v;
+          }
+
+          vec3 starField(vec2 uv, float scale, float seed, float flareBoost) {
+            vec2 gv = fract(uv * scale) - 0.5;
+            vec2 id = floor(uv * scale);
+            float n = hash21(id + seed);
+            vec2 offset = vec2(n - 0.5, fract(n * 34.56) - 0.5) * 0.74;
+            vec2 p = gv - offset;
+            float d = length(p);
+
+            float size = fract(n * 119.3) * 0.015 + 0.0022;
+            float star = smoothstep(size, 0.0, d);
+
+            if (n > 0.90 && flareBoost > 0.01) {
+              float spikeH = exp(-abs(p.y) * 115.0) * exp(-abs(p.x) * 10.0);
+              float spikeV = exp(-abs(p.x) * 115.0) * exp(-abs(p.y) * 10.0);
+              star += (spikeH + spikeV) * flareBoost * (n - 0.88) * 5.0;
+            }
+
+            float twinkle = 0.84 + 0.16 * sin(u_time * 1.6 + n * 50.0);
+            vec3 tint = mix(u_colNebula, vec3(1.0), smoothstep(0.3, 0.95, n));
+            return star * tint * twinkle;
+          }
+
+          void main() {
+            vec2 uv = (gl_FragCoord.xy - 0.5 * u_res.xy) / min(u_res.x, u_res.y);
+            vec2 camShift = vec2((u_mouse.x - 0.5) * 0.14, (u_mouse.y - 0.5) * 0.12 - u_scroll * 0.42);
+
+            // Deep Midnight Sapphire Base (#02050B)
+            vec3 col = vec3(0.008, 0.019, 0.043);
+
+            // Sculpted 3D Blue Accretion Vortex Horizon Ring
+            vec2 ringUV = rot(-0.20 + u_scroll * 0.14) * (uv - vec2(0.0, 0.10 - u_scroll * 0.16));
+            ringUV.y *= 2.95;
+            float rDist = length(ringUV);
+
+            float photonRing = exp(-abs(rDist - 0.64) * 28.0);
+            float accretionDisk = exp(-abs(rDist - 0.64) * 5.2);
+            float diskTexture = fbm(ringUV * 4.2 + vec2(u_time * 0.07, -u_time * 0.05));
+
+            col += u_colDust * accretionDisk * (0.65 + 0.75 * diskTexture) * u_density * 1.55;
+            col += u_colNebula * photonRing * (0.7 + 0.5 * diskTexture) * u_density * 1.35;
+            col += u_colCore * pow(photonRing, 2.4) * u_density * 1.05;
+
+            // Subtle High-Altitude Celestial Dust Filament
+            float wisp = fbm((uv + camShift * 0.45) * 1.75 + vec2(u_time * 0.012, 0.0));
+            col += u_colDust * pow(wisp, 2.6) * u_density * 0.8;
+
+            // 3 Parallax Starfield Planes
+            for (int i = 1; i <= 3; i++) {
+              float fi = float(i);
+              float depthZoom = fract(u_scroll * 0.32 + fi * 0.33);
+              float scale = mix(7.5, 20.5, depthZoom);
+              float fade = smoothstep(0.0, 0.2, depthZoom) * smoothstep(1.0, 0.75, depthZoom);
+              col += starField(uv + camShift * (0.24 * fi), scale, fi * 23.7, u_flare) * fade;
+            }
+
+            col = col / (1.0 + col * 0.55);
+            gl_FragColor = vec4(col, 1.0);
+          }
+        `;
+
+        function compileShader(type, src) {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+        }
+
+        const vs = compileShader(gl.VERTEX_SHADER, vsSource);
+        const fs = compileShader(gl.FRAGMENT_SHADER, fsSource);
+        const prog = gl.createProgram();
+        gl.attachShader(prog, vs);
+        gl.attachShader(prog, fs);
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
+
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+
+        const aPos = gl.getAttribLocation(prog, 'a_pos');
+        gl.enableVertexAttribArray(aPos);
+        gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+        const uRes = gl.getUniformLocation(prog, 'u_res');
+        const uTime = gl.getUniformLocation(prog, 'u_time');
+        const uScroll = gl.getUniformLocation(prog, 'u_scroll');
+        const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+        const uColDust = gl.getUniformLocation(prog, 'u_colDust');
+        const uColNebula = gl.getUniformLocation(prog, 'u_colNebula');
+        const uColCore = gl.getUniformLocation(prog, 'u_colCore');
+        const uDensity = gl.getUniformLocation(prog, 'u_density');
+        const uFlare = gl.getUniformLocation(prog, 'u_flare');
+
+        function resizeGL() {
+          const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+          canvas.width = Math.floor(window.innerWidth * dpr);
+          canvas.height = Math.floor(window.innerHeight * dpr);
+          gl.viewport(0, 0, canvas.width, canvas.height);
+        }
+        window.addEventListener('resize', resizeGL);
+        resizeGL();
+
+        function renderLoop(now) {
+          const t = now * 0.001;
+          state.scrollNorm += (state.targetScroll - state.scrollNorm) * 0.06;
+          state.mouseX += (state.targetMouseX - state.mouseX) * 0.05;
+          state.mouseY += (state.targetMouseY - state.mouseY) * 0.05;
+
+          for (let i = 0; i < 9; i++) {
+            state.currentPalette[i] += (state.targetPalette[i] - state.currentPalette[i]) * 0.06;
+          }
+
+          gl.uniform2f(uRes, canvas.width, canvas.height);
+          gl.uniform1f(uTime, t);
+          gl.uniform1f(uScroll, state.scrollNorm);
+          gl.uniform2f(uMouse, state.mouseX, state.mouseY);
+          gl.uniform3f(uColDust, state.currentPalette[0], state.currentPalette[1], state.currentPalette[2]);
+          gl.uniform3f(uColNebula, state.currentPalette[3], state.currentPalette[4], state.currentPalette[5]);
+          gl.uniform3f(uColCore, state.currentPalette[6], state.currentPalette[7], state.currentPalette[8]);
+          gl.uniform1f(uDensity, state.nebulaIntensity);
+          gl.uniform1f(uFlare, state.flareIntensity);
+
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+          requestAnimationFrame(renderLoop);
+        }
+        requestAnimationFrame(renderLoop);
+      }
+
+      // ======================================================================
+      // STUDIO TWEAKS BAR CONTROLS
+      // ======================================================================
+      const tweaksPanel = document.getElementById('tweaks-panel');
+      const tweaksToggleBtn = document.getElementById('tweaks-toggle-btn');
+
+      if (tweaksToggleBtn && tweaksPanel) {
+        tweaksToggleBtn.addEventListener('click', function () {
+          tweaksPanel.classList.toggle('open');
+        });
+      }
+
+      document.querySelectorAll('[data-set-spectrum]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const spec = btn.getAttribute('data-set-spectrum');
+          document.body.setAttribute('data-spectrum', spec);
+          if (state.palettes[spec]) {
+            state.targetPalette = state.palettes[spec].slice();
+          }
+          document.querySelectorAll('[data-set-spectrum]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('[data-set-layout]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const layout = btn.getAttribute('data-set-layout');
+          document.body.setAttribute('data-layout', layout);
+          document.querySelectorAll('[data-set-layout]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      document.querySelectorAll('[data-set-font]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const font = btn.getAttribute('data-set-font');
+          document.body.setAttribute('data-font', font);
+          document.querySelectorAll('[data-set-font]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      const italicBtn = document.getElementById('toggle-italic-btn');
+      if (italicBtn) {
+        italicBtn.addEventListener('click', function () {
+          const isOn = document.body.getAttribute('data-italic') !== 'off';
+          document.body.setAttribute('data-italic', isOn ? 'off' : 'on');
+          italicBtn.textContent = isOn ? '[Italics: OFF]' : '[Italics: ON]';
+        });
+      }
+
+      const nebulaSlider = document.getElementById('nebula-slider');
+      const nebulaVal = document.getElementById('nebula-val');
+      if (nebulaSlider) {
+        nebulaSlider.addEventListener('input', function () {
+          state.nebulaIntensity = parseFloat(nebulaSlider.value);
+          if (nebulaVal) nebulaVal.textContent = state.nebulaIntensity.toFixed(2) + 'x';
+        });
+      }
+
+      const flareSlider = document.getElementById('flare-slider');
+      const flareVal = document.getElementById('flare-val');
+      if (flareSlider) {
+        flareSlider.addEventListener('input', function () {
+          state.flareIntensity = parseFloat(flareSlider.value);
+          if (flareVal) flareVal.textContent = state.flareIntensity.toFixed(2) + 'x';
+        });
+      }
+
+      const exportBtn = document.getElementById('export-clean-html');
+      if (exportBtn) {
+        exportBtn.addEventListener('click', function () {
+          const clone = document.documentElement.cloneNode(true);
+          const dock = clone.querySelector('#tweaks-dock');
+          if (dock) dock.remove();
+          const htmlOut = '<!DOCTYPE html>\n' + clone.outerHTML;
+          const blob = new Blob([htmlOut], { type: 'text/html;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'index.html';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        });
+      }
+
+      // ======================================================================
+      // FREE 25-LEAD SAMPLE MODAL
+      // ======================================================================
+      const modal = document.getElementById('sample-modal');
+      const closeBtn = document.getElementById('close-modal-btn');
+      const formView = document.getElementById('modal-form-view');
+      const successView = document.getElementById('modal-success-view');
+      const sampleForm = document.getElementById('sample-form');
+
+      document.querySelectorAll('[data-open-sample]').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          formView.style.display = 'block';
+          successView.style.display = 'none';
+          modal.classList.add('open');
+        });
+      });
+
+      function closeModal() {
+        modal.classList.remove('open');
+      }
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      if (sampleForm) { sampleForm.addEventListener('submit', async function (e) { e.preventDefault(); var btn = sampleForm.querySelector('button[type=submit]'); var email = sampleForm.querySelector('input[type=email]').value; var dataset = sampleForm.querySelector('select').value; var errView = document.getElementById('modal-error-view'); if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; } try { var res = await fetch('https://formsubmit.co/ajax/johar@novatrace.tech', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ _subject: 'NovaTrace Free Sample Request', email: email, dataset: dataset, type: 'free-sample' }) }); if (!res.ok) throw new Error('delivery failed'); formView.style.display = 'none'; successView.style.display = 'block'; } catch (err) { formView.style.display = 'none'; if (errView) errView.style.display = 'block'; } }); }
+    })();
+  </script>
+
+</body></html>
