@@ -1,26 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none" role="img" aria-label="NovaTrace icon">
-  <defs>
-    <linearGradient id="traceGrad" x1="8" y1="52" x2="54" y2="12" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#A855F7" />
-      <stop offset="50%" stop-color="#6366F1" />
-      <stop offset="100%" stop-color="#00F0FF" />
-    </linearGradient>
-    <filter id="novaGlow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="blur" />
-      <feComposite in="SourceGraphic" in2="blur" operator="over" />
-    </filter>
-  </defs>
-  <!-- Outer Orbital Ring (Subtle Tech Frame) -->
-  <circle cx="32" cy="32" r="20" stroke="#1E293B" stroke-width="2" stroke-dasharray="4 4" />
-  <!-- Secondary Echo Trace -->
-  <path d="M14 44 C 22 48, 36 42, 42 26" stroke="#6366F1" stroke-width="2" stroke-linecap="round" opacity="0.45" />
-  <!-- Primary Sweeping Trace Path -->
-  <path d="M12 48 C 18 22, 28 38, 44 18" stroke="url(#traceGrad)" stroke-width="4" stroke-linecap="round" />
-  <!-- Origin Signal Node (Bottom Left) -->
-  <circle cx="12" cy="48" r="3.5" fill="#A855F7" />
-  <circle cx="12" cy="48" r="1.5" fill="#F8FAFC" />
-  <!-- The "Nova" 4-Point Star (Top Right Apex) -->
-  <path d="M46 8 C 46 14.5, 47.5 16, 54 16 C 47.5 16, 46 17.5, 46 24 C 46 17.5, 44.5 16, 38 16 C 44.5 16, 46 14.5, 46 8 Z"
-        fill="#00F0FF" filter="url(#novaGlow)" />
-  <circle cx="46" cy="16" r="2" fill="#FFFFFF" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="512" height="512" fill="none" class="animate-svg">
+  <style>
+    @keyframes traceDraw { 0% { stroke-dashoffset: 420; } 55%, 100% { stroke-dashoffset: 0; } }
+    @keyframes novaPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.045); } }
+    @keyframes nodePing { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+    .trace-line { stroke-dasharray: 420; animation: traceDraw 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+    .nova-star { transform-origin: 100px 100px; animation: novaPulse 3.2s ease-in-out infinite; }
+    .nova-star-offset { transform-origin: 108px 92px; animation: novaPulse 3.2s ease-in-out infinite; }
+    .trace-node { transform-box: fill-box; transform-origin: center; animation: nodePing 2.4s ease-in-out infinite; }
+  </style>
+  <!-- Sweeping Outer Trajectory Trace -->
+  <path class="trace-line" d="M 42 158 C 16 112 38 42 104 32" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Precision Inner Circuit Trace Wrapping Into Nova Core -->
+  <path class="trace-line" d="M 48 164 C 98 182 158 152 166 96" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Direct Vector Trace Stem Into Star Center -->
+  <path class="trace-line" d="M 42 158 L 86 114" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" />
+  <!-- Primary 4-Point Geometric Nova Star -->
+  <path class="nova-star-offset" d="M 108 24 C 108 73 127 92 176 92 C 127 92 108 111 108 160 C 108 111 89 92 40 92 C 89 92 108 73 108 24 Z" fill="#FFFFFF" />
+  <!-- Contrasting Inner Trace Core Node -->
+  <circle cx="108" cy="92" r="4.8999999999999995" fill="#06152D" />
+  <!-- Origin Trace Ring Node (Bottom-Left) -->
+  <circle class="trace-node" cx="42" cy="158" r="6.6499999999999995" fill="#06152D" stroke="#FFFFFF" stroke-width="4.55" />
+  <!-- Satellite Terminal Trace Node (Top-Right) -->
+  <circle class="trace-node" cx="156" cy="44" r="5.6000000000000005" fill="#FFFFFF" />
 </svg>
